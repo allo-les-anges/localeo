@@ -101,8 +101,17 @@
     <!-- Header -->
     <header class="relative z-10 py-6">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-center">
+            <div class="flex justify-between items-center">
                 <div class="text-4xl font-black gradient-text">LOCALEO</div>
+                
+                <!-- Language Selector -->
+                <div class="relative">
+                    <select id="languageSelector" onchange="changeLanguage()" class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-localeo-violet backdrop-blur-sm">
+                        <option value="fr" class="bg-gray-800 text-white">🇫🇷 Français</option>
+                        <option value="en" class="bg-gray-800 text-white">🇬🇧 English</option>
+                        <option value="nl" class="bg-gray-800 text-white">🇳🇱 Nederlands</option>
+                    </select>
+                </div>
             </div>
         </div>
     </header>
@@ -113,19 +122,19 @@
             <div class="text-center">
                 <!-- Coming Soon Badge -->
                 <div class="mb-8">
-                    <span class="inline-block px-6 py-3 rounded-full text-sm font-bold gradient-bg text-white">
+                    <span class="inline-block px-6 py-3 rounded-full text-sm font-bold gradient-bg text-white" data-translate="coming-soon">
                         🚀 Bientôt disponible : Localeo
                     </span>
                 </div>
                 
                 <!-- Main Title -->
                 <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black leading-tight mb-8">
-                    <span class="gradient-text">L'immobilier</span> comme vous<br>
-                    ne l'avez jamais vu
+                    <span class="gradient-text" data-translate="main-title-1">L'immobilier</span> <span data-translate="main-title-2">comme vous<br>
+                    ne l'avez jamais vu</span>
                 </h1>
                 
                 <!-- Tagline -->
-                <p class="text-xl lg:text-2xl text-gray-300 mb-12 font-light max-w-4xl mx-auto">
+                <p class="text-xl lg:text-2xl text-gray-300 mb-12 font-light max-w-4xl mx-auto" data-translate="tagline">
                     L'application qui rend la recherche de biens immobiliers plus ludique et intuitive.
                 </p>
                 
@@ -244,10 +253,10 @@
     <section class="relative z-10 py-20">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl lg:text-4xl font-black text-white mb-6">
+                <h2 class="text-3xl lg:text-4xl font-black text-white mb-6" data-translate="features-title">
                     Comment <span class="gradient-text">Localeo</span> révolutionne votre recherche
                 </h2>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto" data-translate="features-subtitle">
                     Découvrez les fonctionnalités qui rendent la recherche immobilière plus intelligente et personnalisée
                 </p>
             </div>
@@ -258,8 +267,8 @@
                     <div class="w-20 h-20 gradient-bg rounded-2xl mx-auto mb-6 flex items-center justify-center">
                         <span class="text-3xl">👆</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Swipe Intelligent</h3>
-                    <p class="text-gray-300">Parcourez les biens comme sur vos apps préférées. Swipez à droite pour aimer, à gauche pour passer. Simple et intuitif !</p>
+                    <h3 class="text-xl font-bold text-white mb-4" data-translate="feature1-title">Swipe Intelligent</h3>
+                    <p class="text-gray-300" data-translate="feature1-desc">Parcourez les biens comme sur vos apps préférées. Swipez à droite pour aimer, à gauche pour passer. Simple et intuitif !</p>
                 </div>
 
                 <!-- AI Recommendations -->
@@ -267,8 +276,8 @@
                     <div class="w-20 h-20 gradient-bg rounded-2xl mx-auto mb-6 flex items-center justify-center">
                         <span class="text-3xl">🧠</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Recommandations IA</h3>
-                    <p class="text-gray-300">Plus vous swipez, plus Localeo apprend vos goûts. L'IA analyse vos préférences pour vous proposer des biens parfaits.</p>
+                    <h3 class="text-xl font-bold text-white mb-4" data-translate="feature2-title">Recommandations IA</h3>
+                    <p class="text-gray-300" data-translate="feature2-desc">Plus vous swipez, plus Localeo apprend vos goûts. L'IA analyse vos préférences pour vous proposer des biens parfaits.</p>
                 </div>
 
                 <!-- Agent Connection -->
@@ -276,34 +285,34 @@
                     <div class="w-20 h-20 gradient-bg rounded-2xl mx-auto mb-6 flex items-center justify-center">
                         <span class="text-3xl">🤝</span>
                     </div>
-                    <h3 class="text-xl font-bold text-white mb-4">Connexion Agents</h3>
-                    <p class="text-gray-300">Trouvé le bien de vos rêves ? Connectez-vous instantanément avec l'agent pour organiser une visite ou poser vos questions.</p>
+                    <h3 class="text-xl font-bold text-white mb-4" data-translate="feature3-title">Connexion Agents</h3>
+                    <p class="text-gray-300" data-translate="feature3-desc">Trouvé le bien de vos rêves ? Connectez-vous instantanément avec l'agent pour organiser une visite ou poser vos questions.</p>
                 </div>
             </div>
 
             <!-- How it Works -->
             <div class="bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 rounded-3xl p-8 lg:p-12">
-                <h3 class="text-2xl lg:text-3xl font-bold text-white mb-8 text-center">
+                <h3 class="text-2xl lg:text-3xl font-bold text-white mb-8 text-center" data-translate="how-it-works-title">
                     Comment ça marche ?
                 </h3>
                 
                 <div class="grid lg:grid-cols-3 gap-8">
                     <div class="text-center">
                         <div class="w-16 h-16 bg-localeo-violet rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">1</div>
-                        <h4 class="text-lg font-semibold text-white mb-3">Définissez vos critères</h4>
-                        <p class="text-gray-300">Budget, localisation, type de bien... Configurez vos préférences en quelques clics.</p>
+                        <h4 class="text-lg font-semibold text-white mb-3" data-translate="step1-title">Définissez vos critères</h4>
+                        <p class="text-gray-300" data-translate="step1-desc">Budget, localisation, type de bien... Configurez vos préférences en quelques clics.</p>
                     </div>
                     
                     <div class="text-center">
                         <div class="w-16 h-16 bg-localeo-pink rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">2</div>
-                        <h4 class="text-lg font-semibold text-white mb-3">Swipez et découvrez</h4>
-                        <p class="text-gray-300">Parcourez les biens sélectionnés. L'IA apprend de chaque swipe pour affiner les suggestions.</p>
+                        <h4 class="text-lg font-semibold text-white mb-3" data-translate="step2-title">Swipez et découvrez</h4>
+                        <p class="text-gray-300" data-translate="step2-desc">Parcourez les biens sélectionnés. L'IA apprend de chaque swipe pour affiner les suggestions.</p>
                     </div>
                     
                     <div class="text-center">
                         <div class="w-16 h-16 bg-localeo-blue rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">3</div>
-                        <h4 class="text-lg font-semibold text-white mb-3">Contactez et visitez</h4>
-                        <p class="text-gray-300">Un coup de cœur ? Contactez directement l'agent pour organiser une visite ou obtenir plus d'infos.</p>
+                        <h4 class="text-lg font-semibold text-white mb-3" data-translate="step3-title">Contactez et visitez</h4>
+                        <p class="text-gray-300" data-translate="step3-desc">Un coup de cœur ? Contactez directement l'agent pour organiser une visite ou obtenir plus d'infos.</p>
                     </div>
                 </div>
             </div>
@@ -314,11 +323,11 @@
     <section class="relative z-10 py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="space-y-8">
-                <p class="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                <p class="text-lg lg:text-xl text-gray-300 leading-relaxed" data-translate="mission-p1">
                     Nous transformons le processus de recherche de propriété en une expérience amusante et interactive, où la personnalisation est au cœur de chaque interaction. Grâce à nos recommandations générées à partir de vos 'swipes', <span class="gradient-text font-semibold">Localeo s'adapte à vos goûts</span> pour vous proposer les biens qui vous correspondent vraiment.
                 </p>
                 
-                <p class="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                <p class="text-lg lg:text-xl text-gray-300 leading-relaxed" data-translate="mission-p2">
                     Localeo est conçu pour être la première étape de votre voyage vers une nouvelle maison. Loin de la pression, nous rendons la recherche de biens <span class="gradient-text font-semibold">agréable et sans stress</span>, pour vous aider à trouver votre bonheur en toute sérénité.
                 </p>
             </div>
@@ -328,10 +337,10 @@
     <!-- Signup Section -->
     <section id="signup" class="relative z-10 py-20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl lg:text-4xl font-black text-white mb-6">
+            <h2 class="text-3xl lg:text-4xl font-black text-white mb-6" data-translate="signup-title">
                 Soyez le premier à explorer le <span class="gradient-text">futur de l'immobilier</span>
             </h2>
-            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto" data-translate="signup-subtitle">
                 Rejoignez notre communauté exclusive et découvrez une nouvelle ère de recherche de propriété
             </p>
             
@@ -342,25 +351,27 @@
                         id="email"
                         name="email"
                         placeholder="Votre adresse email" 
+                        data-translate-placeholder="email-placeholder"
                         required
                         class="flex-1 px-6 py-4 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl focus:outline-none form-glow text-white placeholder-gray-400 text-lg backdrop-blur-sm"
                     >
                     <button 
                         type="submit"
                         class="gradient-bg hover:opacity-90 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 glow-effect whitespace-nowrap"
+                        data-translate="signup-button"
                     >
                         Je veux être informé(e) du lancement
                     </button>
                 </div>
-                <p class="text-sm text-gray-400 mt-4">
+                <p class="text-sm text-gray-400 mt-4" data-translate="privacy-note">
                     🔒 Vos données sont protégées. Aucun spam, désinscription facile.
                 </p>
             </form>
 
             <div id="success-message" class="hidden mt-8 p-6 bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30 text-green-300 rounded-xl backdrop-blur-sm">
                 <div class="text-2xl mb-2">🎉</div>
-                <div class="font-semibold">Bienvenue dans la communauté Localeo !</div>
-                <div class="text-sm mt-2">Vous recevrez bientôt des nouvelles exclusives sur le lancement.</div>
+                <div class="font-semibold" data-translate="success-title">Bienvenue dans la communauté Localeo !</div>
+                <div class="text-sm mt-2" data-translate="success-message">Vous recevrez bientôt des nouvelles exclusives sur le lancement.</div>
             </div>
         </div>
     </section>
@@ -373,7 +384,7 @@
                 <p class="text-gray-400 mb-4">
                     <a href="https://www.localeo.io" target="_blank" class="hover:text-white transition-colors">www.localeo.io</a>
                 </p>
-                <p class="text-gray-400 mb-8 italic max-w-2xl mx-auto">
+                <p class="text-gray-400 mb-8 italic max-w-2xl mx-auto" data-translate="footer-quote">
                     "Ensemble, nous pouvons rendre la recherche de propriété plus rapide, plus agréable et véritablement personnalisée."
                 </p>
                 
@@ -410,6 +421,126 @@
     </footer>
 
     <script>
+        // Translations object
+        const translations = {
+            fr: {
+                'coming-soon': '🚀 Bientôt disponible : Localeo',
+                'main-title-1': 'L\'immobilier',
+                'main-title-2': 'comme vous<br>ne l\'avez jamais vu',
+                'tagline': 'L\'application qui rend la recherche de biens immobiliers plus ludique et intuitive.',
+                'features-title': 'Comment <span class="gradient-text">Localeo</span> révolutionne votre recherche',
+                'features-subtitle': 'Découvrez les fonctionnalités qui rendent la recherche immobilière plus intelligente et personnalisée',
+                'feature1-title': 'Swipe Intelligent',
+                'feature1-desc': 'Parcourez les biens comme sur vos apps préférées. Swipez à droite pour aimer, à gauche pour passer. Simple et intuitif !',
+                'feature2-title': 'Recommandations IA',
+                'feature2-desc': 'Plus vous swipez, plus Localeo apprend vos goûts. L\'IA analyse vos préférences pour vous proposer des biens parfaits.',
+                'feature3-title': 'Connexion Agents',
+                'feature3-desc': 'Trouvé le bien de vos rêves ? Connectez-vous instantanément avec l\'agent pour organiser une visite ou poser vos questions.',
+                'how-it-works-title': 'Comment ça marche ?',
+                'step1-title': 'Définissez vos critères',
+                'step1-desc': 'Budget, localisation, type de bien... Configurez vos préférences en quelques clics.',
+                'step2-title': 'Swipez et découvrez',
+                'step2-desc': 'Parcourez les biens sélectionnés. L\'IA apprend de chaque swipe pour affiner les suggestions.',
+                'step3-title': 'Contactez et visitez',
+                'step3-desc': 'Un coup de cœur ? Contactez directement l\'agent pour organiser une visite ou obtenir plus d\'infos.',
+                'mission-p1': 'Nous transformons le processus de recherche de propriété en une expérience amusante et interactive, où la personnalisation est au cœur de chaque interaction. Grâce à nos recommandations générées à partir de vos \'swipes\', <span class="gradient-text font-semibold">Localeo s\'adapte à vos goûts</span> pour vous proposer les biens qui vous correspondent vraiment.',
+                'mission-p2': 'Localeo est conçu pour être la première étape de votre voyage vers une nouvelle maison. Loin de la pression, nous rendons la recherche de biens <span class="gradient-text font-semibold">agréable et sans stress</span>, pour vous aider à trouver votre bonheur en toute sérénité.',
+                'signup-title': 'Soyez le premier à explorer le <span class="gradient-text">futur de l\'immobilier</span>',
+                'signup-subtitle': 'Rejoignez notre communauté exclusive et découvrez une nouvelle ère de recherche de propriété',
+                'email-placeholder': 'Votre adresse email',
+                'signup-button': 'Je veux être informé(e) du lancement',
+                'privacy-note': '🔒 Vos données sont protégées. Aucun spam, désinscription facile.',
+                'success-title': 'Bienvenue dans la communauté Localeo !',
+                'success-message': 'Vous recevrez bientôt des nouvelles exclusives sur le lancement.',
+                'footer-quote': '"Ensemble, nous pouvons rendre la recherche de propriété plus rapide, plus agréable et véritablement personnalisée."'
+            },
+            en: {
+                'coming-soon': '🚀 Coming Soon: Localeo',
+                'main-title-1': 'Real Estate',
+                'main-title-2': 'like you\'ve<br>never seen before',
+                'tagline': 'The app that makes property searching more fun and intuitive.',
+                'features-title': 'How <span class="gradient-text">Localeo</span> revolutionizes your search',
+                'features-subtitle': 'Discover the features that make property searching smarter and more personalized',
+                'feature1-title': 'Smart Swipe',
+                'feature1-desc': 'Browse properties like your favorite apps. Swipe right to like, left to pass. Simple and intuitive!',
+                'feature2-title': 'AI Recommendations',
+                'feature2-desc': 'The more you swipe, the more Localeo learns your taste. AI analyzes your preferences to suggest perfect properties.',
+                'feature3-title': 'Agent Connection',
+                'feature3-desc': 'Found your dream property? Connect instantly with the agent to schedule a visit or ask questions.',
+                'how-it-works-title': 'How does it work?',
+                'step1-title': 'Set your criteria',
+                'step1-desc': 'Budget, location, property type... Configure your preferences in just a few clicks.',
+                'step2-title': 'Swipe and discover',
+                'step2-desc': 'Browse selected properties. AI learns from each swipe to refine suggestions.',
+                'step3-title': 'Contact and visit',
+                'step3-desc': 'Found a match? Contact the agent directly to schedule a visit or get more information.',
+                'mission-p1': 'We transform the property search process into a fun and interactive experience, where personalization is at the heart of every interaction. Thanks to our recommendations generated from your \'swipes\', <span class="gradient-text font-semibold">Localeo adapts to your taste</span> to suggest properties that truly match you.',
+                'mission-p2': 'Localeo is designed to be the first step in your journey to a new home. Away from pressure, we make property searching <span class="gradient-text font-semibold">enjoyable and stress-free</span>, helping you find your happiness with peace of mind.',
+                'signup-title': 'Be the first to explore the <span class="gradient-text">future of real estate</span>',
+                'signup-subtitle': 'Join our exclusive community and discover a new era of property searching',
+                'email-placeholder': 'Your email address',
+                'signup-button': 'I want to be notified of the launch',
+                'privacy-note': '🔒 Your data is protected. No spam, easy unsubscribe.',
+                'success-title': 'Welcome to the Localeo community!',
+                'success-message': 'You\'ll soon receive exclusive news about the launch.',
+                'footer-quote': '"Together, we can make property searching faster, more enjoyable and truly personalized."'
+            },
+            nl: {
+                'coming-soon': '🚀 Binnenkort beschikbaar: Localeo',
+                'main-title-1': 'Vastgoed',
+                'main-title-2': 'zoals je het nog<br>nooit hebt gezien',
+                'tagline': 'De app die het zoeken naar vastgoed leuker en intuïtiever maakt.',
+                'features-title': 'Hoe <span class="gradient-text">Localeo</span> jouw zoektocht revolutioneert',
+                'features-subtitle': 'Ontdek de functies die vastgoed zoeken slimmer en persoonlijker maken',
+                'feature1-title': 'Slimme Swipe',
+                'feature1-desc': 'Blader door eigenschappen zoals je favoriete apps. Swipe naar rechts om te liken, naar links om over te slaan. Simpel en intuïtief!',
+                'feature2-title': 'AI Aanbevelingen',
+                'feature2-desc': 'Hoe meer je swiped, hoe meer Localeo jouw smaak leert. AI analyseert je voorkeuren om perfecte eigenschappen voor te stellen.',
+                'feature3-title': 'Makelaar Verbinding',
+                'feature3-desc': 'Je droomhuis gevonden? Verbind direct met de makelaar om een bezichtiging in te plannen of vragen te stellen.',
+                'how-it-works-title': 'Hoe werkt het?',
+                'step1-title': 'Stel je criteria in',
+                'step1-desc': 'Budget, locatie, type woning... Configureer je voorkeuren in slechts een paar klikken.',
+                'step2-title': 'Swipe en ontdek',
+                'step2-desc': 'Blader door geselecteerde eigenschappen. AI leert van elke swipe om suggesties te verfijnen.',
+                'step3-title': 'Contact en bezoek',
+                'step3-desc': 'Een match gevonden? Neem direct contact op met de makelaar om een bezichtiging in te plannen of meer informatie te krijgen.',
+                'mission-p1': 'We transformeren het vastgoed zoekproces in een leuke en interactieve ervaring, waarbij personalisatie centraal staat in elke interactie. Dankzij onze aanbevelingen gegenereerd uit jouw \'swipes\', <span class="gradient-text font-semibold">past Localeo zich aan jouw smaak aan</span> om eigenschappen voor te stellen die echt bij je passen.',
+                'mission-p2': 'Localeo is ontworpen om de eerste stap te zijn in je reis naar een nieuw thuis. Weg van druk, maken we vastgoed zoeken <span class="gradient-text font-semibold">plezierig en stressvrij</span>, om je te helpen je geluk te vinden met gemoedsrust.',
+                'signup-title': 'Wees de eerste om de <span class="gradient-text">toekomst van vastgoed</span> te verkennen',
+                'signup-subtitle': 'Word lid van onze exclusieve gemeenschap en ontdek een nieuw tijdperk van vastgoed zoeken',
+                'email-placeholder': 'Jouw e-mailadres',
+                'signup-button': 'Ik wil op de hoogte worden gehouden van de lancering',
+                'privacy-note': '🔒 Je gegevens zijn beschermd. Geen spam, gemakkelijk uitschrijven.',
+                'success-title': 'Welkom bij de Localeo gemeenschap!',
+                'success-message': 'Je ontvangt binnenkort exclusief nieuws over de lancering.',
+                'footer-quote': '"Samen kunnen we vastgoed zoeken sneller, leuker en echt gepersonaliseerd maken."'
+            }
+        };
+
+        let currentLanguage = 'fr';
+
+        function changeLanguage() {
+            const selector = document.getElementById('languageSelector');
+            currentLanguage = selector.value;
+            
+            // Update all elements with data-translate attribute
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.innerHTML = translations[currentLanguage][key];
+                }
+            });
+
+            // Update placeholder text
+            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                if (translations[currentLanguage] && translations[currentLanguage][key]) {
+                    element.placeholder = translations[currentLanguage][key];
+                }
+            });
+        }
+
         function handleSubmit(event) {
             const email = document.getElementById('email').value;
             
@@ -450,5 +581,5 @@
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972a715f7603fff9',t:'MTc1NTc4MjU4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972a79fe8258b8ee',t:'MTc1NTc4MjkzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
