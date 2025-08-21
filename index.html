@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localeo - L'immobilier comme vous ne l'avez jamais vu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'localeo-violet': '#8A2BE2',
+                        'localeo-pink': '#FF4ECD',
+                        'localeo-blue': '#00CFFF',
+                        'dark-bg': '#121212'
+                    },
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: #121212;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF4ECD 50%, #00CFFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #8A2BE2 0%, #FF4ECD 50%, #00CFFF 100%);
+        }
+        
+        .glow-effect {
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3), 0 0 60px rgba(255, 78, 205, 0.2), 0 0 90px rgba(0, 207, 255, 0.1);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 20px rgba(138, 43, 226, 0.4); }
+            to { box-shadow: 0 0 40px rgba(255, 78, 205, 0.6), 0 0 60px rgba(0, 207, 255, 0.4); }
+        }
+        
+        .gradient-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background: linear-gradient(45deg, transparent 40%, #8A2BE2 50%, transparent 60%),
+                        linear-gradient(-45deg, transparent 40%, #FF4ECD 50%, transparent 60%),
+                        linear-gradient(90deg, transparent 40%, #00CFFF 50%, transparent 60%);
+            background-size: 200px 200px, 300px 300px, 250px 250px;
+            animation: gradient-move 15s linear infinite;
+        }
+        
+        @keyframes gradient-move {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-50px, -30px) rotate(360deg); }
+        }
+        
+        .form-glow:focus {
+            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.5);
+            border-color: #8A2BE2;
+        }
+        
+        .swipe-animation {
+            animation: swipe-hint 3s ease-in-out infinite;
+        }
+        
+        @keyframes swipe-hint {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+    </style>
+</head>
+<body class="bg-dark-bg text-white overflow-x-hidden">
+    <!-- Background Gradient Lines -->
+    <div class="gradient-lines"></div>
+    
+    <!-- Header -->
+    <header class="relative z-10 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center">
+                <div class="text-4xl font-black gradient-text">LOCALEO</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative z-10 min-h-screen flex items-center justify-center py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <!-- Coming Soon Badge -->
+                <div class="mb-8">
+                    <span class="inline-block px-6 py-3 rounded-full text-sm font-bold gradient-bg text-white">
+                        🚀 Bientôt disponible : Localeo
+                    </span>
+                </div>
+                
+                <!-- Main Title -->
+                <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black leading-tight mb-8">
+                    <span class="gradient-text">L'immobilier</span> comme vous<br>
+                    ne l'avez jamais vu
+                </h1>
+                
+                <!-- Tagline -->
+                <p class="text-xl lg:text-2xl text-gray-300 mb-12 font-light max-w-4xl mx-auto">
+                    L'application qui rend la recherche de biens immobiliers plus ludique et intuitive.
+                </p>
+                
+                <!-- Visual Central -->
+                <div class="flex justify-center mb-16">
+                    <div class="relative floating">
+                        <!-- Smartphone SVG with Localeo Interface -->
+                        <div class="relative">
+                            <svg width="320" height="640" viewBox="0 0 320 640" class="glow-effect shadow-2xl">
+                                <!-- Phone Frame -->
+                                <rect x="0" y="0" width="320" height="640" rx="40" ry="40" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
+                                <rect x="10" y="10" width="300" height="620" rx="30" ry="30" fill="#000"/>
+                                
+                                <!-- Screen -->
+                                <rect x="20" y="60" width="280" height="520" rx="20" ry="20" fill="url(#screenGradient)"/>
+                                
+                                <!-- Status Bar -->
+                                <rect x="20" y="60" width="280" height="40" rx="20" ry="20" fill="rgba(0,0,0,0.3)"/>
+                                <text x="40" y="82" fill="white" font-size="12" font-family="Arial">9:41</text>
+                                <circle cx="260" cy="80" r="3" fill="#00ff00"/>
+                                <rect x="270" y="76" width="15" height="8" rx="2" fill="white"/>
+                                
+                                <!-- App Title -->
+                                <text x="160" y="100" fill="white" font-size="16" font-weight="bold" text-anchor="middle">Localeo</text>
+                                
+                                <!-- Property Card -->
+                                <rect x="40" y="130" width="240" height="320" rx="15" ry="15" fill="white"/>
+                                
+                                <!-- House Image Area -->
+                                <rect x="50" y="140" width="220" height="160" rx="10" ry="10" fill="url(#houseGradient)"/>
+                                
+                                <!-- House SVG -->
+                                <g transform="translate(160, 220)">
+                                    <!-- House Base -->
+                                    <rect x="-40" y="-20" width="80" height="60" fill="#8B4513"/>
+                                    <!-- Roof -->
+                                    <polygon points="-50,-20 0,-50 50,-20" fill="#DC143C"/>
+                                    <!-- Door -->
+                                    <rect x="-10" y="10" width="20" height="30" fill="#654321"/>
+                                    <!-- Windows -->
+                                    <rect x="-30" y="-5" width="15" height="15" fill="#87CEEB"/>
+                                    <rect x="15" y="-5" width="15" height="15" fill="#87CEEB"/>
+                                    <!-- Door Handle -->
+                                    <circle cx="5" cy="25" r="2" fill="#FFD700"/>
+                                </g>
+                                
+                                <!-- Property Details -->
+                                <text x="60" y="330" fill="#333" font-size="18" font-weight="bold">Villa Moderne</text>
+                                <text x="60" y="350" fill="#666" font-size="14">3 chambres • 2 SDB</text>
+                                <text x="60" y="370" fill="#666" font-size="14">📍 Paris 16ème</text>
+                                <text x="60" y="395" fill="#8A2BE2" font-size="20" font-weight="bold">€850,000</text>
+                                
+                                <!-- Heart Icon -->
+                                <g transform="translate(250, 150)">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#FF4ECD" transform="scale(0.8)"/>
+                                </g>
+                                
+                                <!-- Swipe Indicators -->
+                                <g transform="translate(160, 480)">
+                                    <!-- Left Arrow (X) -->
+                                    <circle cx="-60" cy="0" r="25" fill="rgba(255,0,0,0.2)" stroke="#ff0000" stroke-width="2"/>
+                                    <text x="-67" y="7" fill="#ff0000" font-size="20">✕</text>
+                                    
+                                    <!-- Right Arrow (Heart) -->
+                                    <circle cx="60" cy="0" r="25" fill="rgba(255,78,205,0.2)" stroke="#FF4ECD" stroke-width="2"/>
+                                    <text x="53" y="7" fill="#FF4ECD" font-size="16">♥</text>
+                                </g>
+                                
+                                <!-- Bottom Navigation -->
+                                <rect x="20" y="520" width="280" height="60" rx="0" ry="0" fill="rgba(0,0,0,0.8)"/>
+                                <g transform="translate(80, 550)">
+                                    <circle cx="0" cy="0" r="15" fill="#8A2BE2"/>
+                                    <text x="-5" y="5" fill="white" font-size="16">🏠</text>
+                                </g>
+                                <g transform="translate(160, 550)">
+                                    <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.3)"/>
+                                    <text x="-5" y="5" fill="white" font-size="16">❤️</text>
+                                </g>
+                                <g transform="translate(240, 550)">
+                                    <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.3)"/>
+                                    <text x="-5" y="5" fill="white" font-size="16">💬</text>
+                                </g>
+                                
+                                <!-- Home Button -->
+                                <rect x="140" y="600" width="40" height="4" rx="2" ry="2" fill="#666"/>
+                                
+                                <!-- Gradients -->
+                                <defs>
+                                    <linearGradient id="screenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#f8f9fa"/>
+                                        <stop offset="100%" style="stop-color:#e9ecef"/>
+                                    </linearGradient>
+                                    <linearGradient id="houseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#87CEEB"/>
+                                        <stop offset="100%" style="stop-color:#98FB98"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            
+                            <!-- Floating Elements -->
+                            <div class="absolute -top-6 -right-6 w-10 h-10 bg-localeo-blue rounded-full pulse-glow flex items-center justify-center">
+                                <span class="text-white text-sm">🏠</span>
+                            </div>
+                            <div class="absolute -bottom-8 -left-8 w-8 h-8 bg-localeo-pink rounded-full pulse-glow flex items-center justify-center" style="animation-delay: 1s;">
+                                <span class="text-white text-xs">❤️</span>
+                            </div>
+                            <div class="absolute top-1/2 -left-10 w-6 h-6 bg-localeo-violet rounded-full pulse-glow" style="animation-delay: 2s;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="relative z-10 py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-black text-white mb-6">
+                    Comment <span class="gradient-text">Localeo</span> révolutionne votre recherche
+                </h2>
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Découvrez les fonctionnalités qui rendent la recherche immobilière plus intelligente et personnalisée
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- Swipe Feature -->
+                <div class="text-center p-8 rounded-2xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-3xl">👆</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Swipe Intelligent</h3>
+                    <p class="text-gray-300">Parcourez les biens comme sur vos apps préférées. Swipez à droite pour aimer, à gauche pour passer. Simple et intuitif !</p>
+                </div>
+
+                <!-- AI Recommendations -->
+                <div class="text-center p-8 rounded-2xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-3xl">🧠</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Recommandations IA</h3>
+                    <p class="text-gray-300">Plus vous swipez, plus Localeo apprend vos goûts. L'IA analyse vos préférences pour vous proposer des biens parfaits.</p>
+                </div>
+
+                <!-- Agent Connection -->
+                <div class="text-center p-8 rounded-2xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10">
+                    <div class="w-20 h-20 gradient-bg rounded-2xl mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-3xl">🤝</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-4">Connexion Agents</h3>
+                    <p class="text-gray-300">Trouvé le bien de vos rêves ? Connectez-vous instantanément avec l'agent pour organiser une visite ou poser vos questions.</p>
+                </div>
+            </div>
+
+            <!-- How it Works -->
+            <div class="bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 rounded-3xl p-8 lg:p-12">
+                <h3 class="text-2xl lg:text-3xl font-bold text-white mb-8 text-center">
+                    Comment ça marche ?
+                </h3>
+                
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-localeo-violet rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">1</div>
+                        <h4 class="text-lg font-semibold text-white mb-3">Définissez vos critères</h4>
+                        <p class="text-gray-300">Budget, localisation, type de bien... Configurez vos préférences en quelques clics.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-localeo-pink rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">2</div>
+                        <h4 class="text-lg font-semibold text-white mb-3">Swipez et découvrez</h4>
+                        <p class="text-gray-300">Parcourez les biens sélectionnés. L'IA apprend de chaque swipe pour affiner les suggestions.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-localeo-blue rounded-full mx-auto mb-4 flex items-center justify-center text-white font-bold text-xl">3</div>
+                        <h4 class="text-lg font-semibold text-white mb-3">Contactez et visitez</h4>
+                        <p class="text-gray-300">Un coup de cœur ? Contactez directement l'agent pour organiser une visite ou obtenir plus d'infos.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Description -->
+    <section class="relative z-10 py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="space-y-8">
+                <p class="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                    Nous transformons le processus de recherche de propriété en une expérience amusante et interactive, où la personnalisation est au cœur de chaque interaction. Grâce à nos recommandations générées à partir de vos 'swipes', <span class="gradient-text font-semibold">Localeo s'adapte à vos goûts</span> pour vous proposer les biens qui vous correspondent vraiment.
+                </p>
+                
+                <p class="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                    Localeo est conçu pour être la première étape de votre voyage vers une nouvelle maison. Loin de la pression, nous rendons la recherche de biens <span class="gradient-text font-semibold">agréable et sans stress</span>, pour vous aider à trouver votre bonheur en toute sérénité.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Section -->
+    <section id="signup" class="relative z-10 py-20">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl lg:text-4xl font-black text-white mb-6">
+                Soyez le premier à explorer le <span class="gradient-text">futur de l'immobilier</span>
+            </h2>
+            <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
+                Rejoignez notre communauté exclusive et découvrez une nouvelle ère de recherche de propriété
+            </p>
+            
+            <form action="mailto:gillian@amaru-homes.com,gaetan@amaru-homes.com" method="post" enctype="text/plain" onsubmit="handleSubmit(event)" class="max-w-md mx-auto">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <input 
+                        type="email" 
+                        id="email"
+                        name="email"
+                        placeholder="Votre adresse email" 
+                        required
+                        class="flex-1 px-6 py-4 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl focus:outline-none form-glow text-white placeholder-gray-400 text-lg backdrop-blur-sm"
+                    >
+                    <button 
+                        type="submit"
+                        class="gradient-bg hover:opacity-90 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 glow-effect whitespace-nowrap"
+                    >
+                        Je veux être informé(e) du lancement
+                    </button>
+                </div>
+                <p class="text-sm text-gray-400 mt-4">
+                    🔒 Vos données sont protégées. Aucun spam, désinscription facile.
+                </p>
+            </form>
+
+            <div id="success-message" class="hidden mt-8 p-6 bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30 text-green-300 rounded-xl backdrop-blur-sm">
+                <div class="text-2xl mb-2">🎉</div>
+                <div class="font-semibold">Bienvenue dans la communauté Localeo !</div>
+                <div class="text-sm mt-2">Vous recevrez bientôt des nouvelles exclusives sur le lancement.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 py-12 border-t border-white border-opacity-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <div class="text-2xl font-black gradient-text mb-4">LOCALEO</div>
+                <p class="text-gray-400 mb-4">
+                    <a href="https://www.localeo.io" target="_blank" class="hover:text-white transition-colors">www.localeo.io</a>
+                </p>
+                <p class="text-gray-400 mb-8 italic max-w-2xl mx-auto">
+                    "Ensemble, nous pouvons rendre la recherche de propriété plus rapide, plus agréable et véritablement personnalisée."
+                </p>
+                
+                <div class="flex justify-center space-x-6 mb-8">
+                    <a href="#" class="w-12 h-12 bg-gradient-to-r from-localeo-violet to-localeo-pink rounded-full flex items-center justify-center hover:from-localeo-pink hover:to-localeo-blue transition-all duration-300 glow-effect">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-12 h-12 bg-gradient-to-r from-localeo-pink to-localeo-blue rounded-full flex items-center justify-center hover:from-localeo-blue hover:to-localeo-violet transition-all duration-300 glow-effect">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-12 h-12 bg-gradient-to-r from-localeo-blue to-localeo-violet rounded-full flex items-center justify-center hover:from-localeo-violet hover:to-localeo-pink transition-all duration-300 glow-effect">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="w-12 h-12 bg-gradient-to-r from-localeo-violet to-localeo-blue rounded-full flex items-center justify-center hover:from-localeo-pink hover:to-localeo-violet transition-all duration-300 glow-effect">
+                        <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <div class="text-sm text-gray-500">
+                    © 2024 Localeo. Tous droits réservés. | 
+                    <a href="#" class="hover:text-white transition-colors">Mentions légales</a> | 
+                    <a href="#" class="hover:text-white transition-colors">Confidentialité</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleSubmit(event) {
+            const email = document.getElementById('email').value;
+            
+            if (email) {
+                // Show success message
+                document.getElementById('success-message').classList.remove('hidden');
+                
+                // Create mailto link with proper formatting
+                const subject = encodeURIComponent('Nouvelle inscription Localeo');
+                const body = encodeURIComponent(`Nouvelle inscription à la liste d'attente Localeo:\n\nEmail: ${email}\nDate: ${new Date().toLocaleDateString('fr-FR')}\nHeure: ${new Date().toLocaleTimeString('fr-FR')}`);
+                const mailtoLink = `mailto:gillian@amaru-homes.com,gaetan@amaru-homes.com?subject=${subject}&body=${body}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Clear form
+                document.getElementById('email').value = '';
+                
+                setTimeout(() => {
+                    document.getElementById('success-message').classList.add('hidden');
+                }, 8000);
+            }
+            
+            event.preventDefault();
+            return false;
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972a715f7603fff9',t:'MTc1NTc4MjU4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
