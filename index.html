@@ -1,577 +1,1677 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Localeo - L'immobilier comme vous ne l'avez jamais vu</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'localeo-violet': '#8A2BE2',
-                        'localeo-pink': '#FF4ECD',
-                        'localeo-blue': '#00CFFF',
-                        'dark-bg': '#121212'
-                    },
-                    fontFamily: {
-                        'montserrat': ['Montserrat', 'sans-serif'],
-                    }
-                }
-            }
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Localeo – Étapes 1–6 (Démo)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
+          colors: { localeo: { purple:'#7C3AED', pink:'#F472B6', blue:'#22D3EE', ink:'#0F172A' } },
+          backgroundImage: {
+            'localeo-gradient': 'linear-gradient(135deg, #7C3AED 0%, #F472B6 45%, #22D3EE 100%)',
+            'soft': 'radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,0.10), transparent 60%), radial-gradient(1000px 500px at 110% 10%, rgba(34,211,238,0.12), transparent 60%)'
+          },
+          boxShadow: { soft:'0 10px 30px rgba(15,23,42,0.08)', card:'0 12px 30px rgba(124,58,237,0.08)' }
         }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: #121212;
-        }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #8A2BE2 0%, #FF4ECD 50%, #00CFFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #8A2BE2 0%, #FF4ECD 50%, #00CFFF 100%);
-        }
-        
-        .glow-effect {
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3), 0 0 60px rgba(255, 78, 205, 0.2), 0 0 90px rgba(0, 207, 255, 0.1);
-        }
-        
-        .floating {
-            animation: floating 6s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite alternate;
-        }
-        
-        @keyframes pulse-glow {
-            from { box-shadow: 0 0 20px rgba(138, 43, 226, 0.4); }
-            to { box-shadow: 0 0 40px rgba(255, 78, 205, 0.6), 0 0 60px rgba(0, 207, 255, 0.4); }
-        }
-        
-        .gradient-lines {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0.1;
-            background: linear-gradient(45deg, transparent 40%, #8A2BE2 50%, transparent 60%),
-                        linear-gradient(-45deg, transparent 40%, #FF4ECD 50%, transparent 60%),
-                        linear-gradient(90deg, transparent 40%, #00CFFF 50%, transparent 60%);
-            background-size: 200px 200px, 300px 300px, 250px 250px;
-            animation: gradient-move 15s linear infinite;
-        }
-        
-        @keyframes gradient-move {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-50px, -30px) rotate(360deg); }
-        }
-        
-        .form-glow:focus {
-            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.5);
-            border-color: #8A2BE2;
-        }
-        
-        .swipe-animation {
-            animation: swipe-hint 3s ease-in-out infinite;
-        }
-        
-        @keyframes swipe-hint {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(10px); }
-        }
-    </style>
+      }
+    }
+  </script>
+  <style>
+    html,body{font-family:'Inter',sans-serif}
+    .glass{background:rgba(255,255,255,0.65);backdrop-filter:blur(10px)}
+    .hover-rise{transition:transform .25s ease, box-shadow .25s ease}
+    .hover-rise:hover{transform:translateY(-4px)}
+    .section{scroll-margin-top:96px}
+    .btn{transition:all .2s ease}
+    .fade-in{animation:fade .45s ease both}
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .tab-active{background:linear-gradient(135deg,#7C3AED 0%,#F472B6 45%,#22D3EE 100%); color:white}
+    .status-dot{width:10px;height:10px;border-radius:9999px;display:inline-block;margin-right:6px}
+    .dropzone-dashed{border:2px dashed #e2e8f0}
+    .dropzone-dashed.dragover{border-color:#7C3AED; background-color:#F5F3FF}
+    .ribbon {position:absolute; top:12px; right:-6px; transform:rotate(45deg); background:#10B981; color:white; font-size:11px; padding:2px 26px;}
+  </style>
 </head>
-<body class="bg-dark-bg text-white overflow-x-hidden">
-    <!-- Background Gradient Lines -->
-    <div class="gradient-lines"></div>
-    
-    <!-- Header -->
-    <header class="relative z-10 py-4 sm:py-6">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col items-center space-y-3 sm:space-y-4">
-                <div class="text-3xl sm:text-4xl font-black gradient-text">LOCALEO</div>
-                
-                <!-- Language Selector -->
-                <div class="relative">
-                    <select id="languageSelector" onchange="changeLanguage()" class="bg-white bg-opacity-10 border border-white border-opacity-20 rounded-lg px-3 py-2 text-sm sm:text-base text-white focus:outline-none focus:ring-2 focus:ring-localeo-violet backdrop-blur-sm">
-                        <option value="fr" class="bg-gray-800 text-white">🇫🇷 Français</option>
-                        <option value="en" class="bg-gray-800 text-white">🇬🇧 English</option>
-                        <option value="nl" class="bg-gray-800 text-white">🇳🇱 Nederlands</option>
-                    </select>
-                </div>
+<body class="min-h-screen text-slate-800 bg-soft">
+  <!-- Header -->
+  <header class="sticky top-0 z-40">
+    <div class="glass shadow-soft">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <a href="#home" data-scroll class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-localeo-gradient flex items-center justify-center shadow-card">
+            <span class="text-white font-extrabold text-lg">L</span>
+          </div>
+          <div>
+            <div class="flex items-baseline gap-2">
+              <span class="text-xl font-extrabold text-slate-900">Localeo</span>
+              <span class="px-2 py-0.5 text-[10px] rounded-full bg-slate-900/5 text-slate-600" id="badgeIndustry">Immobilier</span>
             </div>
+            <span class="text-xs text-slate-500" id="badgeAudience">Agents • Promoteurs • Particuliers</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-2">
+          <a id="navHome" href="#home" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Accueil</a>
+          <a id="navFeatures" href="#features" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Fonctionnalités</a>
+          <a id="navPricing" href="#pricing" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Tarifs</a>
+          <a id="navAuth" href="#auth" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Inscription</a>
+          <a id="navDash" href="#dashboard" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Tableau de bord</a>
+          <a id="navPremium" href="#premium" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Modules Premium</a>
+          <a id="navAnalytics" href="#analytics" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Ventes & Fees</a>
+          <a id="navContact" href="#contact" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Contact</a>
+        </nav>
+
+        <div class="flex items-center gap-2">
+          <div id="userBadge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white shadow-soft">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span class="text-sm text-slate-700"><span id="userNameTop">Invité</span> • <span id="userTypeTop">—</span></span>
+          </div>
+          <button id="headerSignupBtn" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">
+            <span id="btnHeaderSignup">S’inscrire</span>
+            <svg class="w-4 h-4 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </button>
+          <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-lg bg-white shadow-soft flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
         </div>
-    </header>
+      </div>
 
-    <!-- Hero Section -->
-    <section class="relative z-10 min-h-screen flex items-center justify-center py-20">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <!-- Coming Soon Badge -->
-                <div class="mb-8">
-                    <span class="inline-block px-6 py-3 rounded-full text-sm font-bold gradient-bg text-white" data-translate="coming-soon">
-                        🚀 Bientôt disponible : Localeo
-                    </span>
-                </div>
-                
-                <!-- Main Title -->
-                <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black leading-tight mb-6 sm:mb-8 px-4">
-                    <span class="gradient-text" data-translate="main-title-1">L'immobilier</span> <span data-translate="main-title-2">comme vous<br>
-                    ne l'avez jamais vu</span>
-                </h1>
-                
-                <!-- Tagline -->
-                <p class="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 sm:mb-12 font-light max-w-4xl mx-auto px-4" data-translate="tagline">
-                    L'application qui rend la recherche de biens immobiliers plus ludique et intuitive.
-                </p>
-                
-                <!-- Visual Central -->
-                <div class="flex justify-center mb-12 sm:mb-16">
-                    <div class="relative floating">
-                        <!-- Smartphone SVG with Localeo Interface -->
-                        <div class="relative">
-                            <svg width="280" height="560" viewBox="0 0 320 640" class="glow-effect shadow-2xl sm:w-80 sm:h-160">
-                                <!-- Phone Frame -->
-                                <rect x="0" y="0" width="320" height="640" rx="40" ry="40" fill="#1a1a1a" stroke="#333" stroke-width="2"/>
-                                <rect x="10" y="10" width="300" height="620" rx="30" ry="30" fill="#000"/>
-                                
-                                <!-- Screen -->
-                                <rect x="20" y="60" width="280" height="520" rx="20" ry="20" fill="url(#screenGradient)"/>
-                                
-                                <!-- Status Bar -->
-                                <rect x="20" y="60" width="280" height="40" rx="20" ry="20" fill="rgba(0,0,0,0.3)"/>
-                                <text x="40" y="82" fill="white" font-size="12" font-family="Arial">9:41</text>
-                                <circle cx="260" cy="80" r="3" fill="#00ff00"/>
-                                <rect x="270" y="76" width="15" height="8" rx="2" fill="white"/>
-                                
-                                <!-- App Title -->
-                                <text x="160" y="100" fill="white" font-size="16" font-weight="bold" text-anchor="middle">Localeo</text>
-                                
-                                <!-- Property Card -->
-                                <rect x="40" y="130" width="240" height="320" rx="15" ry="15" fill="white"/>
-                                
-                                <!-- House Image Area -->
-                                <rect x="50" y="140" width="220" height="160" rx="10" ry="10" fill="#f0f0f0"/>
-                                
-                                <!-- Real House Image -->
-                                <image x="50" y="140" width="220" height="160" href="https://i.ibb.co/TDdhZXPs/house-image.jpg" preserveAspectRatio="xMidYMid slice" style="clip-path: inset(0 0 0 0 round 10px);"/>
-                                
-                                <!-- Fallback if image doesn't load -->
-                                <rect x="50" y="140" width="220" height="160" rx="10" ry="10" fill="url(#houseGradient)" opacity="0.3"/>
-                                <text x="160" y="220" fill="#666" font-size="14" text-anchor="middle" font-family="Arial">🏠 Belle maison</text>
-                                
-                                <!-- Property Details -->
-                                <text x="60" y="330" fill="#333" font-size="18" font-weight="bold">Villa Moderne</text>
-                                <text x="60" y="350" fill="#666" font-size="14">3 chambres • 2 SDB</text>
-                                <text x="60" y="370" fill="#666" font-size="14">📍 Paris 16ème</text>
-                                <text x="60" y="395" fill="#8A2BE2" font-size="20" font-weight="bold">€850,000</text>
-                                
-                                <!-- Heart Icon -->
-                                <g transform="translate(250, 150)">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#FF4ECD" transform="scale(0.8)"/>
-                                </g>
-                                
-                                <!-- Swipe Indicators -->
-                                <g transform="translate(160, 480)">
-                                    <!-- Left Arrow (X) -->
-                                    <circle cx="-60" cy="0" r="25" fill="rgba(255,0,0,0.2)" stroke="#ff0000" stroke-width="2"/>
-                                    <text x="-67" y="7" fill="#ff0000" font-size="20">✕</text>
-                                    
-                                    <!-- Right Arrow (Heart) -->
-                                    <circle cx="60" cy="0" r="25" fill="rgba(255,78,205,0.2)" stroke="#FF4ECD" stroke-width="2"/>
-                                    <text x="53" y="7" fill="#FF4ECD" font-size="16">♥</text>
-                                </g>
-                                
-                                <!-- Bottom Navigation -->
-                                <rect x="20" y="520" width="280" height="60" rx="0" ry="0" fill="rgba(0,0,0,0.8)"/>
-                                <g transform="translate(80, 550)">
-                                    <circle cx="0" cy="0" r="15" fill="#8A2BE2"/>
-                                    <text x="-5" y="5" fill="white" font-size="16">🏠</text>
-                                </g>
-                                <g transform="translate(160, 550)">
-                                    <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.3)"/>
-                                    <text x="-5" y="5" fill="white" font-size="16">❤️</text>
-                                </g>
-                                <g transform="translate(240, 550)">
-                                    <circle cx="0" cy="0" r="15" fill="rgba(255,255,255,0.3)"/>
-                                    <text x="-5" y="5" fill="white" font-size="16">💬</text>
-                                </g>
-                                
-                                <!-- Home Button -->
-                                <rect x="140" y="600" width="40" height="4" rx="2" ry="2" fill="#666"/>
-                                
-                                <!-- Gradients -->
-                                <defs>
-                                    <linearGradient id="screenGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#f8f9fa"/>
-                                        <stop offset="100%" style="stop-color:#e9ecef"/>
-                                    </linearGradient>
-                                    <linearGradient id="houseGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                                        <stop offset="0%" style="stop-color:#87CEEB"/>
-                                        <stop offset="100%" style="stop-color:#98FB98"/>
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-                            
-                            <!-- Floating Elements -->
-                            <div class="absolute -top-6 -right-6 w-10 h-10 bg-localeo-blue rounded-full pulse-glow flex items-center justify-center">
-                                <span class="text-white text-sm">🏠</span>
-                            </div>
-                            <div class="absolute -bottom-8 -left-8 w-8 h-8 bg-localeo-pink rounded-full pulse-glow flex items-center justify-center" style="animation-delay: 1s;">
-                                <span class="text-white text-xs">❤️</span>
-                            </div>
-                            <div class="absolute top-1/2 -left-10 w-6 h-6 bg-localeo-violet rounded-full pulse-glow" style="animation-delay: 2s;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <!-- Mobile menu -->
+      <div id="mobileMenu" class="hidden md:hidden border-t border-white/60">
+        <div class="px-4 py-3 grid gap-2 bg-white/80">
+          <a id="mHome" href="#home" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Accueil</a>
+          <a id="mFeatures" href="#features" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Fonctionnalités</a>
+          <a id="mPricing" href="#pricing" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Tarifs</a>
+          <a id="mAuth" href="#auth" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Inscription</a>
+          <a id="mDash" href="#dashboard" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Tableau de bord</a>
+          <a id="mPremium" href="#premium" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Modules Premium</a>
+          <a id="mAnalytics" href="#analytics" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Ventes & Fees</a>
         </div>
-    </section>
+      </div>
+    </div>
+  </header>
 
-    <!-- Features Section -->
-    <section class="relative z-10 py-12 sm:py-20">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12 sm:mb-16">
-                <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 sm:mb-6 px-4" data-translate="features-title">
-                    Comment <span class="gradient-text">Localeo</span> révolutionne votre recherche
-                </h2>
-                <p class="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto px-4" data-translate="features-subtitle">
-                    Découvrez les fonctionnalités qui rendent la recherche immobilière plus intelligente et personnalisée
-                </p>
-            </div>
-            
-            <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
-                <!-- Swipe Feature -->
-                <div class="text-center p-6 sm:p-8 rounded-2xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 gradient-bg rounded-2xl mx-auto mb-4 sm:mb-6 flex items-center justify-center">
-                        <span class="text-2xl sm:text-3xl">👆</span>
-                    </div>
-                    <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4" data-translate="feature1-title">Swipe Intelligent</h3>
-                    <p class="text-sm sm:text-base text-gray-300" data-translate="feature1-desc">Parcourez les biens comme sur vos apps préférées. Swipez à droite pour aimer, à gauche pour passer. Simple et intuitif !</p>
-                </div>
-
-                <!-- AI Recommendations -->
-                <div class="text-center p-6 sm:p-8 rounded-2xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 gradient-bg rounded-2xl mx-auto mb-4 sm:mb-6 flex items-center justify-center">
-                        <span class="text-2xl sm:text-3xl">🧠</span>
-                    </div>
-                    <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4" data-translate="feature2-title">Recommandations IA</h3>
-                    <p class="text-sm sm:text-base text-gray-300" data-translate="feature2-desc">Plus vous swipez, plus Localeo apprend vos goûts. L'IA analyse vos préférences pour vous proposer des biens parfaits.</p>
-                </div>
-
-                <!-- Agent Connection -->
-                <div class="text-center p-6 sm:p-8 rounded-2xl bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 sm:col-span-2 md:col-span-1">
-                    <div class="w-16 h-16 sm:w-20 sm:h-20 gradient-bg rounded-2xl mx-auto mb-4 sm:mb-6 flex items-center justify-center">
-                        <span class="text-2xl sm:text-3xl">🤝</span>
-                    </div>
-                    <h3 class="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4" data-translate="feature3-title">Connexion Agents</h3>
-                    <p class="text-sm sm:text-base text-gray-300" data-translate="feature3-desc">Trouvé le bien de vos rêves ? Connectez-vous instantanément avec l'agent pour organiser une visite ou poser vos questions.</p>
-                </div>
-            </div>
-
-            <!-- How it Works -->
-            <div class="bg-white bg-opacity-5 backdrop-blur-sm border border-white border-opacity-10 rounded-3xl p-6 sm:p-8 lg:p-12">
-                <h3 class="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-6 sm:mb-8 text-center" data-translate="how-it-works-title">
-                    Comment ça marche ?
-                </h3>
-                
-                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                    <div class="text-center">
-                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-localeo-violet rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center text-white font-bold text-lg sm:text-xl">1</div>
-                        <h4 class="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3" data-translate="step1-title">Définissez vos critères</h4>
-                        <p class="text-sm sm:text-base text-gray-300" data-translate="step1-desc">Budget, localisation, type de bien... Configurez vos préférences en quelques clics.</p>
-                    </div>
-                    
-                    <div class="text-center">
-                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-localeo-pink rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center text-white font-bold text-lg sm:text-xl">2</div>
-                        <h4 class="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3" data-translate="step2-title">Swipez et découvrez</h4>
-                        <p class="text-sm sm:text-base text-gray-300" data-translate="step2-desc">Parcourez les biens sélectionnés. L'IA apprend de chaque swipe pour affiner les suggestions.</p>
-                    </div>
-                    
-                    <div class="text-center sm:col-span-2 lg:col-span-1">
-                        <div class="w-14 h-14 sm:w-16 sm:h-16 bg-localeo-blue rounded-full mx-auto mb-3 sm:mb-4 flex items-center justify-center text-white font-bold text-lg sm:text-xl">3</div>
-                        <h4 class="text-base sm:text-lg font-semibold text-white mb-2 sm:mb-3" data-translate="step3-title">Contactez et visitez</h4>
-                        <p class="text-sm sm:text-base text-gray-300" data-translate="step3-desc">Un coup de cœur ? Contactez directement l'agent pour organiser une visite ou obtenir plus d'infos.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Mission Description -->
-    <section class="relative z-10 py-12 sm:py-20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="space-y-6 sm:space-y-8">
-                <p class="text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed" data-translate="mission-p1">
-                    Nous transformons le processus de recherche de propriété en une expérience amusante et interactive, où la personnalisation est au cœur de chaque interaction. Grâce à nos recommandations générées à partir de vos 'swipes', <span class="gradient-text font-semibold">Localeo s'adapte à vos goûts</span> pour vous proposer les biens qui vous correspondent vraiment.
-                </p>
-                
-                <p class="text-base sm:text-lg lg:text-xl text-gray-300 leading-relaxed" data-translate="mission-p2">
-                    Localeo est conçu pour être la première étape de votre voyage vers une nouvelle maison. Loin de la pression, nous rendons la recherche de biens <span class="gradient-text font-semibold">agréable et sans stress</span>, pour vous aider à trouver votre bonheur en toute sérénité.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Signup Section -->
-    <section id="signup" class="relative z-10 py-12 sm:py-20">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white mb-4 sm:mb-6 px-4" data-translate="signup-title">
-                Soyez le premier à explorer le <span class="gradient-text">futur de l'immobilier</span>
-            </h2>
-            <p class="text-lg sm:text-xl text-gray-300 mb-8 sm:mb-12 max-w-2xl mx-auto px-4" data-translate="signup-subtitle">
-                Rejoignez notre communauté exclusive et découvrez une nouvelle ère de recherche de propriété
+  <!-- Étape 1: Landing -->
+  <section id="home" class="section">
+    <div class="relative">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div class="fade-in">
+            <span id="badgeTop" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white shadow-soft text-sm text-slate-700">
+              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+              Zéro abonnement • Frais à la vente
+            </span>
+            <h1 class="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight" id="heroTitle">
+              La plateforme qui aligne les intérêts de <span class="bg-localeo-gradient bg-clip-text text-transparent">tous les acteurs</span> de l’immobilier.
+            </h1>
+            <p id="heroSubtitle" class="mt-5 text-lg md:text-xl text-slate-600">
+              Localeo connecte agences, promoteurs et particuliers. Vous payez seulement si vous vendez. Simple, transparent, automatisé.
             </p>
-            
-            <form action="mailto:gillian@amaru-homes.com,gaetan@amaru-homes.com" method="post" enctype="text/plain" onsubmit="handleSubmit(event)" class="max-w-lg mx-auto">
-                <div class="flex flex-col gap-4">
-                    <input 
-                        type="email" 
-                        id="email"
-                        name="email"
-                        placeholder="Votre adresse email" 
-                        data-translate-placeholder="email-placeholder"
-                        required
-                        class="w-full px-4 sm:px-6 py-3 sm:py-4 bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl focus:outline-none form-glow text-white placeholder-gray-400 text-base sm:text-lg backdrop-blur-sm"
-                    >
-                    <button 
-                        type="submit"
-                        class="w-full gradient-bg hover:opacity-90 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-xl text-base sm:text-lg transition-all duration-300 glow-effect"
-                        data-translate="signup-button"
-                    >
-                        M'informer du lancement
-                    </button>
-                </div>
-                <p class="text-xs sm:text-sm text-gray-400 mt-3 sm:mt-4" data-translate="privacy-note">
-                    🔒 Vos données sont protégées. Aucun spam, désinscription facile.
-                </p>
-            </form>
-
-            <div id="success-message" class="hidden mt-8 p-6 bg-green-500 bg-opacity-20 border border-green-500 border-opacity-30 text-green-300 rounded-xl backdrop-blur-sm">
-                <div class="text-2xl mb-2">🎉</div>
-                <div class="font-semibold" data-translate="success-title">Bienvenue dans la communauté Localeo !</div>
-                <div class="text-sm mt-2" data-translate="success-message">Vous recevrez bientôt des nouvelles exclusives sur le lancement.</div>
+            <div class="mt-8 flex flex-col sm:flex-row gap-3">
+              <button id="heroSignup" class="px-6 py-3.5 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">
+                S’inscrire maintenant
+              </button>
+              <a id="btnLearn" href="#features" data-scroll class="px-6 py-3.5 rounded-xl font-semibold text-slate-800 bg-white shadow-soft hover:bg-slate-50 btn">
+                Découvrir les avantages
+              </a>
             </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="relative z-10 py-8 sm:py-12 border-t border-white border-opacity-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <div class="text-xl sm:text-2xl font-black gradient-text mb-3 sm:mb-4">LOCALEO</div>
-                <p class="text-sm sm:text-base text-gray-400 mb-3 sm:mb-4">
-                    <a href="https://www.localeo.io" target="_blank" class="hover:text-white transition-colors">www.localeo.io</a>
-                </p>
-                <p class="text-sm sm:text-base text-gray-400 mb-6 sm:mb-8 italic max-w-2xl mx-auto px-4" data-translate="footer-quote">
-                    "Ensemble, nous pouvons rendre la recherche de propriété plus rapide, plus agréable et véritablement personnalisée."
-                </p>
-                
-                <div class="flex justify-center space-x-4 sm:space-x-6 mb-6 sm:mb-8">
-                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-localeo-violet to-localeo-pink rounded-full flex items-center justify-center hover:from-localeo-pink hover:to-localeo-blue transition-all duration-300 glow-effect">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-localeo-pink to-localeo-blue rounded-full flex items-center justify-center hover:from-localeo-blue hover:to-localeo-violet transition-all duration-300 glow-effect">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-localeo-blue to-localeo-violet rounded-full flex items-center justify-center hover:from-localeo-violet hover:to-localeo-pink transition-all duration-300 glow-effect">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                        </svg>
-                    </a>
-                    <a href="#" class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-localeo-violet to-localeo-blue rounded-full flex items-center justify-center hover:from-localeo-pink hover:to-localeo-violet transition-all duration-300 glow-effect">
-                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                        </svg>
-                    </a>
-                </div>
-                
-                <div class="text-xs sm:text-sm text-gray-500 px-4">
-                    © 2024 Localeo. Tous droits réservés.<br class="sm:hidden"> 
-                    <a href="#" class="hover:text-white transition-colors">Mentions légales</a> | 
-                    <a href="#" class="hover:text-white transition-colors">Confidentialité</a>
-                </div>
+            <div class="mt-8 flex items-center gap-4 text-sm text-slate-600">
+              <div class="flex -space-x-2">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-localeo-purple to-localeo-pink border-2 border-white"></div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-localeo-blue to-localeo-pink border-2 border-white"></div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-localeo-purple to-localeo-blue border-2 border-white"></div>
+              </div>
+              <span id="adoptedBy">Déjà adopté par des équipes locales ambitieuses</span>
             </div>
+          </div>
+
+          <div class="fade-in">
+            <div class="relative rounded-3xl p-1 bg-localeo-gradient shadow-card">
+              <div class="rounded-2xl bg-white p-6">
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
+                    <div class="w-10 h-10 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center mb-3">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4-9 4-9-4z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 7v10l-9 4-9-4V7"/>
+                      </svg>
+                    </div>
+                    <h3 id="card1Title" class="font-semibold text-slate-900">Diffusion locale</h3>
+                    <p id="card1Desc" class="text-sm text-slate-600 mt-1">Visibilité ciblée et qualifiée sur votre zone.</p>
+                  </div>
+                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
+                    <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center mb-3">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 11V7a4 4 0 118 0v4M5 11h14a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2z"/>
+                      </svg>
+                    </div>
+                    <h3 id="card2Title" class="font-semibold text-slate-900">Zéro risque</h3>
+                    <p id="card2Desc" class="text-sm text-slate-600 mt-1">Frais uniquement si la vente est conclue.</p>
+                  </div>
+                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
+                    <div class="w-10 h-10 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center mb-3">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l6-6 4 4 8-8"/>
+                      </svg>
+                    </div>
+                    <h3 id="card3Title" class="font-semibold text-slate-900">Transparence</h3>
+                    <p id="card3Desc" class="text-sm text-slate-600 mt-1">Traçabilité des ventes et commissions.</p>
+                  </div>
+                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
+                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                      </svg>
+                    </div>
+                    <h3 id="card4Title" class="font-semibold text-slate-900">Frais automatisés</h3>
+                    <p id="card4Desc" class="text-sm text-slate-600 mt-1">Calcul à 0,2% déclenché à la vente.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p id="demoLabel" class="text-xs text-slate-500 mt-3 text-center">Aperçu visuel – démo</p>
+          </div>
         </div>
-    </footer>
+      </div>
+    </div>
+  </section>
 
-    <script>
-        // Translations object
-        const translations = {
-            fr: {
-                'coming-soon': '🚀 Bientôt disponible : Localeo',
-                'main-title-1': 'L\'immobilier',
-                'main-title-2': 'comme vous<br>ne l\'avez jamais vu',
-                'tagline': 'L\'application qui rend la recherche de biens immobiliers plus ludique et intuitive.',
-                'features-title': 'Comment <span class="gradient-text">Localeo</span> révolutionne votre recherche',
-                'features-subtitle': 'Découvrez les fonctionnalités qui rendent la recherche immobilière plus intelligente et personnalisée',
-                'feature1-title': 'Swipe Intelligent',
-                'feature1-desc': 'Parcourez les biens comme sur vos apps préférées. Swipez à droite pour aimer, à gauche pour passer. Simple et intuitif !',
-                'feature2-title': 'Recommandations IA',
-                'feature2-desc': 'Plus vous swipez, plus Localeo apprend vos goûts. L\'IA analyse vos préférences pour vous proposer des biens parfaits.',
-                'feature3-title': 'Connexion Agents',
-                'feature3-desc': 'Trouvé le bien de vos rêves ? Connectez-vous instantanément avec l\'agent pour organiser une visite ou poser vos questions.',
-                'how-it-works-title': 'Comment ça marche ?',
-                'step1-title': 'Définissez vos critères',
-                'step1-desc': 'Budget, localisation, type de bien... Configurez vos préférences en quelques clics.',
-                'step2-title': 'Swipez et découvrez',
-                'step2-desc': 'Parcourez les biens sélectionnés. L\'IA apprend de chaque swipe pour affiner les suggestions.',
-                'step3-title': 'Contactez et visitez',
-                'step3-desc': 'Un coup de cœur ? Contactez directement l\'agent pour organiser une visite ou obtenir plus d\'infos.',
-                'mission-p1': 'Nous transformons le processus de recherche de propriété en une expérience amusante et interactive, où la personnalisation est au cœur de chaque interaction. Grâce à nos recommandations générées à partir de vos \'swipes\', <span class="gradient-text font-semibold">Localeo s\'adapte à vos goûts</span> pour vous proposer les biens qui vous correspondent vraiment.',
-                'mission-p2': 'Localeo est conçu pour être la première étape de votre voyage vers une nouvelle maison. Loin de la pression, nous rendons la recherche de biens <span class="gradient-text font-semibold">agréable et sans stress</span>, pour vous aider à trouver votre bonheur en toute sérénité.',
-                'signup-title': 'Soyez le premier à explorer le <span class="gradient-text">futur de l\'immobilier</span>',
-                'signup-subtitle': 'Rejoignez notre communauté exclusive et découvrez une nouvelle ère de recherche de propriété',
-                'email-placeholder': 'Votre adresse email',
-                'signup-button': 'M\'informer du lancement',
-                'privacy-note': '🔒 Vos données sont protégées. Aucun spam, désinscription facile.',
-                'success-title': 'Bienvenue dans la communauté Localeo !',
-                'success-message': 'Vous recevrez bientôt des nouvelles exclusives sur le lancement.',
-                'footer-quote': '"Ensemble, nous pouvons rendre la recherche de propriété plus rapide, plus agréable et véritablement personnalisée."'
-            },
-            en: {
-                'coming-soon': '🚀 Coming Soon: Localeo',
-                'main-title-1': 'Real Estate',
-                'main-title-2': 'like you\'ve<br>never seen before',
-                'tagline': 'The app that makes property searching more fun and intuitive.',
-                'features-title': 'How <span class="gradient-text">Localeo</span> revolutionizes your search',
-                'features-subtitle': 'Discover the features that make property searching smarter and more personalized',
-                'feature1-title': 'Smart Swipe',
-                'feature1-desc': 'Browse properties like your favorite apps. Swipe right to like, left to pass. Simple and intuitive!',
-                'feature2-title': 'AI Recommendations',
-                'feature2-desc': 'The more you swipe, the more Localeo learns your taste. AI analyzes your preferences to suggest perfect properties.',
-                'feature3-title': 'Agent Connection',
-                'feature3-desc': 'Found your dream property? Connect instantly with the agent to schedule a visit or ask questions.',
-                'how-it-works-title': 'How does it work?',
-                'step1-title': 'Set your criteria',
-                'step1-desc': 'Budget, location, property type... Configure your preferences in just a few clicks.',
-                'step2-title': 'Swipe and discover',
-                'step2-desc': 'Browse selected properties. AI learns from each swipe to refine suggestions.',
-                'step3-title': 'Contact and visit',
-                'step3-desc': 'Found a match? Contact the agent directly to schedule a visit or get more information.',
-                'mission-p1': 'We transform the property search process into a fun and interactive experience, where personalization is at the heart of every interaction. Thanks to our recommendations generated from your \'swipes\', <span class="gradient-text font-semibold">Localeo adapts to your taste</span> to suggest properties that truly match you.',
-                'mission-p2': 'Localeo is designed to be the first step in your journey to a new home. Away from pressure, we make property searching <span class="gradient-text font-semibold">enjoyable and stress-free</span>, helping you find your happiness with peace of mind.',
-                'signup-title': 'Be the first to explore the <span class="gradient-text">future of real estate</span>',
-                'signup-subtitle': 'Join our exclusive community and discover a new era of property searching',
-                'email-placeholder': 'Your email address',
-                'signup-button': 'Notify me at launch',
-                'privacy-note': '🔒 Your data is protected. No spam, easy unsubscribe.',
-                'success-title': 'Welcome to the Localeo community!',
-                'success-message': 'You\'ll soon receive exclusive news about the launch.',
-                'footer-quote': '"Together, we can make property searching faster, more enjoyable and truly personalized."'
-            },
-            nl: {
-                'coming-soon': '🚀 Binnenkort beschikbaar: Localeo',
-                'main-title-1': 'Vastgoed',
-                'main-title-2': 'zoals je het nog<br>nooit hebt gezien',
-                'tagline': 'De app die het zoeken naar vastgoed leuker en intuïtiever maakt.',
-                'features-title': 'Hoe <span class="gradient-text">Localeo</span> jouw zoektocht revolutioneert',
-                'features-subtitle': 'Ontdek de functies die vastgoed zoeken slimmer en persoonlijker maken',
-                'feature1-title': 'Slimme Swipe',
-                'feature1-desc': 'Blader door eigenschappen zoals je favoriete apps. Swipe naar rechts om te liken, naar links om over te slaan. Simpel en intuïtief!',
-                'feature2-title': 'AI Aanbevelingen',
-                'feature2-desc': 'Hoe meer je swiped, hoe meer Localeo jouw smaak leert. AI analyseert je voorkeuren om perfecte eigenschappen voor te stellen.',
-                'feature3-title': 'Makelaar Verbinding',
-                'feature3-desc': 'Je droomhuis gevonden? Verbind direct met de makelaar om een bezichtiging in te plannen of vragen te stellen.',
-                'how-it-works-title': 'Hoe werkt het?',
-                'step1-title': 'Stel je criteria in',
-                'step1-desc': 'Budget, locatie, type woning... Configureer je voorkeuren in slechts een paar klikken.',
-                'step2-title': 'Swipe en ontdek',
-                'step2-desc': 'Blader door geselecteerde eigenschappen. AI leert van elke swipe om suggesties te verfijnen.',
-                'step3-title': 'Contact en bezoek',
-                'step3-desc': 'Een match gevonden? Neem direct contact op met de makelaar om een bezichtiging in te plannen of meer informatie te krijgen.',
-                'mission-p1': 'We transformeren het vastgoed zoekproces in een leuke en interactieve ervaring, waarbij personalisatie centraal staat in elke interactie. Dankzij onze aanbevelingen gegenereerd uit jouw \'swipes\', <span class="gradient-text font-semibold">past Localeo zich aan jouw smaak aan</span> om eigenschappen voor te stellen die echt bij je passen.',
-                'mission-p2': 'Localeo is ontworpen om de eerste stap te zijn in je reis naar een nieuw thuis. Weg van druk, maken we vastgoed zoeken <span class="gradient-text font-semibold">plezierig en stressvrij</span>, om je te helpen je geluk te vinden met gemoedsrust.',
-                'signup-title': 'Wees de eerste om de <span class="gradient-text">toekomst van vastgoed</span> te verkennen',
-                'signup-subtitle': 'Word lid van onze exclusieve gemeenschap en ontdek een nieuw tijdperk van vastgoed zoeken',
-                'email-placeholder': 'Jouw e-mailadres',
-                'signup-button': 'Houd me op de hoogte',
-                'privacy-note': '🔒 Je gegevens zijn beschermd. Geen spam, gemakkelijk uitschrijven.',
-                'success-title': 'Welkom bij de Localeo gemeenschap!',
-                'success-message': 'Je ontvangt binnenkort exclusief nieuws over de lancering.',
-                'footer-quote': '"Samen kunnen we vastgoed zoeken sneller, leuker en echt gepersonaliseerd maken."'
-            }
-        };
+  <!-- Fee-on-sale -->
+  <section id="features" class="section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="max-w-3xl">
+        <h2 id="feeTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900">Modèle “fee-on-sale” pour les agences</h2>
+        <p id="feeSub" class="mt-4 text-slate-600 text-lg">
+          Pas d’abonnement ni de coûts fixes. Les agences ne paient qu’en cas de vente, avec un fee ultra‑compétitif et automatisé.
+        </p>
+      </div>
+      <div class="mt-10 grid md:grid-cols-3 gap-6">
+        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
+          <div class="w-11 h-11 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center mb-4"><span class="text-base font-bold">1</span></div>
+          <h3 id="s1t" class="font-semibold text-slate-900">Publiez vos biens</h3>
+          <p id="s1d" class="text-slate-600 mt-1.5 text-sm">Ajoutez vos annonces et touchez plus d’acheteurs.</p>
+        </div>
+        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
+          <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4"><span class="text-base font-bold">2</span></div>
+          <h3 id="s2t" class="font-semibold text-slate-900">Vendez en confiance</h3>
+          <p id="s2d" class="text-slate-600 mt-1.5 text-sm">Suivi transparent des prospects et transactions.</p>
+        </div>
+        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
+          <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4"><span class="text-base font-bold">3</span></div>
+          <h3 id="s3t" class="font-semibold text-slate-900">Payez au succès</h3>
+          <p id="s3d" class="text-slate-600 mt-1.5 text-sm">Fee automatique 0,2% déclenché à la vente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        let currentLanguage = 'fr';
+  <!-- Pricing -->
+  <section id="pricing" class="section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="text-center max-w-3xl mx-auto">
+        <h2 id="pricingTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900">Tarification simple et équitable</h2>
+        <p id="pricingSub" class="mt-4 text-slate-600 text-lg">Pas d’abonnement. Payez uniquement si vous vendez.</p>
+      </div>
+      <div class="mt-10 grid md:grid-cols-3 gap-6">
+        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
+          <h3 id="p1t" class="font-semibold text-slate-900">Inscription</h3>
+          <p class="mt-2 text-3xl font-extrabold text-slate-900">0 €</p>
+          <p id="p1d" class="text-slate-600 mt-1">Création de compte gratuite.</p>
+        </div>
+        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise border-2 border-violet-200">
+          <h3 id="p2t" class="font-semibold text-slate-900">À la vente</h3>
+          <p class="mt-2 text-3xl font-extrabold bg-localeo-gradient bg-clip-text text-transparent">0,2%</p>
+          <p id="p2d" class="text-slate-600 mt-1">Fee automatisé sur le prix de vente.</p>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            <li id="pl1" class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Facturation transparente</li>
+            <li id="pl2" class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Aucun engagement</li>
+            <li id="pl3" class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Résiliation à tout moment</li>
+          </ul>
+          <button id="pricingSignup" class="mt-5 w-full px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">S’inscrire</button>
+        </div>
+        <div class="rounded-2xl p-6 bg-white hover-rise shadow-soft">
+          <h3 id="p3t" class="font-semibold text-slate-900">Support</h3>
+          <p id="p3p" class="mt-2 text-3xl font-extrabold text-slate-900">Inclus</p>
+          <p id="p3d" class="text-slate-600 mt-1">Assistance et onboarding.</p>
+        </div>
+      </div>
+      <p id="pricingNote" class="text-center text-sm text-slate-500 mt-6">Les intégrations (Google Sheets/Stripe) seront ajoutées aux étapes suivantes.</p>
+    </div>
+  </section>
 
-        function changeLanguage() {
-            const selector = document.getElementById('languageSelector');
-            currentLanguage = selector.value;
-            
-            // Update all elements with data-translate attribute
-            document.querySelectorAll('[data-translate]').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.innerHTML = translations[currentLanguage][key];
-                }
-            });
+  <!-- Étape 2: Inscription / Connexion (Démo) -->
+  <section id="auth" class="section bg-white/70 border-t border-white/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h2 id="authTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900">Créer un compte</h2>
+          <p id="authSub" class="mt-2 text-slate-600">Particulier, Agence ou Promoteur – en toute simplicité.</p>
+        </div>
+        <span id="authBadge" class="px-3 py-1.5 text-xs rounded-full bg-amber-100 text-amber-800 font-semibold">Démo – pas d’authentification réelle</span>
+      </div>
 
-            // Update placeholder text
-            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
-                const key = element.getAttribute('data-translate-placeholder');
-                if (translations[currentLanguage] && translations[currentLanguage][key]) {
-                    element.placeholder = translations[currentLanguage][key];
-                }
-            });
+      <div class="mt-8 bg-white rounded-2xl shadow-soft p-2 flex w-full max-w-xl">
+        <button id="tabSignup" class="flex-1 px-4 py-2 rounded-xl font-semibold text-slate-700 tab-active">Inscription</button>
+        <button id="tabLogin" class="flex-1 px-4 py-2 rounded-xl font-semibold text-slate-700">Connexion</button>
+      </div>
+
+      <div class="mt-6 grid lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-1">
+          <div class="rounded-2xl p-6 bg-white shadow-soft">
+            <h3 id="whyTitle" class="font-semibold text-slate-900">Pourquoi Localeo ?</h3>
+            <ul class="mt-3 space-y-2 text-sm text-slate-700">
+              <li id="why1" class="flex gap-2"><span>•</span><span>Zéro abonnement, frais à la vente seulement.</span></li>
+              <li id="why2" class="flex gap-2"><span>•</span><span>Transparence sur les commissions (0,2%).</span></li>
+              <li id="why3" class="flex gap-2"><span>•</span><span>Suivi simple des biens et ventes.</span></li>
+            </ul>
+            <div id="gsNote" class="mt-4 rounded-2xl bg-slate-50 p-4 text-xs text-slate-600">
+              Google Sheets: intégration via App Script à venir. Ici: sauvegarde démo locale + détection d’emails en doublon.
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <form id="formSignup" class="rounded-2xl p-6 bg-white shadow-soft space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 id="signupCardTitle" class="text-lg font-semibold text-slate-900">Inscription</h3>
+              <span class="px-2 py-1 text-[10px] rounded-md bg-violet-100 text-violet-700">Démo</span>
+            </div>
+
+            <div>
+              <label id="typeLabel" class="block text-sm font-medium text-slate-700 mb-1">Type de compte</label>
+              <div class="grid sm:grid-cols-3 gap-2">
+                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer">
+                  <input type="radio" name="userType" value="Individual" class="text-violet-600" required>
+                  <span id="typeInd" class="text-sm">Particulier</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer">
+                  <input type="radio" name="userType" value="Agency" class="text-violet-600" required>
+                  <span id="typeAgy" class="text-sm">Agence</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer">
+                  <input type="radio" name="userType" value="Promoter" class="text-violet-600" required>
+                  <span id="typePro" class="text-sm">Promoteur</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label id="nameLabel" class="block text-sm font-medium text-slate-700 mb-1">Nom / Organisation</label>
+              <input id="nameInput" type="text" name="name" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required>
+            </div>
+
+            <div>
+              <label id="emailLabel" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+              <input id="emailInput" type="email" name="email" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required>
+            </div>
+
+            <div id="demoNoteBox" class="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+              Démo: aucune donnée sensible collectée. L’inscription réelle sera reliée plus tard.
+            </div>
+
+            <div class="pt-1 flex flex-col sm:flex-row gap-2">
+              <button id="submitSignup" type="submit" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">
+                Demander une invitation
+              </button>
+              <button type="button" id="prefillAgency" class="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">
+                Préremplir Agence
+              </button>
+            </div>
+
+            <p class="text-xs text-slate-500">Sheet Users (prévu): ID, Name, Email, UserType, PasswordHash, Verified</p>
+          </form>
+        </div>
+
+        <div class="lg:col-span-1">
+          <form id="formLogin" class="rounded-2xl p-6 bg-white shadow-soft space-y-4 opacity-50 pointer-events-none">
+            <div class="flex items-center justify-between">
+              <h3 id="loginCardTitle" class="text-lg font-semibold text-slate-900">Connexion</h3>
+              <span class="px-2 py-1 text-[10px] rounded-md bg-violet-100 text-violet-700">Démo</span>
+            </div>
+
+            <div>
+              <label id="loginEmailLabel" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+              <input type="email" name="loginEmail" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required>
+            </div>
+
+            <button type="submit" class="w-full px-5 py-3 rounded-xl text-white font-semibold bg-slate-900 shadow-soft hover:opacity-95 btn">
+              Se connecter (démo)
+            </button>
+
+            <div id="loginNote" class="rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
+              Limitation: pas de mot de passe dans Canva Code. Utilisez un provider externe pour l’authentification réelle.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Étape 3: Tableau de bord -->
+  <section id="dashboard" class="section bg-white/70 border-t border-white/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Tableau de bord</h2>
+          <p class="mt-2 text-slate-600">Suivez vos annonces, vos ventes et vos notifications.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <label class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200">
+            <input id="liveToggle" type="checkbox" class="accent-violet-600" checked>
+            <span class="text-sm text-slate-700">Live démo</span>
+          </label>
+          <button id="refreshBtn" class="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">Rafraîchir</button>
+        </div>
+      </div>
+
+      <div id="welcomeBar" class="mt-6 rounded-2xl p-5 bg-white shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-xl bg-localeo-gradient text-white font-extrabold flex items-center justify-center" id="userInitials">U</div>
+          <div>
+            <div class="text-slate-900 font-semibold">Bonjour, <span id="userNameDash">Invité</span></div>
+            <div class="text-sm text-slate-600">Type: <span id="userTypeDash">—</span></div>
+          </div>
+        </div>
+        <div class="text-xs px-2 py-1 rounded-md bg-amber-100 text-amber-800">Sources: Google Sheets (à intégrer) • Données démo locales</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-6 grid grid-cols-2 md:grid-cols-5 gap-4">
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Mes annonces</div>
+          <div id="statListings" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Vendues</div>
+          <div id="statSold" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Total ventes (€)</div>
+          <div id="statSalesSum" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Notifications</div>
+          <div id="statNotifs" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Modules actifs</div>
+          <div id="statModules" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+      </div>
+
+      <!-- Main columns -->
+      <div class="mt-8 grid lg:grid-cols-3 gap-6">
+        <!-- Listings -->
+        <div class="lg:col-span-2">
+          <div class="rounded-2xl p-6 bg-white shadow-soft">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-slate-900">Mes annonces</h3>
+              <div class="flex items-center gap-2">
+                <select id="filterStatus" class="px-3 py-2 rounded-lg border border-slate-200 text-sm">
+                  <option value="all">Tous les statuts</option>
+                  <option value="available">Disponibles</option>
+                  <option value="sold">Vendues</option>
+                </select>
+                <button id="addPropertyBtn" class="px-4 py-2 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">Ajouter un bien</button>
+              </div>
+            </div>
+
+            <div class="mt-4 overflow-x-auto">
+              <table class="min-w-full text-sm">
+                <thead>
+                  <tr class="text-left text-slate-600">
+                    <th class="py-3 pr-4">Titre</th>
+                    <th class="py-3 pr-4">Lieu</th>
+                    <th class="py-3 pr-4">Prix (€)</th>
+                    <th class="py-3 pr-4">Médias</th>
+                    <th class="py-3 pr-4">Statut</th>
+                    <th class="py-3 pr-4">Créé</th>
+                    <th class="py-3 pr-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="listingsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="lg:col-span-1">
+          <div class="rounded-2xl p-6 bg-white shadow-soft h-full">
+            <div class="flex items-center justify-between">
+              <h3 class="text-lg font-semibold text-slate-900">Notifications</h3>
+              <button id="clearNotifs" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-sm">Tout effacer</button>
+            </div>
+            <div id="notifList" class="mt-4 space-y-3 max-h-[420px] overflow-auto"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sales -->
+      <div class="mt-6 rounded-2xl p-6 bg-white shadow-soft">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-slate-900">Ventes</h3>
+        </div>
+        <div class="mt-4 overflow-x-auto">
+          <table class="min-w-full text-sm">
+            <thead>
+              <tr class="text-left text-slate-600">
+                <th class="py-3 pr-4">Bien</th>
+                <th class="py-3 pr-4">Prix de vente (€)</th>
+                <th class="py-3 pr-4">Fee (0,2%)</th>
+                <th class="py-3 pr-4">Date</th>
+              </tr>
+            </thead>
+            <tbody id="salesTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Étape 4: Publication (Formulaire avancé – Démo) -->
+  <div id="addModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative max-w-2xl mx-auto mt-10 md:mt-16 px-4">
+      <div class="rounded-2xl bg-white shadow-soft overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-semibold text-slate-900">Ajouter un bien (démo)</h3>
+            <p class="text-xs text-slate-500">Enregistrement local + horodatage auto. Google Sheets sera branché plus tard.</p>
+          </div>
+          <button id="closeAdd" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <form id="formAdd" class="px-6 py-5 space-y-5">
+          <div class="grid md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Titre</label>
+              <input type="text" name="title" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="Ex: T3 lumineux proche centre" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Prix (€)</label>
+              <input type="number" name="price" min="0" step="1000" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="Ex: 325000" required>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Lieu</label>
+              <select name="location" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
+                <option value="">Sélectionner</option>
+                <option>Marseille</option>
+                <option>Nice</option>
+                <option>Paris</option>
+                <option>Lyon</option>
+                <option>Bordeaux</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Statut</label>
+              <select name="status" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
+                <option value="available">Disponible</option>
+                <option value="sold">Vendu</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Description</label>
+            <textarea name="description" rows="4" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="Décrivez les points forts, rénovation, équipements, etc."></textarea>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-2">Images (aperçu – démo)</label>
+            <div id="dropzone" class="dropzone-dashed rounded-xl p-4 bg-slate-50 text-slate-600">
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-sm">
+                  Glissez-déposez des images ici, ou
+                  <button type="button" id="chooseFiles" class="text-violet-700 font-medium underline underline-offset-2">cliquez pour choisir</button>
+                  <div class="text-xs text-slate-500 mt-1">Jusqu’à 5 images, aperçu immédiat (non envoyé).</div>
+                </div>
+                <input id="fileInput" type="file" accept="image/*" multiple class="hidden">
+                <div id="imageCount" class="text-xs px-2 py-1 rounded-md bg-white border border-slate-200">0 sélectionnée(s)</div>
+              </div>
+              <div id="thumbs" class="mt-4 grid grid-cols-3 sm:grid-cols-5 gap-3"></div>
+            </div>
+          </div>
+
+          <div class="pt-1 flex items-center gap-2">
+            <button type="submit" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">Publier</button>
+            <button type="button" id="cancelAdd" class="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">Annuler</button>
+          </div>
+
+          <p class="text-xs text-slate-500">
+            Sheet Properties (prévu) : ID, UserID, Title, Price, Status, Timestamp, Description, Location, Images
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 5: Modules Premium -->
+  <section id="premium" class="section bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Modules Premium</h2>
+          <p class="mt-2 text-slate-600">Améliorez votre visibilité et votre performance. Activation en 1 clic (démo).</p>
+        </div>
+        <span class="px-3 py-1.5 text-xs rounded-full bg-amber-100 text-amber-800 font-semibold">Paiement démo – pas de débit réel</span>
+      </div>
+
+      <div class="mt-6 rounded-2xl p-6 bg-slate-50 border border-slate-200">
+        <h3 class="text-slate-900 font-semibold">Mes modules</h3>
+        <div id="myModules" class="mt-3 flex flex-wrap gap-2 text-sm text-slate-700"></div>
+      </div>
+
+      <div id="modulesGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
+
+      <p class="text-xs text-slate-500 mt-6">
+        Remarque: dans la version connectée, les activations seront enregistrées dans Google Sheets et la facturation sera gérée par Stripe. Ici, tout est simulé.
+      </p>
+    </div>
+  </section>
+
+  <!-- Checkout Modal (Démo) -->
+  <div id="checkoutModal" class="fixed inset-0 z-50 hidden">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative max-w-lg mx-auto mt-24 px-4">
+      <div class="rounded-2xl bg-white shadow-soft overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-slate-900">Activer un module (démo)</h3>
+          <button id="closeCheckout" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
+            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <div class="px-6 py-5 space-y-4">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="text-slate-900 font-semibold" id="coTitle">—</div>
+              <div class="text-sm text-slate-600" id="coDesc">—</div>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-extrabold text-slate-900" id="coPrice">—</div>
+              <div class="text-xs text-slate-500">HT • renouvellement mensuel (démo)</div>
+            </div>
+          </div>
+
+          <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
+            <div class="text-sm text-slate-700">Détails du module</div>
+            <ul id="coFeatures" class="mt-2 text-sm text-slate-600 list-disc pl-5"></ul>
+          </div>
+
+          <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">
+            Démo uniquement – aucun paiement réel. Le bouton Stripe ouvre un lien officiel en nouvel onglet sans rien acheter.
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2 pt-1">
+            <button id="btnStripe" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-slate-900 hover:opacity-95 btn">Ouvrir Stripe (démo)</button>
+            <button id="btnSimulate" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient hover:opacity-95 btn">Simuler le paiement</button>
+            <button id="btnCancelCheckout" class="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Étape 6: Ventes & Fees (Analytique – Démo) -->
+  <section id="analytics" class="section bg-white border-t border-white/60">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Ventes & Fees</h2>
+          <p class="mt-2 text-slate-600">Analyse de vos ventes et du fee 0,2%. Export CSV inclus (démo).</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="rangeSelect" class="px-3 py-2 rounded-lg border border-slate-200 text-sm">
+            <option value="30">30 jours</option>
+            <option value="90" selected>90 jours</option>
+            <option value="365">12 mois</option>
+          </select>
+          <select id="groupSelect" class="px-3 py-2 rounded-lg border border-slate-200 text-sm">
+            <option value="month" selected>Par mois</option>
+            <option value="week">Par semaine</option>
+          </select>
+          <button id="btnCSV" class="px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-sm">Exporter CSV</button>
+          <button id="btnSheets" class="px-3 py-2 rounded-lg bg-slate-900 text-white hover:opacity-95 text-sm">Ouvrir Google Sheets</button>
+          <button id="btnAddDemoSales" class="px-3 py-2 rounded-lg bg-localeo-gradient text-white hover:opacity-95 text-sm">Ajouter ventes démo</button>
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Nombre de ventes</div>
+          <div id="kpiCount" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Montant vendu (€)</div>
+          <div id="kpiSum" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Fees 0,2% (€)</div>
+          <div id="kpiFee" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+        <div class="rounded-2xl p-5 bg-white shadow-soft">
+          <div class="text-sm text-slate-600">Prix moyen (€)</div>
+          <div id="kpiAvg" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="mt-8 grid lg:grid-cols-2 gap-6">
+        <div class="rounded-2xl p-6 bg-white shadow-soft">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-slate-900">Courbe des ventes</h3>
+            <span class="text-xs px-2 py-1 rounded-md bg-slate-50 border border-slate-200">Somme par période</span>
+          </div>
+          <div class="mt-4">
+            <svg id="chartSales" viewBox="0 0 700 300" class="w-full h-auto"></svg>
+          </div>
+        </div>
+        <div class="rounded-2xl p-6 bg-white shadow-soft">
+          <div class="flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-slate-900">Fees (0,2%)</h3>
+            <span class="text-xs px-2 py-1 rounded-md bg-slate-50 border border-slate-200">Somme par période</span>
+          </div>
+          <div class="mt-4">
+            <svg id="chartFees" viewBox="0 0 700 300" class="w-full h-auto"></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fee calculator -->
+      <div class="mt-8 rounded-2xl p-6 bg-white shadow-soft">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-slate-900">Calculateur de fee</h3>
+          <span class="text-xs px-2 py-1 rounded-md bg-violet-50 text-violet-700 border border-violet-100">0,2% du prix de vente</span>
+        </div>
+        <div class="mt-5 grid md:grid-cols-3 gap-4 items-center">
+          <div class="md:col-span-1">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Prix de vente (€)</label>
+            <input id="feeInput" type="number" min="0" step="1000" value="300000" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
+            <input id="feeSlider" type="range" min="50000" max="2000000" step="5000" value="300000" class="mt-3 w-full">
+          </div>
+          <div class="md:col-span-2 grid sm:grid-cols-3 gap-4">
+            <div class="rounded-xl bg-slate-50 p-4">
+              <div class="text-xs text-slate-600">Fee (0,2%)</div>
+              <div id="feeOut" class="mt-1 text-2xl font-extrabold text-slate-900">€ 600</div>
+            </div>
+            <div class="rounded-xl bg-slate-50 p-4">
+              <div class="text-xs text-slate-600">Montant reversé (illustratif)</div>
+              <div id="netOut" class="mt-1 text-2xl font-extrabold text-slate-900">€ 299 400</div>
+            </div>
+            <div class="rounded-xl bg-slate-50 p-4">
+              <div class="text-xs text-slate-600">Fee par tranche de 100k</div>
+              <div id="per100kOut" class="mt-1 text-2xl font-extrabold text-slate-900">€ 200</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="analyticsEmpty" class="mt-6 hidden rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+        Aucune vente à analyser. Vendez un bien dans le tableau de bord ou utilisez “Ajouter ventes démo”.
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" class="section border-t border-white/50 bg-white/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-localeo-gradient flex items-center justify-center shadow-card">
+              <span class="text-white font-extrabold text-lg">L</span>
+            </div>
+            <span class="text-xl font-extrabold text-slate-900">Localeo</span>
+          </div>
+          <p id="footerTag" class="mt-3 text-sm text-slate-600">La plateforme immobilière alignée sur vos résultats.</p>
+        </div>
+        <div>
+          <h4 id="footerNavTitle" class="font-semibold text-slate-900">Navigation</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li><a id="fHome" href="#home" data-scroll class="text-slate-600 hover:text-slate-900">Accueil</a></li>
+            <li><a id="fFeatures" href="#features" data-scroll class="text-slate-600 hover:text-slate-900">Fonctionnalités</a></li>
+            <li><a id="fPricing" href="#pricing" data-scroll class="text-slate-600 hover:text-slate-900">Tarifs</a></li>
+            <li><a id="fAuth" href="#auth" data-scroll class="text-slate-600 hover:text-slate-900">Inscription</a></li>
+            <li><a id="fDash" href="#dashboard" data-scroll class="text-slate-600 hover:text-slate-900">Tableau de bord</a></li>
+            <li><a id="fPremium" href="#premium" data-scroll class="text-slate-600 hover:text-slate-900">Modules Premium</a></li>
+            <li><a id="fAnalytics" href="#analytics" data-scroll class="text-slate-600 hover:text-slate-900">Ventes & Fees</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 id="footerResTitle" class="font-semibold text-slate-900">Ressources</h4>
+          <ul class="mt-3 space-y-2 text-sm">
+            <li id="res1" class="text-slate-600">Guides (bientôt)</li>
+            <li id="res2" class="text-slate-600">FAQ (bientôt)</li>
+            <li id="res3" class="text-slate-600">Support</li>
+          </ul>
+        </div>
+        <div>
+          <h4 id="footerContactTitle" class="font-semibold text-slate-900">Contact</h4>
+          <ul class="mt-3 space-y-2 text-sm text-slate-600">
+            <li id="contactEmail">Email: <a href="mailto:hello@localeo.app" class="text-slate-800 hover:underline">hello@localeo.app</a></li>
+            <li id="contactPhone">Tél: +33 1 84 80 00 00</li>
+            <li id="contactAddr">Adresse: Marseille, France</li>
+          </ul>
+          <div class="mt-4">
+            <button id="copyEmail" class="px-3 py-2 rounded-lg bg-white shadow-soft text-sm hover:bg-slate-50">Copier l’email</button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 pt-6 border-t border-white/60 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-slate-500">
+        <span>© <span id="year"></span> Localeo. <span id="rights">Tous droits réservés.</span></span>
+        <div class="flex items-center gap-4">
+          <a id="privacy" href="#" class="hover:text-slate-700">Confidentialité</a>
+          <a id="terms" href="#" class="hover:text-slate-700">Conditions</a>
+          <a id="cookies" href="#" class="hover:text-slate-700">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toasts -->
+  <div id="toasts" class="fixed top-4 right-4 z-[60] space-y-2"></div>
+
+  <script>
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scroll
+    function smoothScrollTo(target) {
+      const el = document.querySelector(target);
+      if (!el) return;
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 88, behavior:'smooth' });
+    }
+    document.querySelectorAll('[data-scroll]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const href = a.getAttribute('href') || '#';
+        if (href.startsWith('#')) {
+          e.preventDefault();
+          smoothScrollTo(href);
+          document.getElementById('mobileMenu')?.classList.add('hidden');
         }
+      });
+    });
 
-        function handleSubmit(event) {
-            const email = document.getElementById('email').value;
-            
-            if (email) {
-                // Show success message
-                document.getElementById('success-message').classList.remove('hidden');
-                
-                // Create mailto link with proper formatting
-                const subject = encodeURIComponent('Nouvelle inscription Localeo');
-                const body = encodeURIComponent(`Nouvelle inscription à la liste d'attente Localeo:\n\nEmail: ${email}\nDate: ${new Date().toLocaleDateString('fr-FR')}\nHeure: ${new Date().toLocaleTimeString('fr-FR')}`);
-                const mailtoLink = `mailto:gillian@amaru-homes.com,gaetan@amaru-homes.com?subject=${subject}&body=${body}`;
-                
-                // Open email client
-                window.location.href = mailtoLink;
-                
-                // Clear form
-                document.getElementById('email').value = '';
-                
-                setTimeout(() => {
-                    document.getElementById('success-message').classList.add('hidden');
-                }, 8000);
-            }
-            
-            event.preventDefault();
-            return false;
-        }
+    // Mobile menu
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileBtn && mobileMenu) mobileBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
 
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
+    // Toast helper
+    const toastWrap = document.getElementById('toasts');
+    function toast(msg, type='ok'){
+      const el = document.createElement('div');
+      el.className = `fade-in px-4 py-3 rounded-xl text-sm text-white shadow-soft ${type==='err'?'bg-red-500':'bg-slate-900'}`;
+      el.textContent = msg;
+      toastWrap.appendChild(el);
+      setTimeout(()=>el.remove(), 3200);
+    }
+
+    // Demo stores
+    const users = []; // {id,name,email,userType}
+    let currentUser = null;
+
+    // Property: {id,userId,title,price,status,timestamp,description,location,images[]}
+    const properties = [];
+    // Sale: {propertyId,title,price,fee,timestamp}
+    const sales = [];
+    // Notifs
+    const notifications = [];
+    // Modules: { [userId]: Set([...]) }
+    const modulesActive = {};
+
+    // Utilities
+    function emailExists(email){ return users.some(u => (u.email||'').trim().toLowerCase() === (email||'').trim().toLowerCase()); }
+    function nowISO(){ return new Date().toISOString(); }
+    function formatDate(ts){ const d = new Date(ts); return d.toLocaleString(); }
+    function euro(n){ return Number(n||0).toLocaleString('fr-FR'); }
+    function initialsFrom(name){ return (name||'U').split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase(); }
+    function labelType(t){ return t==='Agency' ? 'Agence' : t==='Promoter' ? 'Promoteur' : 'Particulier'; }
+    function ensureUserModules(){ if (!currentUser) return; if (!modulesActive[currentUser.id]) modulesActive[currentUser.id] = new Set(); }
+
+    // Header signup -> auth preselect
+    function goToAuthWithType(type){
+      smoothScrollTo('#auth');
+      const input = [...document.querySelectorAll('input[name="userType"]')].find(r => r.value === type);
+      if (input) input.checked = true;
+      toast(`Type: ${type}`);
+    }
+    document.getElementById('headerSignupBtn').addEventListener('click', ()=> goToAuthWithType('Individual'));
+    document.getElementById('heroSignup').addEventListener('click', ()=> goToAuthWithType('Individual'));
+    document.getElementById('pricingSignup').addEventListener('click', ()=> goToAuthWithType('Agency'));
+
+    // Copy email
+    document.getElementById('copyEmail').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText('hello@localeo.app'); toast('Adresse email copiée ✅'); }
+      catch { toast('Impossible de copier. Essayez manuellement.', 'err'); }
+    });
+
+    // Tabs (auth)
+    const tabSignup = document.getElementById('tabSignup');
+    const tabLogin  = document.getElementById('tabLogin');
+    const formSignup = document.getElementById('formSignup');
+    const formLogin  = document.getElementById('formLogin');
+    function setTab(which){
+      const signupActive = which === 'signup';
+      tabSignup.classList.toggle('tab-active', signupActive);
+      tabLogin.classList.toggle('tab-active', !signupActive);
+      formSignup.classList.toggle('opacity-50', !signupActive);
+      formSignup.classList.toggle('pointer-events-none', !signupActive);
+      formLogin.classList.toggle('opacity-50', signupActive);
+      formLogin.classList.toggle('pointer-events-none', signupActive);
+    }
+    tabSignup.addEventListener('click', ()=> setTab('signup'));
+    tabLogin.addEventListener('click',  ()=> setTab('login'));
+    setTab('signup');
+
+    // Prefill agency
+    document.getElementById('prefillAgency').addEventListener('click', ()=>{
+      const agencyRadio = [...document.querySelectorAll('input[name="userType"]')].find(r=>r.value==='Agency');
+      if (agencyRadio) agencyRadio.checked = true;
+      document.getElementById('nameInput').value = 'Agence Riviera Sud';
+      document.getElementById('emailInput').value = 'contact@riviera-sud.fr';
+      toast('Exemple Agence rempli');
+    });
+
+    // Signup submit
+    formSignup.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(formSignup);
+      const userType = fd.get('userType');
+      const name = (fd.get('name')||'').trim();
+      const email = (fd.get('email')||'').trim();
+      if (!userType || !name || !email){ toast('Veuillez remplir tous les champs.', 'err'); return; }
+      if (emailExists(email)){ toast('Email déjà enregistré.', 'err'); return; }
+      const newUser = { id:'U'+Date.now(), name, email, userType };
+      users.push(newUser);
+      currentUser = newUser;
+      ensureUserModules();
+      toast(`Bienvenue ${name} — inscription démo réussie ✅`);
+      formSignup.reset();
+      updateUserUI();
+      ensureUserSeedData();
+      renderDashboard();
+      renderPremium();
+      renderAnalytics();
+      smoothScrollTo('#dashboard');
+    });
+
+    // Login (demo)
+    formLogin.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const fd = new FormData(formLogin);
+      const email = (fd.get('loginEmail')||'').trim();
+      if (!email){ toast('Veuillez saisir votre email.', 'err'); return; }
+      const u = users.find(u => (u.email||'').trim().toLowerCase() === email.toLowerCase());
+      if (!u){ toast('Email inconnu. Créez un compte d’abord.', 'err'); return; }
+      currentUser = u;
+      ensureUserModules();
+      toast('Connexion démo réussie ✅');
+      updateUserUI();
+      ensureUserSeedData();
+      renderDashboard();
+      renderPremium();
+      renderAnalytics();
+      smoothScrollTo('#dashboard');
+    });
+
+    // User UI
+    function updateUserUI(){
+      const badge = document.getElementById('userBadge');
+      const nameTop = document.getElementById('userNameTop');
+      const typeTop = document.getElementById('userTypeTop');
+      const nameDash = document.getElementById('userNameDash');
+      const typeDash = document.getElementById('userTypeDash');
+      const initials = document.getElementById('userInitials');
+      if (currentUser){
+        badge.classList.remove('hidden');
+        nameTop.textContent = currentUser.name;
+        typeTop.textContent = labelType(currentUser.userType);
+        nameDash.textContent = currentUser.name;
+        typeDash.textContent = labelType(currentUser.userType);
+        initials.textContent = initialsFrom(currentUser.name);
+      } else {
+        badge.classList.add('hidden');
+        nameTop.textContent = 'Invité';
+        typeTop.textContent = '—';
+        nameDash.textContent = 'Invité';
+        typeDash.textContent = '—';
+        initials.textContent = 'U';
+      }
+    }
+
+    // Seed data for user
+    function ensureUserSeedData(){
+      if (!currentUser) return;
+      const owned = properties.filter(p => p.userId === currentUser.id);
+      if (owned.length === 0){
+        const demo = [
+          { title:'T2 centre-ville', price:185000, status:'available', location:'Marseille', description:'Bel appartement lumineux proche commodités.', images:[] },
+          { title:'Maison 4 pièces', price:349000, status:'available', location:'Lyon', description:'Jardin et garage, quartier calme.', images:[] },
+          { title:'Villa vue mer', price:780000, status:'sold', location:'Nice', description:'Vue panoramique et piscine.', images:[] }
+        ];
+        demo.forEach(d=>{
+          const id = 'P'+Date.now()+Math.floor(Math.random()*999);
+          properties.push({ id, userId: currentUser.id, title:d.title, price:d.price, status:d.status, timestamp: nowISO(), description:d.description, location:d.location, images:d.images });
+          if (d.status==='sold'){
+            sales.push({ propertyId:id, title:d.title, price:d.price, fee: Math.round(d.price*0.002), timestamp: nowISO() });
+          }
         });
-    </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'972a8dd5b6b29df9',t:'MTc1NTc4Mzc1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        addNotif('3 biens démo ont été ajoutés à votre compte.');
+      }
+    }
+
+    // Dashboard rendering
+    const listingsTable = document.getElementById('listingsTable');
+    const salesTable = document.getElementById('salesTable');
+    const notifList = document.getElementById('notifList');
+    const statListings = document.getElementById('statListings');
+    const statSold = document.getElementById('statSold');
+    const statSalesSum = document.getElementById('statSalesSum');
+    const statNotifs = document.getElementById('statNotifs');
+    const statModules = document.getElementById('statModules');
+
+    function renderDashboard(){
+      renderListings();
+      renderSales();
+      renderNotifs();
+      renderStats();
+      renderAnalytics(); // Étape 6 se met à jour automatiquement
+    }
+
+    function renderStats(){
+      if (!currentUser){
+        statListings.textContent='0'; statSold.textContent='0'; statSalesSum.textContent='0'; statNotifs.textContent=String(notifications.length); statModules.textContent='0';
+        return;
+      }
+      const my = properties.filter(p => p.userId===currentUser.id);
+      const sold = my.filter(p => p.status==='sold');
+      const mySales = sales.filter(s => my.some(p=>p.id===s.propertyId));
+      const sum = mySales.reduce((a,s)=>a+(s.price||0),0);
+      statListings.textContent = String(my.length);
+      statSold.textContent = String(sold.length);
+      statSalesSum.textContent = euro(sum);
+      statNotifs.textContent = String(notifications.length);
+      statModules.textContent = String((modulesActive[currentUser.id]||new Set()).size);
+    }
+
+    function statusBadge(status){
+      const color = status==='sold' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700';
+      const dot = status==='sold' ? 'background:#10B981' : 'background:#94A3B8';
+      return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs ${color}">
+        <span class="status-dot" style="${dot}"></span>${status==='sold'?'Vendu':'Disponible'}
+      </span>`;
+    }
+
+    function renderListings(){
+      listingsTable.innerHTML = '';
+      if (!currentUser){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="7" class="py-6 text-center text-slate-600">Connectez-vous ou créez un compte pour voir vos annonces.</td>`;
+        listingsTable.appendChild(tr);
+        return;
+      }
+      const filter = document.getElementById('filterStatus').value;
+      const my = properties.filter(p => p.userId===currentUser.id && (filter==='all' || p.status===filter));
+      if (my.length===0){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="7" class="py-6 text-center text-slate-600">Aucun bien. Ajoutez votre premier bien !</td>`;
+        listingsTable.appendChild(tr);
+        return;
+      }
+      my.sort((a,b)=> (b.timestamp||'').localeCompare(a.timestamp||''));
+      my.forEach(p=>{
+        const tr = document.createElement('tr');
+        tr.className = 'border-t border-slate-100';
+        tr.innerHTML = `
+          <td class="py-3 pr-4 font-medium text-slate-900">${p.title}</td>
+          <td class="py-3 pr-4">${p.location || '—'}</td>
+          <td class="py-3 pr-4">€ ${euro(p.price)}</td>
+          <td class="py-3 pr-4">${p.images?.length ? `📷 ${p.images.length}` : '—'}</td>
+          <td class="py-3 pr-4">${statusBadge(p.status)}</td>
+          <td class="py-3 pr-4 text-slate-600">${formatDate(p.timestamp)}</td>
+          <td class="py-3 pr-4">
+            <div class="flex items-center gap-2">
+              ${p.status==='available' ? `<button data-id="${p.id}" class="markSold px-3 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-xs">Marquer vendu</button>`:''}
+              <button data-id="${p.id}" class="deleteProp px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs">Supprimer</button>
+            </div>
+          </td>
+        `;
+        listingsTable.appendChild(tr);
+      });
+      document.querySelectorAll('.markSold').forEach(btn=>{
+        btn.addEventListener('click', ()=> markAsSold(btn.getAttribute('data-id')));
+      });
+      document.querySelectorAll('.deleteProp').forEach(btn=>{
+        btn.addEventListener('click', ()=> deleteProperty(btn.getAttribute('data-id')));
+      });
+    }
+
+    function renderSales(){
+      salesTable.innerHTML = '';
+      if (!currentUser){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="4" class="py-6 text-center text-slate-600">Aucune vente (non connecté).</td>`;
+        salesTable.appendChild(tr);
+        return;
+      }
+      const myIds = properties.filter(p=>p.userId===currentUser.id).map(p=>p.id);
+      const mySales = sales.filter(s=> myIds.includes(s.propertyId)).sort((a,b)=> (b.timestamp||'').localeCompare(a.timestamp||''));
+      if (mySales.length===0){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td colspan="4" class="py-6 text-center text-slate-600">Aucune vente encore. Marquez un bien comme “Vendu”.</td>`;
+        salesTable.appendChild(tr);
+        return;
+      }
+      mySales.forEach(s=>{
+        const tr = document.createElement('tr');
+        tr.className = 'border-t border-slate-100';
+        tr.innerHTML = `
+          <td class="py-3 pr-4 font-medium text-slate-900">${s.title}</td>
+          <td class="py-3 pr-4">€ ${euro(s.price)}</td>
+          <td class="py-3 pr-4">€ ${euro(s.fee)}</td>
+          <td class="py-3 pr-4 text-slate-600">${formatDate(s.timestamp)}</td>
+        `;
+        salesTable.appendChild(tr);
+      });
+    }
+
+    function addNotif(text){
+      notifications.unshift({ id:'N'+Date.now(), text, time: nowISO() });
+      renderNotifs();
+      renderStats();
+    }
+
+    function renderNotifs(){
+      notifList.innerHTML = '';
+      if (notifications.length===0){
+        notifList.innerHTML = `<div class="text-slate-600 text-sm">Aucune notification.</div>`;
+        return;
+      }
+      notifications.slice(0,50).forEach(n=>{
+        const div = document.createElement('div');
+        div.className = 'p-3 rounded-lg bg-slate-50 border border-slate-100';
+        div.innerHTML = `<div class="text-sm text-slate-800">${n.text}</div><div class="text-xs text-slate-500 mt-1">${formatDate(n.time)}</div>`;
+        notifList.appendChild(div);
+      });
+    }
+
+    // Actions
+    function markAsSold(id){
+      const p = properties.find(x=>x.id===id && x.userId===currentUser?.id);
+      if (!p) return;
+      if (p.status==='sold'){ toast('Déjà vendu.'); return; }
+      p.status='sold';
+      const fee = Math.round((p.price||0)*0.002);
+      sales.push({ propertyId:p.id, title:p.title, price:p.price, fee, timestamp: nowISO() });
+      addNotif(`Vente confirmée: “${p.title}” à €${euro(p.price)} (fee estimé €${euro(fee)}).`);
+      renderDashboard();
+      toast('Bien marqué comme vendu ✅');
+    }
+
+    function deleteProperty(id){
+      const idx = properties.findIndex(x=>x.id===id && x.userId===currentUser?.id);
+      if (idx<0) return;
+      const [p] = properties.splice(idx,1);
+      addNotif(`Annonce supprimée: “${p.title}”.`);
+      const saleIdx = sales.findIndex(s=>s.propertyId===p.id);
+      if (saleIdx>=0) sales.splice(saleIdx,1);
+      renderDashboard();
+      toast('Annonce supprimée.');
+    }
+
+    // Filters + Add modal
+    document.getElementById('filterStatus').addEventListener('change', renderListings);
+    const addModal = document.getElementById('addModal');
+    const addBtn = document.getElementById('addPropertyBtn');
+    const closeAdd = document.getElementById('closeAdd');
+    const cancelAdd = document.getElementById('cancelAdd');
+    const formAdd = document.getElementById('formAdd');
+
+    function openAdd(){ addModal.classList.remove('hidden'); }
+    function closeAddModal(){ addModal.classList.add('hidden'); resetUploader(); }
+
+    addBtn.addEventListener('click', ()=>{
+      if (!currentUser){ toast('Créez un compte avant d’ajouter un bien.', 'err'); smoothScrollTo('#auth'); return; }
+      openAdd();
+    });
+    closeAdd.addEventListener('click', closeAddModal);
+    cancelAdd.addEventListener('click', closeAddModal);
+    addModal.addEventListener('click', (e)=>{ if (e.target===addModal) closeAddModal(); });
+
+    // Uploader (démo)
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const chooseFiles = document.getElementById('chooseFiles');
+    const thumbs = document.getElementById('thumbs');
+    const imageCount = document.getElementById('imageCount');
+    let selectedImages = []; // dataURLs (max 5)
+
+    chooseFiles?.addEventListener('click', ()=> fileInput.click());
+    fileInput?.addEventListener('change', (e)=> handleFiles(e.target.files));
+
+    ['dragenter','dragover'].forEach(ev=>{
+      dropzone?.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.add('dragover'); });
+    });
+    ['dragleave','drop'].forEach(ev=>{
+      dropzone?.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('dragover'); });
+    });
+    dropzone?.addEventListener('drop', (e)=> {
+      const files = e.dataTransfer.files;
+      handleFiles(files);
+    });
+
+    function handleFiles(files){
+      const list = Array.from(files || []);
+      if (!list.length) return;
+      const remaining = Math.max(0, 5 - selectedImages.length);
+      const toRead = list.slice(0, remaining);
+      if (toRead.length < list.length){ toast('Limite 5 images atteinte (démo).', 'err'); }
+      toRead.forEach(file=>{
+        const reader = new FileReader();
+        reader.onload = (ev)=>{
+          const dataUrl = ev.target.result;
+          selectedImages.push(dataUrl);
+          renderThumbs();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderThumbs(){
+      if (!thumbs) return;
+      thumbs.innerHTML = '';
+      selectedImages.forEach((dataUrl, idx)=>{
+        const div = document.createElement('div');
+        div.className = 'relative w-full pt-[100%] rounded-lg overflow-hidden bg-slate-100';
+        div.style.backgroundImage = `url('${dataUrl}')`;
+        div.style.backgroundSize = 'cover';
+        div.style.backgroundPosition = 'center';
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.className = 'absolute top-1 right-1 w-6 h-6 rounded-full bg-white/90 flex items-center justify-center shadow';
+        rm.innerHTML = '<svg class="w-3.5 h-3.5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
+        rm.addEventListener('click', ()=>{
+          selectedImages.splice(idx,1);
+          renderThumbs();
+        });
+        div.appendChild(rm);
+        thumbs.appendChild(div);
+      });
+      imageCount.textContent = `${selectedImages.length} sélectionnée(s)`;
+    }
+
+    function resetUploader(){
+      selectedImages = [];
+      renderThumbs();
+      if (fileInput) fileInput.value = '';
+    }
+
+    formAdd.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if (!currentUser){ toast('Non connecté.', 'err'); return; }
+      const fd = new FormData(formAdd);
+      const title = (fd.get('title')||'').trim();
+      const price = Number(fd.get('price')||0);
+      const description = (fd.get('description')||'').trim();
+      const location = (fd.get('location')||'').trim();
+      const status = fd.get('status') || 'available';
+      if (!title || !price){ toast('Complétez le titre et le prix.', 'err'); return; }
+      const id = 'P'+Date.now();
+      properties.unshift({
+        id,
+        userId: currentUser.id,
+        title, price, status,
+        timestamp: nowISO(),
+        description, location,
+        images: [...selectedImages]
+      });
+      addNotif(`Nouveau bien ajouté: “${title}” à €${euro(price)}${location? ' • '+location : ''}.`);
+      if (status==='sold'){
+        const fee = Math.round(price*0.002);
+        sales.push({ propertyId:id, title, price, fee, timestamp: nowISO() });
+      }
+      renderDashboard();
+      formAdd.reset();
+      resetUploader();
+      closeAddModal();
+      toast('Bien publié ✅');
+    });
+
+    // PREMIUM MODULES
+    const modulesData = [
+      { key:'priority', name:'Priority Listing', price:19, iconBg:'bg-violet-100 text-violet-700', desc:'Mettez vos annonces en avant sur les pages de résultats.', features:['Badge “Prioritaire” et remontées automatiques','Boost visibilité locale','Contrôle de la durée (30j / 90j)'] },
+      { key:'analytics', name:'Analytics', price:29, iconBg:'bg-sky-100 text-sky-700', desc:'Statistiques avancées pour optimiser vos performances.', features:['Vues, clics, leads en temps réel','Comparatifs par zone et type','Export CSV (bientôt)'] },
+      { key:'marketing', name:'Marketing Tools', price:39, iconBg:'bg-emerald-100 text-emerald-700', desc:'Outils de promotion multi‑canaux pour vos annonces.', features:['Génération visuels sociaux','Campagnes email (démo)','Templates personnalisables'] }
+    ];
+    const modulesGrid = document.getElementById('modulesGrid');
+    const myModules = document.getElementById('myModules');
+
+    function renderPremium(){
+      // badges
+      myModules.innerHTML = '';
+      const actives = currentUser ? Array.from(modulesActive[currentUser.id] || []) : [];
+      if (!currentUser){
+        myModules.innerHTML = '<span class="text-slate-600">Connectez-vous pour gérer vos modules.</span>';
+      } else if (actives.length === 0){
+        myModules.innerHTML = '<span class="px-2 py-1 rounded-md bg-white border border-slate-200">Aucun module actif</span>';
+      } else {
+        actives.forEach(k=>{
+          const m = modulesData.find(x=>x.key===k);
+          const badge = document.createElement('span');
+          badge.className = 'px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200';
+          badge.textContent = m ? `${m.name}` : k;
+          myModules.appendChild(badge);
+        });
+      }
+
+      // cards
+      modulesGrid.innerHTML = '';
+      modulesData.forEach(m=>{
+        const isActive = currentUser && modulesActive[currentUser.id]?.has(m.key);
+        const card = document.createElement('div');
+        card.className = 'relative rounded-2xl p-6 bg-white shadow-soft hover-rise';
+        card.innerHTML = `
+          ${isActive ? '<div class="ribbon">ACTIF</div>' : ''}
+          <div class="w-12 h-12 rounded-xl ${m.iconBg} flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4-9 4-9-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 7v10l-9 4-9-4V7"/>
+            </svg>
+          </div>
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 class="font-semibold text-slate-900">${m.name}</h3>
+              <p class="text-sm text-slate-600 mt-1">${m.desc}</p>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl font-extrabold text-slate-900">€${m.price}<span class="text-sm font-semibold text-slate-500">/mois</span></div>
+              <div class="text-xs text-slate-500">HT</div>
+            </div>
+          </div>
+          <ul class="mt-4 space-y-2 text-sm text-slate-700">
+            ${m.features.map(f=>`<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>${f}</li>`).join('')}
+          </ul>
+          <div class="mt-5 flex gap-2">
+            ${isActive
+              ? `<button data-key="${m.key}" class="btnManage flex-1 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200">Gérer</button>
+                 <button data-key="${m.key}" class="btnDeactivate px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50">Désactiver</button>`
+              : `<button data-key="${m.key}" class="btnActivate flex-1 px-4 py-2 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95">Activer le module</button>`
+            }
+          </div>
+        `;
+        modulesGrid.appendChild(card);
+      });
+
+      // Bind actions
+      modulesGrid.querySelectorAll('.btnActivate').forEach(b=>{
+        b.addEventListener('click', ()=> startCheckout(b.getAttribute('data-key')));
+      });
+      modulesGrid.querySelectorAll('.btnDeactivate').forEach(b=>{
+        b.addEventListener('click', ()=> deactivateModule(b.getAttribute('data-key')));
+      });
+      modulesGrid.querySelectorAll('.btnManage').forEach(b=>{
+        b.addEventListener('click', ()=> toast(`Ouverture du centre de gestion (${b.getAttribute('data-key')}) – démo`));
+      });
+    }
+
+    // Checkout flow (demo)
+    const checkoutModal = document.getElementById('checkoutModal');
+    const closeCheckout = document.getElementById('closeCheckout');
+    const btnCancelCheckout = document.getElementById('btnCancelCheckout');
+    const btnStripe = document.getElementById('btnStripe');
+    const btnSimulate = document.getElementById('btnSimulate');
+    let checkoutKey = null;
+
+    function openCheckout(){ checkoutModal.classList.remove('hidden'); }
+    function closeCheckoutModal(){ checkoutModal.classList.add('hidden'); checkoutKey = null; }
+
+    closeCheckout.addEventListener('click', closeCheckoutModal);
+    btnCancelCheckout.addEventListener('click', closeCheckoutModal);
+    checkoutModal.addEventListener('click', (e)=>{ if (e.target===checkoutModal) closeCheckoutModal(); });
+
+    function startCheckout(key){
+      if (!currentUser){ toast('Connectez-vous pour activer un module.', 'err'); smoothScrollTo('#auth'); return; }
+      ensureUserModules();
+      checkoutKey = key;
+      const m = modulesData.find(x=>x.key===key);
+      if (!m) return;
+      document.getElementById('coTitle').textContent = m.name;
+      document.getElementById('coDesc').textContent = m.desc;
+      document.getElementById('coPrice').textContent = `€${m.price}/mois`;
+      const coFeatures = document.getElementById('coFeatures');
+      coFeatures.innerHTML = m.features.map(f=>`<li>${f}</li>`).join('');
+      openCheckout();
+    }
+
+    btnStripe.addEventListener('click', ()=>{
+      window.open('https://stripe.com/payments', '_blank', 'noopener,noreferrer');
+      toast('Stripe ouvert dans un nouvel onglet (démo).');
+    });
+
+    btnSimulate.addEventListener('click', ()=>{
+      if (!checkoutKey || !currentUser) return;
+      modulesActive[currentUser.id].add(checkoutKey);
+      addNotif(`Module activé: ${modulesData.find(m=>m.key===checkoutKey)?.name || checkoutKey}.`);
+      renderPremium();
+      renderStats();
+      closeCheckoutModal();
+      toast('Activation simulée ✅');
+    });
+
+    function deactivateModule(key){
+      if (!currentUser){ toast('Non connecté.', 'err'); return; }
+      ensureUserModules();
+      modulesActive[currentUser.id].delete(key);
+      addNotif(`Module désactivé: ${modulesData.find(m=>m.key===key)?.name || key}.`);
+      renderPremium();
+      renderStats();
+      toast('Module désactivé.');
+    }
+
+    // Live demo simulation
+    const liveToggle = document.getElementById('liveToggle');
+    let liveTimer = null;
+
+    function startLive(){
+      if (liveTimer) clearInterval(liveTimer);
+      liveTimer = setInterval(()=>{
+        if (!currentUser) return;
+        const my = properties.filter(p=>p.userId===currentUser.id);
+        if (my.length===0) return;
+        const dice = Math.random();
+        if (dice < 0.5){
+          const pick = my[Math.floor(Math.random()*my.length)];
+          addNotif(`Votre bien “${pick.title}” a reçu une nouvelle visite.`);
+        } else if (dice < 0.75){
+          const pick = my[Math.floor(Math.random()*my.length)];
+          const isAnalytics = modulesActive[currentUser.id]?.has('analytics');
+          addNotif(`${isAnalytics ? 'Analytics' : 'Suggestion'}: ${pick.title} performe ${isAnalytics ? '+12% cette semaine' : 'mieux à -1,5%'} (démo).`);
+        } else {
+          const avail = my.filter(p=>p.status==='available');
+          if (avail.length>0 && Math.random()<0.25){ markAsSold(avail[0].id); }
+        }
+        renderStats();
+      }, 4500);
+    }
+    function stopLive(){ if (liveTimer) clearInterval(liveTimer); liveTimer = null; }
+    liveToggle.addEventListener('change', ()=> liveToggle.checked ? startLive() : stopLive());
+    startLive();
+
+    // Refresh (démo)
+    document.getElementById('refreshBtn').addEventListener('click', ()=>{
+      if (!currentUser){ toast('Non connecté.', 'err'); return; }
+      addNotif('Données rafraîchies (démo).');
+      renderDashboard();
+    });
+
+    // ÉTAPE 6 – ANALYTIQUE
+    const rangeSelect = document.getElementById('rangeSelect');
+    const groupSelect = document.getElementById('groupSelect');
+    const chartSales = document.getElementById('chartSales');
+    const chartFees = document.getElementById('chartFees');
+    const kpiCount = document.getElementById('kpiCount');
+    const kpiSum = document.getElementById('kpiSum');
+    const kpiFee = document.getElementById('kpiFee');
+    const kpiAvg = document.getElementById('kpiAvg');
+    const analyticsEmpty = document.getElementById('analyticsEmpty');
+
+    rangeSelect.addEventListener('change', renderAnalytics);
+    groupSelect.addEventListener('change', renderAnalytics);
+
+    // Group helpers
+    function startOfWeek(d){
+      const date = new Date(d);
+      const day = (date.getDay()+6)%7; // Monday=0
+      date.setDate(date.getDate()-day);
+      date.setHours(0,0,0,0);
+      return date;
+    }
+    function startOfMonth(d){
+      const date = new Date(d);
+      date.setDate(1); date.setHours(0,0,0,0);
+      return date;
+    }
+    function addDays(d, n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+    function addMonths(d, n){ const x=new Date(d); x.setMonth(x.getMonth()+n); return x; }
+
+    function buildBuckets(rangeDays, groupBy){
+      const end = new Date(); end.setHours(23,59,59,999);
+      const start = new Date(); start.setDate(start.getDate()-rangeDays+1); start.setHours(0,0,0,0);
+      const buckets = [];
+      if (groupBy==='week'){
+        let cur = startOfWeek(start);
+        while (cur <= end){
+          const next = addDays(cur,7);
+          buckets.push({ key: cur.toISOString(), from: new Date(cur), to: new Date(next), label: `S${getISOWeek(cur)} ${String(cur.getFullYear()).slice(-2)}`, sales:0, fee:0, count:0 });
+          cur = next;
+        }
+      } else {
+        let cur = startOfMonth(start);
+        while (cur <= end){
+          const next = startOfMonth(addMonths(cur,1));
+          buckets.push({ key: cur.toISOString(), from: new Date(cur), to: new Date(next), label: cur.toLocaleString('fr-FR',{month:'short', year:'2-digit'}), sales:0, fee:0, count:0 });
+          cur = next;
+        }
+      }
+      return { buckets, start, end };
+    }
+    function getISOWeek(date) {
+      const d = new Date(date.getTime());
+      d.setHours(0,0,0,0);
+      d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+      const week1 = new Date(d.getFullYear(), 0, 4);
+      return 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+    }
+
+    function getUserSalesInRange(start, end){
+      if (!currentUser) return [];
+      const myIds = properties.filter(p=>p.userId===currentUser.id).map(p=>p.id);
+      return sales.filter(s=> myIds.includes(s.propertyId) && new Date(s.timestamp) >= start && new Date(s.timestamp) <= end);
+    }
+
+    function renderAnalytics(){
+      // Guard: not logged
+      if (!currentUser){
+        chartSales.innerHTML = ''; chartFees.innerHTML = '';
+        kpiCount.textContent='0'; kpiSum.textContent='0'; kpiFee.textContent='0'; kpiAvg.textContent='0';
+        analyticsEmpty.classList.remove('hidden');
+        return;
+      }
+      const rangeDays = parseInt(rangeSelect.value || '90', 10);
+      const groupBy = groupSelect.value || 'month';
+      const { buckets, start, end } = buildBuckets(rangeDays, groupBy);
+      const rows = getUserSalesInRange(start, end);
+
+      // Fill buckets
+      rows.forEach(r=>{
+        const t = new Date(r.timestamp);
+        for (const b of buckets){
+          if (t >= b.from && t < b.to){ b.sales += r.price||0; b.fee += r.fee||0; b.count += 1; break; }
+        }
+      });
+
+      // KPIs
+      const totalCount = rows.length;
+      const totalSales = rows.reduce((a,r)=>a+(r.price||0),0);
+      const totalFees  = rows.reduce((a,r)=>a+(r.fee||0),0);
+      const avgPrice = totalCount ? Math.round(totalSales/totalCount) : 0;
+      kpiCount.textContent = String(totalCount);
+      kpiSum.textContent = euro(totalSales);
+      kpiFee.textContent = euro(totalFees);
+      kpiAvg.textContent = euro(avgPrice);
+
+      const hasData = buckets.some(b=>b.sales>0 || b.fee>0);
+      analyticsEmpty.classList.toggle('hidden', hasData);
+
+      // Draw charts
+      drawLineChart(chartSales, buckets.map(b=>b.sales), buckets.map(b=>b.label), { color:'#7C3AED', fill:'rgba(124,58,237,0.12)', yLabel:'€ ventes' });
+      drawBarChart(chartFees,  buckets.map(b=>b.fee),   buckets.map(b=>b.label), { color:'#22D3EE', yLabel:'€ fees' });
+    }
+
+    function drawLineChart(svgEl, values, labels, opts){
+      const W=700, H=300, PADL=48, PADR=16, PADT=20, PADB=36;
+      const maxV = Math.max(0, ...values);
+      const yMax = maxV === 0 ? 1 : Math.ceil(maxV/ (Math.pow(10,String(Math.floor(maxV)).length-1)) ) * (Math.pow(10,String(Math.floor(maxV)).length-1));
+      const n = values.length || 1;
+      const X = i => PADL + (n===1? 0 : (i*(W-PADL-PADR)/(n-1)));
+      const Y = v => H-PADB - (v*(H-PADT-PADB)/yMax);
+
+      let grid = '';
+      const steps = 4;
+      for (let i=0;i<=steps;i++){
+        const y = PADT + (i*(H-PADT-PADB)/steps);
+        const val = Math.round(yMax*(1-i/steps));
+        grid += `<line x1="${PADL}" y1="${y}" x2="${W-PADR}" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`+
+                `<text x="${PADL-8}" y="${y+4}" text-anchor="end" fill="#64748b" font-size="11">€ ${euro(val)}</text>`;
+      }
+
+      const pts = values.map((v,i)=> `${X(i)},${Y(v)}`).join(' ');
+      const areaPts = `M ${X(0)} ${Y(values[0]||0)} ` + values.map((v,i)=> `L ${X(i)} ${Y(v)}`).join(' ') + ` L ${X(n-1)} ${H-PADB} L ${X(0)} ${H-PADB} Z`;
+
+      let xlabels = '';
+      const skip = Math.ceil(labels.length/8);
+      labels.forEach((lab,i)=>{
+        const x = X(i);
+        if (i%skip===0 || i===labels.length-1){
+          xlabels += `<text x="${x}" y="${H-12}" text-anchor="middle" fill="#64748b" font-size="11">${lab}</text>`;
+          xlabels += `<line x1="${x}" y1="${H-PADB}" x2="${x}" y2="${H-PADB+6}" stroke="#cbd5e1"/>`;
+        }
+      });
+
+      svgEl.innerHTML = `
+        <rect x="0" y="0" width="${W}" height="${H}" fill="white"/>
+        <g>
+          ${grid}
+          <polyline points="${pts}" fill="none" stroke="${opts.color}" stroke-width="2.5"/>
+          <path d="${areaPts}" fill="${opts.fill}"/>
+        </g>
+        <g>${xlabels}</g>
+      `;
+    }
+
+    function drawBarChart(svgEl, values, labels, opts){
+      const W=700, H=300, PADL=48, PADR=16, PADT=20, PADB=36;
+      const maxV = Math.max(0, ...values);
+      const yMax = maxV === 0 ? 1 : Math.ceil(maxV/ (Math.pow(10,String(Math.floor(maxV)).length-1)) ) * (Math.pow(10,String(Math.floor(maxV)).length-1));
+      const n = values.length || 1;
+      const cw = (W-PADL-PADR) / n * 0.7;
+      const X = i => PADL + (i*(W-PADL-PADR)/n) + ((W-PADL-PADR)/n - cw)/2;
+      const Y = v => H-PADB - (v*(H-PADT-PADB)/yMax);
+
+      let grid = '';
+      const steps = 4;
+      for (let i=0;i<=steps;i++){
+        const y = PADT + (i*(H-PADT-PADB)/steps);
+        const val = Math.round(yMax*(1-i/steps));
+        grid += `<line x1="${PADL}" y1="${y}" x2="${W-PADR}" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`+
+                `<text x="${PADL-8}" y="${y+4}" text-anchor="end" fill="#64748b" font-size="11">€ ${euro(val)}</text>`;
+      }
+
+      let bars = '';
+      for (let i=0;i<n;i++){
+        const h = (H-PADT-PADB) * (values[i]||0) / yMax;
+        const x = X(i), y = H-PADB - h;
+        bars += `<rect x="${x}" y="${y}" width="${cw}" height="${h}" fill="${opts.color}" rx="4"/>`;
+      }
+
+      let xlabels = '';
+      const skip = Math.ceil(labels.length/8);
+      labels.forEach((lab,i)=>{
+        const x = PADL + (i*(W-PADL-PADR)/n) + ((W-PADL-PADR)/n)/2;
+        if (i%skip===0 || i===labels.length-1){
+          xlabels += `<text x="${x}" y="${H-12}" text-anchor="middle" fill="#64748b" font-size="11">${lab}</text>`;
+          xlabels += `<line x1="${x}" y1="${H-PADB}" x2="${x}" y2="${H-PADB+6}" stroke="#cbd5e1"/>`;
+        }
+      });
+
+      svgEl.innerHTML = `
+        <rect x="0" y="0" width="${W}" height="${H}" fill="white"/>
+        <g>${grid}${bars}</g>
+        <g>${xlabels}</g>
+      `;
+    }
+
+    // CSV Export
+    document.getElementById('btnCSV').addEventListener('click', ()=>{
+      if (!currentUser){ toast('Connectez-vous d’abord.', 'err'); return; }
+      const myIds = properties.filter(p=>p.userId===currentUser.id).map(p=>p.id);
+      const mySales = sales.filter(s=> myIds.includes(s.propertyId));
+      if (mySales.length===0){ toast('Aucune vente à exporter.', 'err'); return; }
+      const rows = [['PropertyID','Title','Price','Fee','Timestamp']];
+      mySales.forEach(s=> rows.push([s.propertyId, s.title, s.price, s.fee, s.timestamp]));
+      const csv = rows.map(r=> r.map(x=>{
+        const v = (''+x).replace(/"/g,'""');
+        return `"${v}"`;
+      }).join(',')).join('\n');
+      const blob = new Blob([csv], {type:'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'localeo_sales.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast('CSV téléchargé ✅');
+    });
+
+    // Open Sheets
+    document.getElementById('btnSheets').addEventListener('click', ()=>{
+      window.open('https://docs.google.com/spreadsheets/', '_blank', 'noopener,noreferrer');
+    });
+
+    // Add demo sales
+    document.getElementById('btnAddDemoSales').addEventListener('click', ()=>{
+      if (!currentUser){ toast('Connectez-vous d’abord.', 'err'); return; }
+      const toAdd = 2;
+      for (let i=0;i<toAdd;i++){
+        const id = 'P'+Date.now()+Math.floor(Math.random()*999);
+        const price = 150000 + Math.floor(Math.random()*700000);
+        const title = 'Vente démo #' + (Math.floor(Math.random()*900)+100);
+        properties.push({ id, userId: currentUser.id, title, price, status:'sold', timestamp: nowISO(), description:'(démo)', location:'—', images:[] });
+        sales.push({ propertyId:id, title, price, fee:Math.round(price*0.002), timestamp: nowISO() });
+      }
+      addNotif(`${toAdd} ventes démo ajoutées.`);
+      renderDashboard();
+      renderAnalytics();
+      toast('Ventes démo ajoutées ✅');
+    });
+
+    // Fee calculator
+    const feeInput = document.getElementById('feeInput');
+    const feeSlider = document.getElementById('feeSlider');
+    const feeOut = document.getElementById('feeOut');
+    const netOut = document.getElementById('netOut');
+    const per100kOut = document.getElementById('per100kOut');
+
+    function updateFeeCalc(val){
+      const price = Math.max(0, Number(val)||0);
+      const fee = Math.round(price * 0.002);
+      const net = price - fee;
+      feeOut.textContent = `€ ${euro(fee)}`;
+      netOut.textContent = `€ ${euro(net)}`;
+      per100kOut.textContent = `€ ${euro(Math.round(100000*0.002))}`;
+    }
+    feeInput.addEventListener('input', (e)=>{ feeSlider.value = e.target.value; updateFeeCalc(e.target.value); });
+    feeSlider.addEventListener('input', (e)=>{ feeInput.value = e.target.value; updateFeeCalc(e.target.value); });
+    updateFeeCalc(feeInput.value);
+
+    // Init UI
+    (function init(){
+      updateUserUI();
+      renderDashboard();
+      renderPremium();
+      renderAnalytics();
+    })();
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98181d62316017f1',t:'MTc1ODI3NDc1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
