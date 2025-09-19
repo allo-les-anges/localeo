@@ -2,8 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Localeo – Étapes 1–6 (Démo)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Localeo — Mobile Mock-up (Swipe)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <script>
@@ -11,1667 +11,892 @@
       theme: {
         extend: {
           fontFamily: { inter: ['Inter','system-ui','-apple-system','Segoe UI','Roboto','Helvetica','Arial','sans-serif'] },
-          colors: { localeo: { purple:'#7C3AED', pink:'#F472B6', blue:'#22D3EE', ink:'#0F172A' } },
-          backgroundImage: {
-            'localeo-gradient': 'linear-gradient(135deg, #7C3AED 0%, #F472B6 45%, #22D3EE 100%)',
-            'soft': 'radial-gradient(1200px 600px at 10% -10%, rgba(124,58,237,0.10), transparent 60%), radial-gradient(1000px 500px at 110% 10%, rgba(34,211,238,0.12), transparent 60%)'
+          colors: {
+            brand: { ink:'#0F172A', mint:'#22C55E', mintSoft:'#E8F8EE', violet:'#7C3AED' }
           },
-          boxShadow: { soft:'0 10px 30px rgba(15,23,42,0.08)', card:'0 12px 30px rgba(124,58,237,0.08)' }
+          boxShadow: { soft:'0 10px 30px rgba(15,23,42,0.08)', card:'0 12px 30px rgba(124,58,237,0.12)' }
         }
       }
     }
   </script>
   <style>
-    html,body{font-family:'Inter',sans-serif}
-    .glass{background:rgba(255,255,255,0.65);backdrop-filter:blur(10px)}
-    .hover-rise{transition:transform .25s ease, box-shadow .25s ease}
-    .hover-rise:hover{transform:translateY(-4px)}
-    .section{scroll-margin-top:96px}
-    .btn{transition:all .2s ease}
-    .fade-in{animation:fade .45s ease both}
-    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    .tab-active{background:linear-gradient(135deg,#7C3AED 0%,#F472B6 45%,#22D3EE 100%); color:white}
-    .status-dot{width:10px;height:10px;border-radius:9999px;display:inline-block;margin-right:6px}
-    .dropzone-dashed{border:2px dashed #e2e8f0}
-    .dropzone-dashed.dragover{border-color:#7C3AED; background-color:#F5F3FF}
-    .ribbon {position:absolute; top:12px; right:-6px; transform:rotate(45deg); background:#10B981; color:white; font-size:11px; padding:2px 26px;}
+    html,body{font-family:'Inter',sans-serif; background:#f6f8fb}
+    .app {max-width:420px; margin:0 auto}
+    .safe-bottom{padding-bottom:env(safe-area-inset-bottom)}
+    .safe-top{padding-top:env(safe-area-inset-top)}
+    .deck{position:relative; perspective:1000px; height:68vh; min-height:520px}
+    .card{position:absolute; inset:0; border-radius:24px; background:#fff; box-shadow:0 16px 40px rgba(15,23,42,.15); touch-action:pan-y; user-select:none; will-change:transform}
+    .card.next{transform:scale(.98) translateY(10px); opacity:.9}
+    .like, .nope{position:absolute; top:16px; padding:6px 12px; font-weight:800; border-radius:12px; letter-spacing:.06em; pointer-events:none; transform:rotate(-8deg); opacity:0}
+    .like{left:16px; color:#10B981; border:2px solid #10B981; background:rgba(16,185,129,.08)}
+    .nope{right:16px; color:#EF4444; border:2px solid #EF4444; background:rgba(239,68,68,.08); transform:rotate(8deg)}
+    .imgBlock{border-radius:18px; overflow:hidden; background:linear-gradient(135deg,#e9eef9,#f5f0ff)}
+    .badge{font-size:11px; padding:4px 8px; border-radius:9999px; background:#F1F5F9; color:#334155; font-weight:600}
+    .tab-active{color:#0F172A}
+    .btn{transition:transform .15s ease, opacity .15s ease}
+    .btn:active{transform:scale(.96)}
+    .modal{position:fixed; inset:0; display:none; z-index:50}
+    .modal.show{display:block}
+    .mapWrap{height:60vh; min-height:440px}
+    .dropzone{border:2px dashed #e2e8f0}
+    .dropzone.dragover{border-color:#7C3AED; background:#F5F3FF}
+    .shadow-top{box-shadow:0 -8px 24px rgba(15,23,42,.08)}
   </style>
 </head>
-<body class="min-h-screen text-slate-800 bg-soft">
-  <!-- Header -->
-  <header class="sticky top-0 z-40">
-    <div class="glass shadow-soft">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <a href="#home" data-scroll class="flex items-center gap-3 group">
-          <div class="w-10 h-10 rounded-xl bg-localeo-gradient flex items-center justify-center shadow-card">
-            <span class="text-white font-extrabold text-lg">L</span>
-          </div>
-          <div>
-            <div class="flex items-baseline gap-2">
-              <span class="text-xl font-extrabold text-slate-900">Localeo</span>
-              <span class="px-2 py-0.5 text-[10px] rounded-full bg-slate-900/5 text-slate-600" id="badgeIndustry">Immobilier</span>
-            </div>
-            <span class="text-xs text-slate-500" id="badgeAudience">Agents • Promoteurs • Particuliers</span>
-          </div>
-        </a>
-
-        <nav class="hidden md:flex items-center gap-2">
-          <a id="navHome" href="#home" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Accueil</a>
-          <a id="navFeatures" href="#features" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Fonctionnalités</a>
-          <a id="navPricing" href="#pricing" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Tarifs</a>
-          <a id="navAuth" href="#auth" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Inscription</a>
-          <a id="navDash" href="#dashboard" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Tableau de bord</a>
-          <a id="navPremium" href="#premium" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Modules Premium</a>
-          <a id="navAnalytics" href="#analytics" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Ventes & Fees</a>
-          <a id="navContact" href="#contact" data-scroll class="px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-900/5 btn">Contact</a>
-        </nav>
-
-        <div class="flex items-center gap-2">
-          <div id="userBadge" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white shadow-soft">
-            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span class="text-sm text-slate-700"><span id="userNameTop">Invité</span> • <span id="userTypeTop">—</span></span>
-          </div>
-          <button id="headerSignupBtn" class="hidden sm:inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">
-            <span id="btnHeaderSignup">S’inscrire</span>
-            <svg class="w-4 h-4 opacity-90" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </button>
-          <button id="mobileMenuBtn" class="md:hidden w-10 h-10 rounded-lg bg-white shadow-soft flex items-center justify-center">
-            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
-          </button>
+<body class="app min-h-screen text-slate-800">
+  <!-- Top bar -->
+  <header class="safe-top sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
+    <div class="px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand.violet to-brand.mint flex items-center justify-center shadow-card">
+          <span class="text-white font-extrabold text-sm">L</span>
+        </div>
+        <div class="leading-tight">
+          <div class="font-extrabold text-slate-900 text-base">Localeo</div>
+          <div class="text-[10px] text-slate-500" data-i18n="tagline">Swipe your next home</div>
         </div>
       </div>
-
-      <!-- Mobile menu -->
-      <div id="mobileMenu" class="hidden md:hidden border-t border-white/60">
-        <div class="px-4 py-3 grid gap-2 bg-white/80">
-          <a id="mHome" href="#home" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Accueil</a>
-          <a id="mFeatures" href="#features" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Fonctionnalités</a>
-          <a id="mPricing" href="#pricing" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Tarifs</a>
-          <a id="mAuth" href="#auth" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Inscription</a>
-          <a id="mDash" href="#dashboard" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Tableau de bord</a>
-          <a id="mPremium" href="#premium" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Modules Premium</a>
-          <a id="mAnalytics" href="#analytics" data-scroll class="px-3 py-2 rounded-lg text-slate-700 hover:bg-slate-900/5">Ventes & Fees</a>
+      <div class="flex items-center gap-2">
+        <button id="btnFilters" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-sm btn" title="Filtres">
+          <span data-i18n="filters">Filtres</span>
+        </button>
+        <div class="relative">
+          <button id="btnLang" class="w-9 h-9 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center btn" title="Langue">
+            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="9" stroke-width="1.5"/>
+              <path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18" stroke-width="1.5"/>
+            </svg>
+          </button>
+          <div id="langMenu" class="hidden absolute right-0 mt-2 w-40 bg-white border border-slate-200 rounded-xl shadow-soft p-1">
+            <button data-lang="auto" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-sm">Auto</button>
+            <button data-lang="en" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-sm">English</button>
+            <button data-lang="es" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-sm">Español</button>
+            <button data-lang="fr" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-sm">Français</button>
+            <button data-lang="nl" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-sm">Nederlands</button>
+            <button data-lang="de" class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 text-sm">Deutsch</button>
+          </div>
         </div>
       </div>
     </div>
   </header>
 
-  <!-- Étape 1: Landing -->
-  <section id="home" class="section">
-    <div class="relative">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <div class="grid lg:grid-cols-2 gap-10 items-center">
-          <div class="fade-in">
-            <span id="badgeTop" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white shadow-soft text-sm text-slate-700">
-              <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-              Zéro abonnement • Frais à la vente
-            </span>
-            <h1 class="mt-5 text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight" id="heroTitle">
-              La plateforme qui aligne les intérêts de <span class="bg-localeo-gradient bg-clip-text text-transparent">tous les acteurs</span> de l’immobilier.
-            </h1>
-            <p id="heroSubtitle" class="mt-5 text-lg md:text-xl text-slate-600">
-              Localeo connecte agences, promoteurs et particuliers. Vous payez seulement si vous vendez. Simple, transparent, automatisé.
-            </p>
-            <div class="mt-8 flex flex-col sm:flex-row gap-3">
-              <button id="heroSignup" class="px-6 py-3.5 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">
-                S’inscrire maintenant
-              </button>
-              <a id="btnLearn" href="#features" data-scroll class="px-6 py-3.5 rounded-xl font-semibold text-slate-800 bg-white shadow-soft hover:bg-slate-50 btn">
-                Découvrir les avantages
-              </a>
-            </div>
-            <div class="mt-8 flex items-center gap-4 text-sm text-slate-600">
-              <div class="flex -space-x-2">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-localeo-purple to-localeo-pink border-2 border-white"></div>
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-localeo-blue to-localeo-pink border-2 border-white"></div>
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-localeo-purple to-localeo-blue border-2 border-white"></div>
-              </div>
-              <span id="adoptedBy">Déjà adopté par des équipes locales ambitieuses</span>
-            </div>
-          </div>
-
-          <div class="fade-in">
-            <div class="relative rounded-3xl p-1 bg-localeo-gradient shadow-card">
-              <div class="rounded-2xl bg-white p-6">
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
-                    <div class="w-10 h-10 rounded-lg bg-violet-100 text-violet-700 flex items-center justify-center mb-3">
-                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4-9 4-9-4z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 7v10l-9 4-9-4V7"/>
-                      </svg>
-                    </div>
-                    <h3 id="card1Title" class="font-semibold text-slate-900">Diffusion locale</h3>
-                    <p id="card1Desc" class="text-sm text-slate-600 mt-1">Visibilité ciblée et qualifiée sur votre zone.</p>
-                  </div>
-                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
-                    <div class="w-10 h-10 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center mb-3">
-                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 11V7a4 4 0 118 0v4M5 11h14a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2z"/>
-                      </svg>
-                    </div>
-                    <h3 id="card2Title" class="font-semibold text-slate-900">Zéro risque</h3>
-                    <p id="card2Desc" class="text-sm text-slate-600 mt-1">Frais uniquement si la vente est conclue.</p>
-                  </div>
-                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
-                    <div class="w-10 h-10 rounded-lg bg-pink-100 text-pink-700 flex items-center justify-center mb-3">
-                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 17l6-6 4 4 8-8"/>
-                      </svg>
-                    </div>
-                    <h3 id="card3Title" class="font-semibold text-slate-900">Transparence</h3>
-                    <p id="card3Desc" class="text-sm text-slate-600 mt-1">Traçabilité des ventes et commissions.</p>
-                  </div>
-                  <div class="rounded-xl p-5 bg-slate-50 hover-rise">
-                    <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-3">
-                      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                      </svg>
-                    </div>
-                    <h3 id="card4Title" class="font-semibold text-slate-900">Frais automatisés</h3>
-                    <p id="card4Desc" class="text-sm text-slate-600 mt-1">Calcul à 0,2% déclenché à la vente.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <p id="demoLabel" class="text-xs text-slate-500 mt-3 text-center">Aperçu visuel – démo</p>
-          </div>
+  <!-- Views -->
+  <main class="px-4 pt-4 pb-28">
+    <!-- Onboarding / Profile (Demo, no passwords) -->
+    <section id="viewOnboarding" class="space-y-4">
+      <div class="rounded-2xl p-4 bg-white shadow-soft">
+        <h1 class="text-xl font-extrabold text-slate-900" data-i18n="welcome_title">Bienvenue sur Localeo</h1>
+        <p class="text-slate-600 mt-1 text-sm" data-i18n="welcome_sub">Créez un profil démo et commencez à swiper des biens.</p>
+        <div class="mt-4 grid grid-cols-2 gap-2">
+          <button class="typeBtn px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50" data-type="individual" data-i18n="type_ind">Particulier</button>
+          <button class="typeBtn px-3 py-2 rounded-xl border border-slate-200 hover:bg-slate-50" data-type="agent" data-i18n="type_agent">Agent / Agence</button>
         </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Fee-on-sale -->
-  <section id="features" class="section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-      <div class="max-w-3xl">
-        <h2 id="feeTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900">Modèle “fee-on-sale” pour les agences</h2>
-        <p id="feeSub" class="mt-4 text-slate-600 text-lg">
-          Pas d’abonnement ni de coûts fixes. Les agences ne paient qu’en cas de vente, avec un fee ultra‑compétitif et automatisé.
-        </p>
-      </div>
-      <div class="mt-10 grid md:grid-cols-3 gap-6">
-        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
-          <div class="w-11 h-11 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center mb-4"><span class="text-base font-bold">1</span></div>
-          <h3 id="s1t" class="font-semibold text-slate-900">Publiez vos biens</h3>
-          <p id="s1d" class="text-slate-600 mt-1.5 text-sm">Ajoutez vos annonces et touchez plus d’acheteurs.</p>
-        </div>
-        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
-          <div class="w-11 h-11 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center mb-4"><span class="text-base font-bold">2</span></div>
-          <h3 id="s2t" class="font-semibold text-slate-900">Vendez en confiance</h3>
-          <p id="s2d" class="text-slate-600 mt-1.5 text-sm">Suivi transparent des prospects et transactions.</p>
-        </div>
-        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
-          <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-4"><span class="text-base font-bold">3</span></div>
-          <h3 id="s3t" class="font-semibold text-slate-900">Payez au succès</h3>
-          <p id="s3d" class="text-slate-600 mt-1.5 text-sm">Fee automatique 0,2% déclenché à la vente.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing -->
-  <section id="pricing" class="section">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-      <div class="text-center max-w-3xl mx-auto">
-        <h2 id="pricingTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900">Tarification simple et équitable</h2>
-        <p id="pricingSub" class="mt-4 text-slate-600 text-lg">Pas d’abonnement. Payez uniquement si vous vendez.</p>
-      </div>
-      <div class="mt-10 grid md:grid-cols-3 gap-6">
-        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise">
-          <h3 id="p1t" class="font-semibold text-slate-900">Inscription</h3>
-          <p class="mt-2 text-3xl font-extrabold text-slate-900">0 €</p>
-          <p id="p1d" class="text-slate-600 mt-1">Création de compte gratuite.</p>
-        </div>
-        <div class="rounded-2xl p-6 bg-white shadow-soft hover-rise border-2 border-violet-200">
-          <h3 id="p2t" class="font-semibold text-slate-900">À la vente</h3>
-          <p class="mt-2 text-3xl font-extrabold bg-localeo-gradient bg-clip-text text-transparent">0,2%</p>
-          <p id="p2d" class="text-slate-600 mt-1">Fee automatisé sur le prix de vente.</p>
-          <ul class="mt-4 space-y-2 text-sm text-slate-700">
-            <li id="pl1" class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Facturation transparente</li>
-            <li id="pl2" class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Aucun engagement</li>
-            <li id="pl3" class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>Résiliation à tout moment</li>
-          </ul>
-          <button id="pricingSignup" class="mt-5 w-full px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">S’inscrire</button>
-        </div>
-        <div class="rounded-2xl p-6 bg-white hover-rise shadow-soft">
-          <h3 id="p3t" class="font-semibold text-slate-900">Support</h3>
-          <p id="p3p" class="mt-2 text-3xl font-extrabold text-slate-900">Inclus</p>
-          <p id="p3d" class="text-slate-600 mt-1">Assistance et onboarding.</p>
-        </div>
-      </div>
-      <p id="pricingNote" class="text-center text-sm text-slate-500 mt-6">Les intégrations (Google Sheets/Stripe) seront ajoutées aux étapes suivantes.</p>
-    </div>
-  </section>
-
-  <!-- Étape 2: Inscription / Connexion (Démo) -->
-  <section id="auth" class="section bg-white/70 border-t border-white/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-      <div class="flex items-center justify-between gap-4">
-        <div>
-          <h2 id="authTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900">Créer un compte</h2>
-          <p id="authSub" class="mt-2 text-slate-600">Particulier, Agence ou Promoteur – en toute simplicité.</p>
-        </div>
-        <span id="authBadge" class="px-3 py-1.5 text-xs rounded-full bg-amber-100 text-amber-800 font-semibold">Démo – pas d’authentification réelle</span>
-      </div>
-
-      <div class="mt-8 bg-white rounded-2xl shadow-soft p-2 flex w-full max-w-xl">
-        <button id="tabSignup" class="flex-1 px-4 py-2 rounded-xl font-semibold text-slate-700 tab-active">Inscription</button>
-        <button id="tabLogin" class="flex-1 px-4 py-2 rounded-xl font-semibold text-slate-700">Connexion</button>
-      </div>
-
-      <div class="mt-6 grid lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-1">
-          <div class="rounded-2xl p-6 bg-white shadow-soft">
-            <h3 id="whyTitle" class="font-semibold text-slate-900">Pourquoi Localeo ?</h3>
-            <ul class="mt-3 space-y-2 text-sm text-slate-700">
-              <li id="why1" class="flex gap-2"><span>•</span><span>Zéro abonnement, frais à la vente seulement.</span></li>
-              <li id="why2" class="flex gap-2"><span>•</span><span>Transparence sur les commissions (0,2%).</span></li>
-              <li id="why3" class="flex gap-2"><span>•</span><span>Suivi simple des biens et ventes.</span></li>
-            </ul>
-            <div id="gsNote" class="mt-4 rounded-2xl bg-slate-50 p-4 text-xs text-slate-600">
-              Google Sheets: intégration via App Script à venir. Ici: sauvegarde démo locale + détection d’emails en doublon.
-            </div>
-          </div>
-        </div>
-
-        <div class="lg:col-span-1">
-          <form id="formSignup" class="rounded-2xl p-6 bg-white shadow-soft space-y-4">
-            <div class="flex items-center justify-between">
-              <h3 id="signupCardTitle" class="text-lg font-semibold text-slate-900">Inscription</h3>
-              <span class="px-2 py-1 text-[10px] rounded-md bg-violet-100 text-violet-700">Démo</span>
-            </div>
-
-            <div>
-              <label id="typeLabel" class="block text-sm font-medium text-slate-700 mb-1">Type de compte</label>
-              <div class="grid sm:grid-cols-3 gap-2">
-                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer">
-                  <input type="radio" name="userType" value="Individual" class="text-violet-600" required>
-                  <span id="typeInd" class="text-sm">Particulier</span>
-                </label>
-                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer">
-                  <input type="radio" name="userType" value="Agency" class="text-violet-600" required>
-                  <span id="typeAgy" class="text-sm">Agence</span>
-                </label>
-                <label class="flex items-center gap-2 p-3 rounded-lg border border-slate-200 hover:border-slate-300 cursor-pointer">
-                  <input type="radio" name="userType" value="Promoter" class="text-violet-600" required>
-                  <span id="typePro" class="text-sm">Promoteur</span>
-                </label>
-              </div>
-            </div>
-
-            <div>
-              <label id="nameLabel" class="block text-sm font-medium text-slate-700 mb-1">Nom / Organisation</label>
-              <input id="nameInput" type="text" name="name" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required>
-            </div>
-
-            <div>
-              <label id="emailLabel" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-              <input id="emailInput" type="email" name="email" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required>
-            </div>
-
-            <div id="demoNoteBox" class="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
-              Démo: aucune donnée sensible collectée. L’inscription réelle sera reliée plus tard.
-            </div>
-
-            <div class="pt-1 flex flex-col sm:flex-row gap-2">
-              <button id="submitSignup" type="submit" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">
-                Demander une invitation
-              </button>
-              <button type="button" id="prefillAgency" class="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">
-                Préremplir Agence
-              </button>
-            </div>
-
-            <p class="text-xs text-slate-500">Sheet Users (prévu): ID, Name, Email, UserType, PasswordHash, Verified</p>
-          </form>
-        </div>
-
-        <div class="lg:col-span-1">
-          <form id="formLogin" class="rounded-2xl p-6 bg-white shadow-soft space-y-4 opacity-50 pointer-events-none">
-            <div class="flex items-center justify-between">
-              <h3 id="loginCardTitle" class="text-lg font-semibold text-slate-900">Connexion</h3>
-              <span class="px-2 py-1 text-[10px] rounded-md bg-violet-100 text-violet-700">Démo</span>
-            </div>
-
-            <div>
-              <label id="loginEmailLabel" class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-              <input type="email" name="loginEmail" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required>
-            </div>
-
-            <button type="submit" class="w-full px-5 py-3 rounded-xl text-white font-semibold bg-slate-900 shadow-soft hover:opacity-95 btn">
-              Se connecter (démo)
-            </button>
-
-            <div id="loginNote" class="rounded-lg bg-amber-50 p-3 text-xs text-amber-800">
-              Limitation: pas de mot de passe dans Canva Code. Utilisez un provider externe pour l’authentification réelle.
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Étape 3: Tableau de bord -->
-  <section id="dashboard" class="section bg-white/70 border-t border-white/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-      <div class="flex items-center justify-between gap-4">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Tableau de bord</h2>
-          <p class="mt-2 text-slate-600">Suivez vos annonces, vos ventes et vos notifications.</p>
-        </div>
-        <div class="flex items-center gap-3">
-          <label class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200">
-            <input id="liveToggle" type="checkbox" class="accent-violet-600" checked>
-            <span class="text-sm text-slate-700">Live démo</span>
-          </label>
-          <button id="refreshBtn" class="px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">Rafraîchir</button>
-        </div>
-      </div>
-
-      <div id="welcomeBar" class="mt-6 rounded-2xl p-5 bg-white shadow-soft flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="w-12 h-12 rounded-xl bg-localeo-gradient text-white font-extrabold flex items-center justify-center" id="userInitials">U</div>
+        <form id="formProfile" class="mt-4 space-y-3">
           <div>
-            <div class="text-slate-900 font-semibold">Bonjour, <span id="userNameDash">Invité</span></div>
-            <div class="text-sm text-slate-600">Type: <span id="userTypeDash">—</span></div>
+            <label class="block text-sm text-slate-700 mb-1" data-i18n="label_name">Nom / Organisation</label>
+            <input name="name" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required/>
           </div>
-        </div>
-        <div class="text-xs px-2 py-1 rounded-md bg-amber-100 text-amber-800">Sources: Google Sheets (à intégrer) • Données démo locales</div>
-      </div>
-
-      <!-- Stats -->
-      <div class="mt-6 grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Mes annonces</div>
-          <div id="statListings" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Vendues</div>
-          <div id="statSold" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Total ventes (€)</div>
-          <div id="statSalesSum" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Notifications</div>
-          <div id="statNotifs" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Modules actifs</div>
-          <div id="statModules" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-      </div>
-
-      <!-- Main columns -->
-      <div class="mt-8 grid lg:grid-cols-3 gap-6">
-        <!-- Listings -->
-        <div class="lg:col-span-2">
-          <div class="rounded-2xl p-6 bg-white shadow-soft">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-semibold text-slate-900">Mes annonces</h3>
-              <div class="flex items-center gap-2">
-                <select id="filterStatus" class="px-3 py-2 rounded-lg border border-slate-200 text-sm">
-                  <option value="all">Tous les statuts</option>
-                  <option value="available">Disponibles</option>
-                  <option value="sold">Vendues</option>
-                </select>
-                <button id="addPropertyBtn" class="px-4 py-2 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">Ajouter un bien</button>
-              </div>
-            </div>
-
-            <div class="mt-4 overflow-x-auto">
-              <table class="min-w-full text-sm">
-                <thead>
-                  <tr class="text-left text-slate-600">
-                    <th class="py-3 pr-4">Titre</th>
-                    <th class="py-3 pr-4">Lieu</th>
-                    <th class="py-3 pr-4">Prix (€)</th>
-                    <th class="py-3 pr-4">Médias</th>
-                    <th class="py-3 pr-4">Statut</th>
-                    <th class="py-3 pr-4">Créé</th>
-                    <th class="py-3 pr-4">Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="listingsTable"></tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- Notifications -->
-        <div class="lg:col-span-1">
-          <div class="rounded-2xl p-6 bg-white shadow-soft h-full">
-            <div class="flex items-center justify-between">
-              <h3 class="text-lg font-semibold text-slate-900">Notifications</h3>
-              <button id="clearNotifs" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-sm">Tout effacer</button>
-            </div>
-            <div id="notifList" class="mt-4 space-y-3 max-h-[420px] overflow-auto"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sales -->
-      <div class="mt-6 rounded-2xl p-6 bg-white shadow-soft">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-slate-900">Ventes</h3>
-        </div>
-        <div class="mt-4 overflow-x-auto">
-          <table class="min-w-full text-sm">
-            <thead>
-              <tr class="text-left text-slate-600">
-                <th class="py-3 pr-4">Bien</th>
-                <th class="py-3 pr-4">Prix de vente (€)</th>
-                <th class="py-3 pr-4">Fee (0,2%)</th>
-                <th class="py-3 pr-4">Date</th>
-              </tr>
-            </thead>
-            <tbody id="salesTable"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Étape 4: Publication (Formulaire avancé – Démo) -->
-  <div id="addModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative max-w-2xl mx-auto mt-10 md:mt-16 px-4">
-      <div class="rounded-2xl bg-white shadow-soft overflow-hidden">
-        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
           <div>
-            <h3 class="text-lg font-semibold text-slate-900">Ajouter un bien (démo)</h3>
-            <p class="text-xs text-slate-500">Enregistrement local + horodatage auto. Google Sheets sera branché plus tard.</p>
+            <label class="block text-sm text-slate-700 mb-1" data-i18n="label_email">Email (démo)</label>
+            <input name="email" type="email" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="ex: you@domain.com"/>
           </div>
-          <button id="closeAdd" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
-            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          <div class="rounded-lg bg-slate-50 p-3 text-xs text-slate-600" data-i18n="demo_note">
+            Démo: pas d’authentification réelle. Google Sheets sera branché plus tard.
+          </div>
+          <button class="w-full px-4 py-3 rounded-xl text-white font-semibold bg-gradient-to-tr from-brand.violet to-brand.mint shadow-card btn" data-i18n="start_swiping">
+            Démarrer le swipe
           </button>
-        </div>
-
-        <form id="formAdd" class="px-6 py-5 space-y-5">
-          <div class="grid md:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Titre</label>
-              <input type="text" name="title" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="Ex: T3 lumineux proche centre" required>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Prix (€)</label>
-              <input type="number" name="price" min="0" step="1000" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="Ex: 325000" required>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Lieu</label>
-              <select name="location" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
-                <option value="">Sélectionner</option>
-                <option>Marseille</option>
-                <option>Nice</option>
-                <option>Paris</option>
-                <option>Lyon</option>
-                <option>Bordeaux</option>
-                <option>Autre</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">Statut</label>
-              <select name="status" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
-                <option value="available">Disponible</option>
-                <option value="sold">Vendu</option>
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-1">Description</label>
-            <textarea name="description" rows="4" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" placeholder="Décrivez les points forts, rénovation, équipements, etc."></textarea>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-slate-700 mb-2">Images (aperçu – démo)</label>
-            <div id="dropzone" class="dropzone-dashed rounded-xl p-4 bg-slate-50 text-slate-600">
-              <div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-                <div class="text-sm">
-                  Glissez-déposez des images ici, ou
-                  <button type="button" id="chooseFiles" class="text-violet-700 font-medium underline underline-offset-2">cliquez pour choisir</button>
-                  <div class="text-xs text-slate-500 mt-1">Jusqu’à 5 images, aperçu immédiat (non envoyé).</div>
-                </div>
-                <input id="fileInput" type="file" accept="image/*" multiple class="hidden">
-                <div id="imageCount" class="text-xs px-2 py-1 rounded-md bg-white border border-slate-200">0 sélectionnée(s)</div>
-              </div>
-              <div id="thumbs" class="mt-4 grid grid-cols-3 sm:grid-cols-5 gap-3"></div>
-            </div>
-          </div>
-
-          <div class="pt-1 flex items-center gap-2">
-            <button type="submit" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95 btn">Publier</button>
-            <button type="button" id="cancelAdd" class="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">Annuler</button>
-          </div>
-
-          <p class="text-xs text-slate-500">
-            Sheet Properties (prévu) : ID, UserID, Title, Price, Status, Timestamp, Description, Location, Images
-          </p>
         </form>
       </div>
-    </div>
-  </div>
-
-  <!-- Étape 5: Modules Premium -->
-  <section id="premium" class="section bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-      <div class="flex items-center justify-between flex-wrap gap-3">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Modules Premium</h2>
-          <p class="mt-2 text-slate-600">Améliorez votre visibilité et votre performance. Activation en 1 clic (démo).</p>
+      <div class="rounded-2xl p-4 bg-white border border-slate-200 text-xs text-slate-600">
+        <div class="font-semibold mb-1" data-i18n="sheet_info_title">Google Sheets (démo)</div>
+        <ul class="list-disc pl-4 space-y-1">
+          <li data-i18n="sheet_info_offers">Offres (biens): ID, Titre, Prix, Lieu, Surface, Type, Photos</li>
+          <li data-i18n="sheet_info_users">Utilisateurs: ID, Nom, Email, Type</li>
+        </ul>
+        <div class="mt-2 flex gap-2">
+          <button id="openSheets" class="px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-sm btn" data-i18n="open_sheets">Ouvrir Sheets</button>
         </div>
-        <span class="px-3 py-1.5 text-xs rounded-full bg-amber-100 text-amber-800 font-semibold">Paiement démo – pas de débit réel</span>
       </div>
+    </section>
 
-      <div class="mt-6 rounded-2xl p-6 bg-slate-50 border border-slate-200">
-        <h3 class="text-slate-900 font-semibold">Mes modules</h3>
-        <div id="myModules" class="mt-3 flex flex-wrap gap-2 text-sm text-slate-700"></div>
+    <!-- Swipe -->
+    <section id="viewSwipe" class="hidden">
+      <div id="deck" class="deck">
+        <!-- cards injected -->
       </div>
+      <div class="mt-4 flex justify-center gap-4">
+        <button id="btnNope" class="w-14 h-14 rounded-full bg-white border border-slate-200 shadow-soft flex items-center justify-center btn" aria-label="Nope">
+          <svg class="w-6 h-6 text-rose-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+        <button id="btnInfo" class="w-14 h-14 rounded-full bg-white border border-slate-200 shadow-soft flex items-center justify-center btn" aria-label="Info">
+          <svg class="w-6 h-6 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="9" stroke-width="2"/>
+            <path d="M12 8v.01M12 12v4" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button id="btnLike" class="w-14 h-14 rounded-full bg-gradient-to-tr from-brand.violet to-brand.mint text-white shadow-card flex items-center justify-center btn" aria-label="Like">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M11.99 21s-6.715-4.35-9.49-7.784C-0.28 9.9 1.22 5.7 4.89 5.1c2.13-.35 4.07.82 5.1 2.27 1.03-1.45 2.97-2.62 5.1-2.27 3.67.6 5.17 4.8 1.39 8.116C18.7 16.65 11.99 21 11.99 21z"/></svg>
+        </button>
+      </div>
+    </section>
 
-      <div id="modulesGrid" class="mt-8 grid md:grid-cols-3 gap-6"></div>
+    <!-- Favorites -->
+    <section id="viewFav" class="hidden">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-lg font-semibold" data-i18n="favorites">Favoris</h2>
+        <button id="btnClearFav" class="text-sm px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 btn" data-i18n="clear">Tout effacer</button>
+      </div>
+      <div id="favList" class="grid grid-cols-1 gap-3"></div>
+      <div id="favEmpty" class="rounded-xl bg-white border border-slate-200 p-4 text-center text-sm text-slate-600 mt-3 hidden" data-i18n="no_fav">Aucun favori pour le moment.</div>
+    </section>
 
-      <p class="text-xs text-slate-500 mt-6">
-        Remarque: dans la version connectée, les activations seront enregistrées dans Google Sheets et la facturation sera gérée par Stripe. Ici, tout est simulé.
-      </p>
-    </div>
-  </section>
-
-  <!-- Checkout Modal (Démo) -->
-  <div id="checkoutModal" class="fixed inset-0 z-50 hidden">
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative max-w-lg mx-auto mt-24 px-4">
-      <div class="rounded-2xl bg-white shadow-soft overflow-hidden">
-        <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-slate-900">Activer un module (démo)</h3>
-          <button id="closeCheckout" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
-            <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
-        </div>
-        <div class="px-6 py-5 space-y-4">
-          <div class="flex items-start justify-between gap-3">
+    <!-- Add Listing -->
+    <section id="viewAdd" class="hidden space-y-3">
+      <div class="rounded-2xl p-4 bg-white shadow-soft">
+        <h2 class="text-lg font-semibold" data-i18n="add_listing">Mettre en ligne un bien</h2>
+        <form id="formAdd" class="mt-3 space-y-3">
+          <div>
+            <label class="block text-sm mb-1" data-i18n="label_title">Titre</label>
+            <input name="title" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200" required/>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
             <div>
-              <div class="text-slate-900 font-semibold" id="coTitle">—</div>
-              <div class="text-sm text-slate-600" id="coDesc">—</div>
+              <label class="block text-sm mb-1" data-i18n="label_price">Prix (€)</label>
+              <input name="price" type="number" min="0" step="1000" class="w-full px-3 py-2 rounded-lg border border-slate-200" required/>
             </div>
-            <div class="text-right">
-              <div class="text-2xl font-extrabold text-slate-900" id="coPrice">—</div>
-              <div class="text-xs text-slate-500">HT • renouvellement mensuel (démo)</div>
+            <div>
+              <label class="block text-sm mb-1" data-i18n="label_surface">Surface (m²)</label>
+              <input name="surface" type="number" min="0" step="1" class="w-full px-3 py-2 rounded-lg border border-slate-200" required/>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-sm mb-1" data-i18n="label_location">Lieu</label>
+              <input name="location" class="w-full px-3 py-2 rounded-lg border border-slate-200" placeholder="ex: Marseille" required/>
+            </div>
+            <div>
+              <label class="block text-sm mb-1" data-i18n="label_type">Type</label>
+              <select name="ptype" class="w-full px-3 py-2 rounded-lg border border-slate-200">
+                <option value="apartment" data-i18n="type_apartment">Appartement</option>
+                <option value="house" data-i18n="type_house">Maison</option>
+                <option value="studio" data-i18n="type_studio">Studio</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm mb-1" data-i18n="label_desc">Description</label>
+            <textarea name="desc" rows="3" class="w-full px-3 py-2 rounded-lg border border-slate-200" placeholder=""></textarea>
+          </div>
+
+          <div>
+            <label class="block text-sm mb-2" data-i18n="label_photos">Photos (aperçu — démo)</label>
+            <div id="dropzone" class="dropzone rounded-xl bg-slate-50 p-3 text-sm text-slate-600">
+              <div class="flex items-center justify-between gap-2">
+                <div>
+                  <span data-i18n="photo_hint">Glissez-déposez ou</span>
+                  <button type="button" id="chooseFiles" class="text-brand.violet font-semibold underline underline-offset-2 ml-1" data-i18n="click_choose">cliquez pour choisir</button>
+                  <div class="text-xs text-slate-500" data-i18n="photo_limit">Jusqu’à 3 images (non envoyées).</div>
+                </div>
+                <input id="fileInput" type="file" accept="image/*" multiple class="hidden">
+                <div id="imageCount" class="text-xs px-2 py-1 rounded-md bg-white border border-slate-200">0</div>
+              </div>
+              <div id="thumbs" class="mt-3 grid grid-cols-3 gap-2"></div>
             </div>
           </div>
 
-          <div class="rounded-xl bg-slate-50 border border-slate-200 p-4">
-            <div class="text-sm text-slate-700">Détails du module</div>
-            <ul id="coFeatures" class="mt-2 text-sm text-slate-600 list-disc pl-5"></ul>
+          <div class="flex gap-2 pt-1">
+            <button class="flex-1 px-4 py-3 rounded-xl text-white font-semibold bg-gradient-to-tr from-brand.violet to-brand.mint shadow-card btn" data-i18n="publish">Publier (démo)</button>
+            <button type="button" id="openOffersSheet" class="px-4 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn text-sm" data-i18n="open_offers_sheet">Feuille Offres</button>
           </div>
+          <div class="text-xs text-slate-500 mt-2" data-i18n="sheet_disclaimer">Démo: les ajouts sont stockés localement et prêts à être envoyés vers Google Sheets.</div>
+        </form>
+      </div>
+    </section>
 
-          <div class="rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs text-amber-800">
-            Démo uniquement – aucun paiement réel. Le bouton Stripe ouvre un lien officiel en nouvel onglet sans rien acheter.
-          </div>
-
-          <div class="flex flex-col sm:flex-row gap-2 pt-1">
-            <button id="btnStripe" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-slate-900 hover:opacity-95 btn">Ouvrir Stripe (démo)</button>
-            <button id="btnSimulate" class="flex-1 px-5 py-3 rounded-xl text-white font-semibold bg-localeo-gradient hover:opacity-95 btn">Simuler le paiement</button>
-            <button id="btnCancelCheckout" class="px-5 py-3 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 btn">Annuler</button>
-          </div>
+    <!-- Map -->
+    <section id="viewMap" class="hidden">
+      <div class="rounded-2xl p-4 bg-white shadow-soft">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold" data-i18n="map">Carte</h2>
+          <button id="btnMapFilter" class="text-sm px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 btn" data-i18n="filters">Filtres</button>
+        </div>
+        <div class="mt-3 mapWrap rounded-xl overflow-hidden border border-slate-200 bg-slate-50 relative">
+          <svg id="mapSVG" viewBox="0 0 360 260" class="w-full h-full">
+            <rect x="0" y="0" width="360" height="260" fill="#f8fafc"/>
+            <!-- simple blob land -->
+            <path d="M20,160 C60,60 200,20 320,80 C360,160 300,220 200,240 C100,260 40,230 20,160 Z" fill="#e2e8f0"/>
+          </svg>
+          <div class="absolute left-2 bottom-2 text-[10px] text-slate-500 px-2 py-1 rounded bg-white/80 border border-slate-200" data-i18n="map_demo">Vue carte démo (sans tuiles)</div>
         </div>
       </div>
+    </section>
+  </main>
+
+  <!-- Bottom Nav -->
+  <nav class="safe-bottom fixed bottom-0 inset-x-0 z-40 bg-white border-t border-slate-200 shadow-top">
+    <div class="px-6 py-2 grid grid-cols-4 gap-2 text-slate-500">
+      <button class="tab tab-active flex flex-col items-center gap-1 py-1" data-tab="swipe">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21c4.418 0 8-2.91 8-6.5S16.418 8 12 8 4 10.91 4 14.5 7.582 21 12 21z"/><circle cx="12" cy="7" r="3"/></svg>
+        <span class="text-[11px]" data-i18n="tab_swipe">Swipe</span>
+      </button>
+      <button class="tab flex flex-col items-center gap-1 py-1" data-tab="fav">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.5-4.2-9.2-7.5C-0.2 10 1.3 6 5 5.4c2.1-.3 4 .8 5 2.2 1-1.4 2.9-2.5 5-2.2 3.7.6 5.2 4.6 2.2 8.1C18.5 16.8 12 21 12 21z"/></svg>
+        <span class="text-[11px]" data-i18n="tab_fav">Favoris</span>
+      </button>
+      <button class="tab flex flex-col items-center gap-1 py-1" data-tab="add">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/></svg>
+        <span class="text-[11px]" data-i18n="tab_add">Ajouter</span>
+      </button>
+      <button class="tab flex flex-col items-center gap-1 py-1" data-tab="map">
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3zM9 5.5v12l6 3v-12l-6-3z"/></svg>
+        <span class="text-[11px]" data-i18n="tab_map">Carte</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Filters Modal -->
+  <div id="filtersModal" class="modal">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute bottom-0 inset-x-0 bg-white rounded-t-2xl p-4 shadow-top">
+      <div class="flex items-center justify-between">
+        <div class="font-semibold" data-i18n="filters">Filtres</div>
+        <button id="closeFilters" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
+          <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="formFilters" class="mt-3 space-y-3">
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-sm mb-1" data-i18n="min_price">Prix min</label>
+            <input name="minPrice" type="number" min="0" step="10000" class="w-full px-3 py-2 rounded-lg border border-slate-200" placeholder="0">
+          </div>
+          <div>
+            <label class="block text-sm mb-1" data-i18n="max_price">Prix max</label>
+            <input name="maxPrice" type="number" min="0" step="10000" class="w-full px-3 py-2 rounded-lg border border-slate-200" placeholder="∞">
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="block text-sm mb-1" data-i18n="min_surface">Surface min (m²)</label>
+            <input name="minSurface" type="number" min="0" step="1" class="w-full px-3 py-2 rounded-lg border border-slate-200" placeholder="0">
+          </div>
+          <div>
+            <label class="block text-sm mb-1" data-i18n="type">Type</label>
+            <select name="ptype" class="w-full px-3 py-2 rounded-lg border border-slate-200">
+              <option value="" data-i18n="any">Tous</option>
+              <option value="apartment" data-i18n="type_apartment">Appartement</option>
+              <option value="house" data-i18n="type_house">Maison</option>
+              <option value="studio" data-i18n="type_studio">Studio</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm mb-1" data-i18n="location">Lieu</label>
+          <input name="location" class="w-full px-3 py-2 rounded-lg border border-slate-200" placeholder="Paris, Lyon…">
+        </div>
+        <div class="flex gap-2 pt-1">
+          <button class="flex-1 px-4 py-3 rounded-xl text-white font-semibold bg-gradient-to-tr from-brand.violet to-brand.mint btn" data-i18n="apply">Appliquer</button>
+          <button type="button" id="resetFilters" class="px-4 py-3 rounded-xl bg-white border border-slate-200 btn" data-i18n="reset">Réinitialiser</button>
+        </div>
+      </form>
     </div>
   </div>
 
-  <!-- Étape 6: Ventes & Fees (Analytique – Démo) -->
-  <section id="analytics" class="section bg-white border-t border-white/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 md:py-20">
-      <div class="flex items-center justify-between gap-4">
-        <div>
-          <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Ventes & Fees</h2>
-          <p class="mt-2 text-slate-600">Analyse de vos ventes et du fee 0,2%. Export CSV inclus (démo).</p>
-        </div>
-        <div class="flex flex-wrap items-center gap-2">
-          <select id="rangeSelect" class="px-3 py-2 rounded-lg border border-slate-200 text-sm">
-            <option value="30">30 jours</option>
-            <option value="90" selected>90 jours</option>
-            <option value="365">12 mois</option>
-          </select>
-          <select id="groupSelect" class="px-3 py-2 rounded-lg border border-slate-200 text-sm">
-            <option value="month" selected>Par mois</option>
-            <option value="week">Par semaine</option>
-          </select>
-          <button id="btnCSV" class="px-3 py-2 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-sm">Exporter CSV</button>
-          <button id="btnSheets" class="px-3 py-2 rounded-lg bg-slate-900 text-white hover:opacity-95 text-sm">Ouvrir Google Sheets</button>
-          <button id="btnAddDemoSales" class="px-3 py-2 rounded-lg bg-localeo-gradient text-white hover:opacity-95 text-sm">Ajouter ventes démo</button>
-        </div>
+  <!-- Details Modal -->
+  <div id="detailsModal" class="modal">
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="absolute bottom-0 inset-x-0 bg-white rounded-t-2xl p-4 shadow-top">
+      <div class="flex items-center justify-between">
+        <div class="font-semibold">Localeo</div>
+        <button id="closeDetails" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center">
+          <svg class="w-5 h-5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
       </div>
-
-      <!-- KPIs -->
-      <div class="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Nombre de ventes</div>
-          <div id="kpiCount" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Montant vendu (€)</div>
-          <div id="kpiSum" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Fees 0,2% (€)</div>
-          <div id="kpiFee" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
-        <div class="rounded-2xl p-5 bg-white shadow-soft">
-          <div class="text-sm text-slate-600">Prix moyen (€)</div>
-          <div id="kpiAvg" class="mt-2 text-3xl font-extrabold text-slate-900">0</div>
-        </div>
+      <div id="detailsBody" class="mt-3 space-y-3">
+        <!-- filled dynamically -->
       </div>
-
-      <!-- Charts -->
-      <div class="mt-8 grid lg:grid-cols-2 gap-6">
-        <div class="rounded-2xl p-6 bg-white shadow-soft">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-slate-900">Courbe des ventes</h3>
-            <span class="text-xs px-2 py-1 rounded-md bg-slate-50 border border-slate-200">Somme par période</span>
-          </div>
-          <div class="mt-4">
-            <svg id="chartSales" viewBox="0 0 700 300" class="w-full h-auto"></svg>
-          </div>
-        </div>
-        <div class="rounded-2xl p-6 bg-white shadow-soft">
-          <div class="flex items-center justify-between">
-            <h3 class="text-lg font-semibold text-slate-900">Fees (0,2%)</h3>
-            <span class="text-xs px-2 py-1 rounded-md bg-slate-50 border border-slate-200">Somme par période</span>
-          </div>
-          <div class="mt-4">
-            <svg id="chartFees" viewBox="0 0 700 300" class="w-full h-auto"></svg>
-          </div>
-        </div>
-      </div>
-
-      <!-- Fee calculator -->
-      <div class="mt-8 rounded-2xl p-6 bg-white shadow-soft">
-        <div class="flex items-center justify-between">
-          <h3 class="text-lg font-semibold text-slate-900">Calculateur de fee</h3>
-          <span class="text-xs px-2 py-1 rounded-md bg-violet-50 text-violet-700 border border-violet-100">0,2% du prix de vente</span>
-        </div>
-        <div class="mt-5 grid md:grid-cols-3 gap-4 items-center">
-          <div class="md:col-span-1">
-            <label class="block text-sm font-medium text-slate-700 mb-1">Prix de vente (€)</label>
-            <input id="feeInput" type="number" min="0" step="1000" value="300000" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-violet-200">
-            <input id="feeSlider" type="range" min="50000" max="2000000" step="5000" value="300000" class="mt-3 w-full">
-          </div>
-          <div class="md:col-span-2 grid sm:grid-cols-3 gap-4">
-            <div class="rounded-xl bg-slate-50 p-4">
-              <div class="text-xs text-slate-600">Fee (0,2%)</div>
-              <div id="feeOut" class="mt-1 text-2xl font-extrabold text-slate-900">€ 600</div>
-            </div>
-            <div class="rounded-xl bg-slate-50 p-4">
-              <div class="text-xs text-slate-600">Montant reversé (illustratif)</div>
-              <div id="netOut" class="mt-1 text-2xl font-extrabold text-slate-900">€ 299 400</div>
-            </div>
-            <div class="rounded-xl bg-slate-50 p-4">
-              <div class="text-xs text-slate-600">Fee par tranche de 100k</div>
-              <div id="per100kOut" class="mt-1 text-2xl font-extrabold text-slate-900">€ 200</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Empty state -->
-      <div id="analyticsEmpty" class="mt-6 hidden rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-        Aucune vente à analyser. Vendez un bien dans le tableau de bord ou utilisez “Ajouter ventes démo”.
+      <div class="flex gap-2 pt-1">
+        <button id="detailsLike" class="flex-1 px-4 py-3 rounded-xl text-white font-semibold bg-gradient-to-tr from-brand.violet to-brand.mint btn" data-i18n="save_fav">Ajouter aux favoris</button>
+        <button id="detailsNext" class="px-4 py-3 rounded-xl bg-white border border-slate-200 btn" data-i18n="next">Suivant</button>
       </div>
     </div>
-  </section>
-
-  <!-- Footer -->
-  <footer id="contact" class="section border-t border-white/50 bg-white/70">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="grid md:grid-cols-4 gap-8">
-        <div>
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-localeo-gradient flex items-center justify-center shadow-card">
-              <span class="text-white font-extrabold text-lg">L</span>
-            </div>
-            <span class="text-xl font-extrabold text-slate-900">Localeo</span>
-          </div>
-          <p id="footerTag" class="mt-3 text-sm text-slate-600">La plateforme immobilière alignée sur vos résultats.</p>
-        </div>
-        <div>
-          <h4 id="footerNavTitle" class="font-semibold text-slate-900">Navigation</h4>
-          <ul class="mt-3 space-y-2 text-sm">
-            <li><a id="fHome" href="#home" data-scroll class="text-slate-600 hover:text-slate-900">Accueil</a></li>
-            <li><a id="fFeatures" href="#features" data-scroll class="text-slate-600 hover:text-slate-900">Fonctionnalités</a></li>
-            <li><a id="fPricing" href="#pricing" data-scroll class="text-slate-600 hover:text-slate-900">Tarifs</a></li>
-            <li><a id="fAuth" href="#auth" data-scroll class="text-slate-600 hover:text-slate-900">Inscription</a></li>
-            <li><a id="fDash" href="#dashboard" data-scroll class="text-slate-600 hover:text-slate-900">Tableau de bord</a></li>
-            <li><a id="fPremium" href="#premium" data-scroll class="text-slate-600 hover:text-slate-900">Modules Premium</a></li>
-            <li><a id="fAnalytics" href="#analytics" data-scroll class="text-slate-600 hover:text-slate-900">Ventes & Fees</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 id="footerResTitle" class="font-semibold text-slate-900">Ressources</h4>
-          <ul class="mt-3 space-y-2 text-sm">
-            <li id="res1" class="text-slate-600">Guides (bientôt)</li>
-            <li id="res2" class="text-slate-600">FAQ (bientôt)</li>
-            <li id="res3" class="text-slate-600">Support</li>
-          </ul>
-        </div>
-        <div>
-          <h4 id="footerContactTitle" class="font-semibold text-slate-900">Contact</h4>
-          <ul class="mt-3 space-y-2 text-sm text-slate-600">
-            <li id="contactEmail">Email: <a href="mailto:hello@localeo.app" class="text-slate-800 hover:underline">hello@localeo.app</a></li>
-            <li id="contactPhone">Tél: +33 1 84 80 00 00</li>
-            <li id="contactAddr">Adresse: Marseille, France</li>
-          </ul>
-          <div class="mt-4">
-            <button id="copyEmail" class="px-3 py-2 rounded-lg bg-white shadow-soft text-sm hover:bg-slate-50">Copier l’email</button>
-          </div>
-        </div>
-      </div>
-      <div class="mt-10 pt-6 border-t border-white/60 flex flex-col md:flex-row items-center justify-between gap-3 text-sm text-slate-500">
-        <span>© <span id="year"></span> Localeo. <span id="rights">Tous droits réservés.</span></span>
-        <div class="flex items-center gap-4">
-          <a id="privacy" href="#" class="hover:text-slate-700">Confidentialité</a>
-          <a id="terms" href="#" class="hover:text-slate-700">Conditions</a>
-          <a id="cookies" href="#" class="hover:text-slate-700">Cookies</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  </div>
 
   <!-- Toasts -->
-  <div id="toasts" class="fixed top-4 right-4 z-[60] space-y-2"></div>
+  <div id="toasts" class="fixed top-3 right-3 z-[60] space-y-2"></div>
 
   <script>
-    // Year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Smooth scroll
-    function smoothScrollTo(target) {
-      const el = document.querySelector(target);
-      if (!el) return;
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 88, behavior:'smooth' });
+    // i18n
+    const I18N = {
+      en:{ tagline:'Swipe your next home', welcome_title:'Welcome to Localeo', welcome_sub:'Create a demo profile and start swiping homes.',
+        type_ind:'Individual', type_agent:'Agent / Agency', label_name:'Name / Organization', label_email:'Email (demo)',
+        demo_note:'Demo only — no real authentication. Google Sheets will be connected later.',
+        start_swiping:'Start swiping', sheet_info_title:'Google Sheets (demo)', sheet_info_offers:'Offers: ID, Title, Price, City, Area, Type, Photos',
+        sheet_info_users:'Users: ID, Name, Email, Type', open_sheets:'Open Sheets', filters:'Filters', favorites:'Favorites',
+        clear:'Clear all', add_listing:'Post a listing', label_title:'Title', label_price:'Price (€)', label_surface:'Area (sqm)', label_location:'City', label_type:'Type', label_desc:'Description',
+        label_photos:'Photos (preview — demo)', photo_hint:'Drag & drop or', click_choose:'click to choose', photo_limit:'Up to 3 images (not uploaded).',
+        publish:'Publish (demo)', open_offers_sheet:'Offers Sheet', sheet_disclaimer:'Demo: items are stored locally and ready for Google Sheets.',
+        map:'Map', map_demo:'Demo map (no tiles)', tab_swipe:'Swipe', tab_fav:'Saved', tab_add:'Post', tab_map:'Map',
+        min_price:'Min price', max_price:'Max price', min_surface:'Min area', type:'Type', any:'Any', location:'City', apply:'Apply', reset:'Reset',
+        save_fav:'Save to favorites', next:'Next', no_fav:'No favorites yet.' ,
+        type_apartment:'Apartment', type_house:'House', type_studio:'Studio'
+      },
+      es:{ tagline:'Encuentra tu hogar deslizando', welcome_title:'Bienvenido a Localeo', welcome_sub:'Crea un perfil demo y empieza a deslizar.',
+        type_ind:'Particular', type_agent:'Agente / Agencia', label_name:'Nombre / Organización', label_email:'Email (demo)',
+        demo_note:'Demo — sin autenticación real. Google Sheets se conectará más tarde.',
+        start_swiping:'Empezar a deslizar', sheet_info_title:'Google Sheets (demo)', sheet_info_offers:'Ofertas: ID, Título, Precio, Ciudad, Superficie, Tipo, Fotos',
+        sheet_info_users:'Usuarios: ID, Nombre, Email, Tipo', open_sheets:'Abrir Sheets', filters:'Filtros', favorites:'Favoritos',
+        clear:'Borrar todo', add_listing:'Publicar anuncio', label_title:'Título', label_price:'Precio (€)', label_surface:'Superficie (m²)', label_location:'Ciudad', label_type:'Tipo', label_desc:'Descripción',
+        label_photos:'Fotos (vista previa — demo)', photo_hint:'Arrastra y suelta o', click_choose:'haz clic para elegir', photo_limit:'Hasta 3 imágenes (no subidas).',
+        publish:'Publicar (demo)', open_offers_sheet:'Hoja Ofertas', sheet_disclaimer:'Demo: se guarda localmente listo para Google Sheets.',
+        map:'Mapa', map_demo:'Mapa demo (sin tiles)', tab_swipe:'Swipe', tab_fav:'Guardados', tab_add:'Publicar', tab_map:'Mapa',
+        min_price:'Precio mín', max_price:'Precio máx', min_surface:'Superficie mín', type:'Tipo', any:'Cualquiera', location:'Ciudad', apply:'Aplicar', reset:'Restablecer',
+        save_fav:'Guardar en favoritos', next:'Siguiente', no_fav:'Sin favoritos aún.',
+        type_apartment:'Apartamento', type_house:'Casa', type_studio:'Estudio'
+      },
+      fr:{ tagline:'Swipez votre prochain chez-vous', welcome_title:'Bienvenue sur Localeo', welcome_sub:'Créez un profil démo et commencez à swiper des biens.',
+        type_ind:'Particulier', type_agent:'Agent / Agence', label_name:'Nom / Organisation', label_email:'Email (démo)',
+        demo_note:'Démo — pas d’authentification réelle. Google Sheets sera branché plus tard.',
+        start_swiping:'Démarrer le swipe', sheet_info_title:'Google Sheets (démo)', sheet_info_offers:'Offres : ID, Titre, Prix, Ville, Surface, Type, Photos',
+        sheet_info_users:'Utilisateurs : ID, Nom, Email, Type', open_sheets:'Ouvrir Sheets', filters:'Filtres', favorites:'Favoris',
+        clear:'Tout effacer', add_listing:'Mettre en ligne un bien', label_title:'Titre', label_price:'Prix (€)', label_surface:'Surface (m²)', label_location:'Lieu', label_type:'Type', label_desc:'Description',
+        label_photos:'Photos (aperçu — démo)', photo_hint:'Glissez-déposez ou', click_choose:'cliquez pour choisir', photo_limit:'Jusqu’à 3 images (non envoyées).',
+        publish:'Publier (démo)', open_offers_sheet:'Feuille Offres', sheet_disclaimer:'Démo : ajouté localement, prêt pour Google Sheets.',
+        map:'Carte', map_demo:'Vue carte démo (sans tuiles)', tab_swipe:'Swipe', tab_fav:'Favoris', tab_add:'Ajouter', tab_map:'Carte',
+        min_price:'Prix min', max_price:'Prix max', min_surface:'Surface min', type:'Type', any:'Tous', location:'Lieu', apply:'Appliquer', reset:'Réinitialiser',
+        save_fav:'Ajouter aux favoris', next:'Suivant', no_fav:'Aucun favori pour le moment.',
+        type_apartment:'Appartement', type_house:'Maison', type_studio:'Studio'
+      },
+      nl:{ tagline:'Swipe naar je volgende huis', welcome_title:'Welkom bij Localeo', welcome_sub:'Maak een demoprofiel en begin te swipen.',
+        type_ind:'Particulier', type_agent:'Makelaar / Kantoor', label_name:'Naam / Organisatie', label_email:'E-mail (demo)',
+        demo_note:'Demo — geen echte authenticatie. Google Sheets komt later.',
+        start_swiping:'Start swipen', sheet_info_title:'Google Sheets (demo)', sheet_info_offers:'Aanbod: ID, Titel, Prijs, Stad, Oppervlakte, Type, Foto’s',
+        sheet_info_users:'Gebruikers: ID, Naam, E-mail, Type', open_sheets:'Sheets openen', filters:'Filters', favorites:'Favorieten',
+        clear:'Alles wissen', add_listing:'Woning plaatsen', label_title:'Titel', label_price:'Prijs (€)', label_surface:'Oppervlakte (m²)', label_location:'Plaats', label_type:'Type', label_desc:'Beschrijving',
+        label_photos:'Foto’s (preview — demo)', photo_hint:'Sleep & zet neer of', click_choose:'klik om te kiezen', photo_limit:'Max 3 foto’s (niet geüpload).',
+        publish:'Publiceren (demo)', open_offers_sheet:'Aanbod-sheet', sheet_disclaimer:'Demo: lokaal opgeslagen, klaar voor Google Sheets.',
+        map:'Kaart', map_demo:'Demokaart (zonder tiles)', tab_swipe:'Swipe', tab_fav:'Favorieten', tab_add:'Plaatsen', tab_map:'Kaart',
+        min_price:'Min prijs', max_price:'Max prijs', min_surface:'Min opp.', type:'Type', any:'Alle', location:'Plaats', apply:'Toepassen', reset:'Resetten',
+        save_fav:'Opslaan als favoriet', next:'Volgende', no_fav:'Nog geen favorieten.',
+        type_apartment:'Appartement', type_house:'Huis', type_studio:'Studio'
+      },
+      de:{ tagline:'Wische zu deinem nächsten Zuhause', welcome_title:'Willkommen bei Localeo', welcome_sub:'Erstelle ein Demoprofil und beginne zu wischen.',
+        type_ind:'Privat', type_agent:'Makler / Agentur', label_name:'Name / Organisation', label_email:'E-Mail (Demo)',
+        demo_note:'Demo — keine echte Anmeldung. Google Sheets folgt später.',
+        start_swiping:'Jetzt wischen', sheet_info_title:'Google Sheets (Demo)', sheet_info_offers:'Angebote: ID, Titel, Preis, Stadt, Fläche, Typ, Fotos',
+        sheet_info_users:'Nutzer: ID, Name, E-Mail, Typ', open_sheets:'Sheets öffnen', filters:'Filter', favorites:'Favoriten',
+        clear:'Alle löschen', add_listing:'Anzeige erstellen', label_title:'Titel', label_price:'Preis (€)', label_surface:'Fläche (m²)', label_location:'Ort', label_type:'Typ', label_desc:'Beschreibung',
+        label_photos:'Fotos (Vorschau — Demo)', photo_hint:'Ziehen & ablegen oder', click_choose:'zum Auswählen klicken', photo_limit:'Bis zu 3 Bilder (nicht hochgeladen).',
+        publish:'Veröffentlichen (Demo)', open_offers_sheet:'Angebotsblatt', sheet_disclaimer:'Demo: lokal gespeichert, bereit für Google Sheets.',
+        map:'Karte', map_demo:'Demo-Karte (ohne Tiles)', tab_swipe:'Swipe', tab_fav:'Gespeichert', tab_add:'Erstellen', tab_map:'Karte',
+        min_price:'Min Preis', max_price:'Max Preis', min_surface:'Min Fläche', type:'Typ', any:'Alle', location:'Ort', apply:'Übernehmen', reset:'Zurücksetzen',
+        save_fav:'Zu Favoriten', next:'Weiter', no_fav:'Noch keine Favoriten.',
+        type_apartment:'Wohnung', type_house:'Haus', type_studio:'Studio'
+      }
+    };
+    let lang = localStorage.getItem('localeo_lang') || 'auto';
+    function detectLang(){
+      if (lang!=='auto') return lang;
+      const n = (navigator.language||'en').slice(0,2);
+      return ['en','es','fr','nl','de'].includes(n) ? n : 'en';
     }
-    document.querySelectorAll('[data-scroll]').forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const href = a.getAttribute('href') || '#';
-        if (href.startsWith('#')) {
-          e.preventDefault();
-          smoothScrollTo(href);
-          document.getElementById('mobileMenu')?.classList.add('hidden');
-        }
-      });
-    });
+    function t(key){
+      const L = I18N[detectLang()] || I18N.en;
+      return L[key] || I18N.en[key] || key;
+    }
+    function applyI18n(){
+      document.querySelectorAll('[data-i18n]').forEach(el=>{ el.textContent = t(el.getAttribute('data-i18n')); });
+      // placeholders where helpful
+      const place = {
+        label_location:'placeholder', label_title:'placeholder', label_desc:'placeholder'
+      };
+      // Simple optional placeholders
+    }
 
-    // Mobile menu
-    const mobileBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    if (mobileBtn && mobileMenu) mobileBtn.addEventListener('click', ()=> mobileMenu.classList.toggle('hidden'));
-
-    // Toast helper
+    // Toast
     const toastWrap = document.getElementById('toasts');
     function toast(msg, type='ok'){
       const el = document.createElement('div');
-      el.className = `fade-in px-4 py-3 rounded-xl text-sm text-white shadow-soft ${type==='err'?'bg-red-500':'bg-slate-900'}`;
+      el.className = `px-3 py-2 rounded-lg text-white text-sm shadow-soft ${type==='err'?'bg-rose-500':'bg-slate-900'}`;
       el.textContent = msg;
       toastWrap.appendChild(el);
-      setTimeout(()=>el.remove(), 3200);
+      setTimeout(()=>el.remove(), 2600);
     }
 
-    // Demo stores
-    const users = []; // {id,name,email,userType}
-    let currentUser = null;
+    // Demo data (images: SVG blocks)
+    const props = [];
+    const liked = new Set(JSON.parse(localStorage.getItem('localeo_liked')||'[]'));
+    const hidden = new Set(JSON.parse(localStorage.getItem('localeo_hidden')||'[]')); // passed (left)
+    let currentDeck = [];
+    let deckIndex = 0;
 
-    // Property: {id,userId,title,price,status,timestamp,description,location,images[]}
-    const properties = [];
-    // Sale: {propertyId,title,price,fee,timestamp}
-    const sales = [];
-    // Notifs
-    const notifications = [];
-    // Modules: { [userId]: Set([...]) }
-    const modulesActive = {};
-
-    // Utilities
-    function emailExists(email){ return users.some(u => (u.email||'').trim().toLowerCase() === (email||'').trim().toLowerCase()); }
-    function nowISO(){ return new Date().toISOString(); }
-    function formatDate(ts){ const d = new Date(ts); return d.toLocaleString(); }
-    function euro(n){ return Number(n||0).toLocaleString('fr-FR'); }
-    function initialsFrom(name){ return (name||'U').split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase(); }
-    function labelType(t){ return t==='Agency' ? 'Agence' : t==='Promoter' ? 'Promoteur' : 'Particulier'; }
-    function ensureUserModules(){ if (!currentUser) return; if (!modulesActive[currentUser.id]) modulesActive[currentUser.id] = new Set(); }
-
-    // Header signup -> auth preselect
-    function goToAuthWithType(type){
-      smoothScrollTo('#auth');
-      const input = [...document.querySelectorAll('input[name="userType"]')].find(r => r.value === type);
-      if (input) input.checked = true;
-      toast(`Type: ${type}`);
+    function seed(){
+      const sample = [
+        {id:'P1', title:'T2 plein centre', price:185000, location:'Marseille', surface:52, ptype:'apartment', lat:43.3, lng:5.37, desc:'Lumineux, proche Vieux-Port.'},
+        {id:'P2', title:'Maison familiale', price:349000, location:'Lyon', surface:95, ptype:'house', lat:45.76, lng:4.84, desc:'Jardin et garage.'},
+        {id:'P3', title:'Studio cosy', price:210000, location:'Paris', surface:28, ptype:'studio', lat:48.85, lng:2.35, desc:'Idéal investisseur, Quartier 11e.'},
+        {id:'P4', title:'Loft vue Garonne', price:420000, location:'Bordeaux', surface:70, ptype:'apartment', lat:44.84, lng:-0.58, desc:'Terrasse, rénové.'},
+        {id:'P5', title:'Villa colline', price:780000, location:'Nice', surface:130, ptype:'house', lat:43.7, lng:7.27, desc:'Vue mer, piscine.'},
+        {id:'P6', title:'Canal appartement', price:520000, location:'Amsterdam', surface:68, ptype:'apartment', lat:52.37, lng:4.9, desc:'Charme et lumière.'}
+      ];
+      if (props.length===0) props.push(...sample);
     }
-    document.getElementById('headerSignupBtn').addEventListener('click', ()=> goToAuthWithType('Individual'));
-    document.getElementById('heroSignup').addEventListener('click', ()=> goToAuthWithType('Individual'));
-    document.getElementById('pricingSignup').addEventListener('click', ()=> goToAuthWithType('Agency'));
 
-    // Copy email
-    document.getElementById('copyEmail').addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText('hello@localeo.app'); toast('Adresse email copiée ✅'); }
-      catch { toast('Impossible de copier. Essayez manuellement.', 'err'); }
+    // Profile (demo)
+    let profile = JSON.parse(localStorage.getItem('localeo_profile')||'null');
+
+    // Views / Tabs
+    const viewOnboarding = document.getElementById('viewOnboarding');
+    const viewSwipe = document.getElementById('viewSwipe');
+    const viewFav = document.getElementById('viewFav');
+    const viewAdd = document.getElementById('viewAdd');
+    const viewMap = document.getElementById('viewMap');
+
+    function showView(which){
+      [viewOnboarding,viewSwipe,viewFav,viewAdd,viewMap].forEach(v=>v.classList.add('hidden'));
+      if (which==='onboarding') viewOnboarding.classList.remove('hidden');
+      if (which==='swipe') viewSwipe.classList.remove('hidden');
+      if (which==='fav') viewFav.classList.remove('hidden');
+      if (which==='add') viewAdd.classList.remove('hidden');
+      if (which==='map') viewMap.classList.remove('hidden');
+      // refresh contextual UIs
+      if (which==='swipe') renderDeck();
+      if (which==='fav') renderFav();
+      if (which==='map') renderMap();
+    }
+
+    // Bottom tabs
+    document.querySelectorAll('.tab').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.tab').forEach(b=>b.classList.remove('tab-active','text-brand.ink'));
+        btn.classList.add('tab-active','text-brand.ink');
+        const tab = btn.getAttribute('data-tab');
+        if (!profile){ showView('onboarding'); return; }
+        if (tab==='swipe') showView('swipe');
+        if (tab==='fav') showView('fav');
+        if (tab==='add') showView('add');
+        if (tab==='map') showView('map');
+      });
     });
 
-    // Tabs (auth)
-    const tabSignup = document.getElementById('tabSignup');
-    const tabLogin  = document.getElementById('tabLogin');
-    const formSignup = document.getElementById('formSignup');
-    const formLogin  = document.getElementById('formLogin');
-    function setTab(which){
-      const signupActive = which === 'signup';
-      tabSignup.classList.toggle('tab-active', signupActive);
-      tabLogin.classList.toggle('tab-active', !signupActive);
-      formSignup.classList.toggle('opacity-50', !signupActive);
-      formSignup.classList.toggle('pointer-events-none', !signupActive);
-      formLogin.classList.toggle('opacity-50', signupActive);
-      formLogin.classList.toggle('pointer-events-none', signupActive);
-    }
-    tabSignup.addEventListener('click', ()=> setTab('signup'));
-    tabLogin.addEventListener('click',  ()=> setTab('login'));
-    setTab('signup');
-
-    // Prefill agency
-    document.getElementById('prefillAgency').addEventListener('click', ()=>{
-      const agencyRadio = [...document.querySelectorAll('input[name="userType"]')].find(r=>r.value==='Agency');
-      if (agencyRadio) agencyRadio.checked = true;
-      document.getElementById('nameInput').value = 'Agence Riviera Sud';
-      document.getElementById('emailInput').value = 'contact@riviera-sud.fr';
-      toast('Exemple Agence rempli');
+    // Top bar: language
+    const btnLang = document.getElementById('btnLang');
+    const langMenu = document.getElementById('langMenu');
+    btnLang.addEventListener('click', ()=> langMenu.classList.toggle('hidden'));
+    langMenu.querySelectorAll('button').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        lang = b.getAttribute('data-lang');
+        localStorage.setItem('localeo_lang', lang);
+        langMenu.classList.add('hidden');
+        applyI18n();
+        toast('Langue mise à jour');
+      });
     });
 
-    // Signup submit
-    formSignup.addEventListener('submit', (e)=>{
+    // Open Sheets links
+    document.getElementById('openSheets').addEventListener('click', ()=> window.open('https://docs.google.com/spreadsheets/', '_blank', 'noopener,noreferrer'));
+    document.getElementById('openOffersSheet').addEventListener('click', ()=> window.open('https://docs.google.com/spreadsheets/', '_blank', 'noopener,noreferrer'));
+
+    // Onboarding actions
+    let pickedType = 'individual';
+    document.querySelectorAll('.typeBtn').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        pickedType = b.getAttribute('data-type') || 'individual';
+        document.querySelectorAll('.typeBtn').forEach(x=>x.classList.remove('bg-slate-100'));
+        b.classList.add('bg-slate-100');
+      });
+    });
+    document.getElementById('formProfile').addEventListener('submit', (e)=>{
       e.preventDefault();
-      const fd = new FormData(formSignup);
-      const userType = fd.get('userType');
+      const fd = new FormData(e.target);
       const name = (fd.get('name')||'').trim();
       const email = (fd.get('email')||'').trim();
-      if (!userType || !name || !email){ toast('Veuillez remplir tous les champs.', 'err'); return; }
-      if (emailExists(email)){ toast('Email déjà enregistré.', 'err'); return; }
-      const newUser = { id:'U'+Date.now(), name, email, userType };
-      users.push(newUser);
-      currentUser = newUser;
-      ensureUserModules();
-      toast(`Bienvenue ${name} — inscription démo réussie ✅`);
-      formSignup.reset();
-      updateUserUI();
-      ensureUserSeedData();
-      renderDashboard();
-      renderPremium();
-      renderAnalytics();
-      smoothScrollTo('#dashboard');
+      if (!name){ toast('Indiquez un nom.', 'err'); return; }
+      profile = { id:'U'+Date.now(), name, email, type:pickedType };
+      localStorage.setItem('localeo_profile', JSON.stringify(profile));
+      toast('Profil démo créé ✅');
+      buildDeck();
+      showView('swipe');
     });
 
-    // Login (demo)
-    formLogin.addEventListener('submit', (e)=>{
+    // Filters
+    const filtersModal = document.getElementById('filtersModal');
+    document.getElementById('btnFilters').addEventListener('click', ()=> filtersModal.classList.add('show'));
+    document.getElementById('btnMapFilter').addEventListener('click', ()=> filtersModal.classList.add('show'));
+    document.getElementById('closeFilters').addEventListener('click', ()=> filtersModal.classList.remove('show'));
+    filtersModal.addEventListener('click', (e)=>{ if (e.target===filtersModal) filtersModal.classList.remove('show'); });
+
+    let filters = { minPrice:null, maxPrice:null, minSurface:null, ptype:'', location:'' };
+    document.getElementById('formFilters').addEventListener('submit', (e)=>{
       e.preventDefault();
-      const fd = new FormData(formLogin);
-      const email = (fd.get('loginEmail')||'').trim();
-      if (!email){ toast('Veuillez saisir votre email.', 'err'); return; }
-      const u = users.find(u => (u.email||'').trim().toLowerCase() === email.toLowerCase());
-      if (!u){ toast('Email inconnu. Créez un compte d’abord.', 'err'); return; }
-      currentUser = u;
-      ensureUserModules();
-      toast('Connexion démo réussie ✅');
-      updateUserUI();
-      ensureUserSeedData();
-      renderDashboard();
-      renderPremium();
-      renderAnalytics();
-      smoothScrollTo('#dashboard');
+      const fd = new FormData(e.target);
+      filters = {
+        minPrice: Number(fd.get('minPrice')||0) || null,
+        maxPrice: Number(fd.get('maxPrice')||0) || null,
+        minSurface: Number(fd.get('minSurface')||0) || null,
+        ptype: (fd.get('ptype')||''),
+        location: (fd.get('location')||'').trim()
+      };
+      filtersModal.classList.remove('show');
+      buildDeck();
+      renderMap();
+      toast('Filtres appliqués');
+    });
+    document.getElementById('resetFilters').addEventListener('click', ()=>{
+      filters = { minPrice:null, maxPrice:null, minSurface:null, ptype:'', location:'' };
+      document.getElementById('formFilters').reset();
+      buildDeck();
+      renderMap();
+      toast('Filtres réinitialisés');
     });
 
-    // User UI
-    function updateUserUI(){
-      const badge = document.getElementById('userBadge');
-      const nameTop = document.getElementById('userNameTop');
-      const typeTop = document.getElementById('userTypeTop');
-      const nameDash = document.getElementById('userNameDash');
-      const typeDash = document.getElementById('userTypeDash');
-      const initials = document.getElementById('userInitials');
-      if (currentUser){
-        badge.classList.remove('hidden');
-        nameTop.textContent = currentUser.name;
-        typeTop.textContent = labelType(currentUser.userType);
-        nameDash.textContent = currentUser.name;
-        typeDash.textContent = labelType(currentUser.userType);
-        initials.textContent = initialsFrom(currentUser.name);
-      } else {
-        badge.classList.add('hidden');
-        nameTop.textContent = 'Invité';
-        typeTop.textContent = '—';
-        nameDash.textContent = 'Invité';
-        typeDash.textContent = '—';
-        initials.textContent = 'U';
-      }
+    // Build deck by filters, excluding hidden
+    function applyFilters(list){
+      return list.filter(p=>{
+        if (filters.minPrice && p.price < filters.minPrice) return false;
+        if (filters.maxPrice && p.price > filters.maxPrice) return false;
+        if (filters.minSurface && p.surface < filters.minSurface) return false;
+        if (filters.ptype && p.ptype !== filters.ptype) return false;
+        if (filters.location && !p.location.toLowerCase().includes(filters.location.toLowerCase())) return false;
+        return true;
+      });
+    }
+    function buildDeck(){
+      const base = applyFilters(props).filter(p=> !hidden.has(p.id));
+      currentDeck = base;
+      deckIndex = 0;
+      renderDeck();
     }
 
-    // Seed data for user
-    function ensureUserSeedData(){
-      if (!currentUser) return;
-      const owned = properties.filter(p => p.userId === currentUser.id);
-      if (owned.length === 0){
-        const demo = [
-          { title:'T2 centre-ville', price:185000, status:'available', location:'Marseille', description:'Bel appartement lumineux proche commodités.', images:[] },
-          { title:'Maison 4 pièces', price:349000, status:'available', location:'Lyon', description:'Jardin et garage, quartier calme.', images:[] },
-          { title:'Villa vue mer', price:780000, status:'sold', location:'Nice', description:'Vue panoramique et piscine.', images:[] }
-        ];
-        demo.forEach(d=>{
-          const id = 'P'+Date.now()+Math.floor(Math.random()*999);
-          properties.push({ id, userId: currentUser.id, title:d.title, price:d.price, status:d.status, timestamp: nowISO(), description:d.description, location:d.location, images:d.images });
-          if (d.status==='sold'){
-            sales.push({ propertyId:id, title:d.title, price:d.price, fee: Math.round(d.price*0.002), timestamp: nowISO() });
-          }
-        });
-        addNotif('3 biens démo ont été ajoutés à votre compte.');
-      }
-    }
+    // Deck rendering + swipe
+    const deck = document.getElementById('deck');
+    let currentCardEl = null;
+    let nextCardEl = null;
 
-    // Dashboard rendering
-    const listingsTable = document.getElementById('listingsTable');
-    const salesTable = document.getElementById('salesTable');
-    const notifList = document.getElementById('notifList');
-    const statListings = document.getElementById('statListings');
-    const statSold = document.getElementById('statSold');
-    const statSalesSum = document.getElementById('statSalesSum');
-    const statNotifs = document.getElementById('statNotifs');
-    const statModules = document.getElementById('statModules');
-
-    function renderDashboard(){
-      renderListings();
-      renderSales();
-      renderNotifs();
-      renderStats();
-      renderAnalytics(); // Étape 6 se met à jour automatiquement
-    }
-
-    function renderStats(){
-      if (!currentUser){
-        statListings.textContent='0'; statSold.textContent='0'; statSalesSum.textContent='0'; statNotifs.textContent=String(notifications.length); statModules.textContent='0';
-        return;
-      }
-      const my = properties.filter(p => p.userId===currentUser.id);
-      const sold = my.filter(p => p.status==='sold');
-      const mySales = sales.filter(s => my.some(p=>p.id===s.propertyId));
-      const sum = mySales.reduce((a,s)=>a+(s.price||0),0);
-      statListings.textContent = String(my.length);
-      statSold.textContent = String(sold.length);
-      statSalesSum.textContent = euro(sum);
-      statNotifs.textContent = String(notifications.length);
-      statModules.textContent = String((modulesActive[currentUser.id]||new Set()).size);
-    }
-
-    function statusBadge(status){
-      const color = status==='sold' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-700';
-      const dot = status==='sold' ? 'background:#10B981' : 'background:#94A3B8';
-      return `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs ${color}">
-        <span class="status-dot" style="${dot}"></span>${status==='sold'?'Vendu':'Disponible'}
-      </span>`;
-    }
-
-    function renderListings(){
-      listingsTable.innerHTML = '';
-      if (!currentUser){
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="7" class="py-6 text-center text-slate-600">Connectez-vous ou créez un compte pour voir vos annonces.</td>`;
-        listingsTable.appendChild(tr);
-        return;
-      }
-      const filter = document.getElementById('filterStatus').value;
-      const my = properties.filter(p => p.userId===currentUser.id && (filter==='all' || p.status===filter));
-      if (my.length===0){
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="7" class="py-6 text-center text-slate-600">Aucun bien. Ajoutez votre premier bien !</td>`;
-        listingsTable.appendChild(tr);
-        return;
-      }
-      my.sort((a,b)=> (b.timestamp||'').localeCompare(a.timestamp||''));
-      my.forEach(p=>{
-        const tr = document.createElement('tr');
-        tr.className = 'border-t border-slate-100';
-        tr.innerHTML = `
-          <td class="py-3 pr-4 font-medium text-slate-900">${p.title}</td>
-          <td class="py-3 pr-4">${p.location || '—'}</td>
-          <td class="py-3 pr-4">€ ${euro(p.price)}</td>
-          <td class="py-3 pr-4">${p.images?.length ? `📷 ${p.images.length}` : '—'}</td>
-          <td class="py-3 pr-4">${statusBadge(p.status)}</td>
-          <td class="py-3 pr-4 text-slate-600">${formatDate(p.timestamp)}</td>
-          <td class="py-3 pr-4">
-            <div class="flex items-center gap-2">
-              ${p.status==='available' ? `<button data-id="${p.id}" class="markSold px-3 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-xs">Marquer vendu</button>`:''}
-              <button data-id="${p.id}" class="deleteProp px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs">Supprimer</button>
+    function cardHTML(p){
+      const typeLabel = t('type_'+p.ptype) || p.ptype;
+      // pseudo-image
+      const colors = [['#dbeafe','#e9d5ff'],['#fee2e2','#d1fae5'],['#ede9fe','#cffafe'],['#fde68a','#e9d5ff']];
+      const pick = colors[p.id.charCodeAt(0)%colors.length];
+      return `
+        <div class="like">LIKE</div>
+        <div class="nope">NOPE</div>
+        <div class="p-3 h-full flex flex-col">
+          <div class="imgBlock h-1/2" style="background:linear-gradient(135deg, ${pick[0]}, ${pick[1]});">
+            <div class="w-full h-full flex items-center justify-center">
+              <svg class="w-24 h-24 text-white/80" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 10l9-7 9 7v10a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V10z"/>
+              </svg>
             </div>
-          </td>
-        `;
-        listingsTable.appendChild(tr);
-      });
-      document.querySelectorAll('.markSold').forEach(btn=>{
-        btn.addEventListener('click', ()=> markAsSold(btn.getAttribute('data-id')));
-      });
-      document.querySelectorAll('.deleteProp').forEach(btn=>{
-        btn.addEventListener('click', ()=> deleteProperty(btn.getAttribute('data-id')));
-      });
+          </div>
+          <div class="flex-1 mt-3">
+            <div class="flex items-start justify-between gap-2">
+              <div class="font-extrabold text-lg text-slate-900">${p.title}</div>
+              <div class="text-right font-extrabold text-brand.ink">€ ${Number(p.price).toLocaleString('fr-FR')}</div>
+            </div>
+            <div class="mt-2 flex flex-wrap gap-1.5">
+              <span class="badge">${p.location}</span>
+              <span class="badge">${p.surface} m²</span>
+              <span class="badge">${typeLabel}</span>
+            </div>
+            <p class="mt-2 text-sm text-slate-600 line-clamp-3">${p.desc||''}</p>
+          </div>
+        </div>
+      `;
     }
 
-    function renderSales(){
-      salesTable.innerHTML = '';
-      if (!currentUser){
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="4" class="py-6 text-center text-slate-600">Aucune vente (non connecté).</td>`;
-        salesTable.appendChild(tr);
+    function renderDeck(){
+      deck.innerHTML = '';
+      if (!currentDeck.length){
+        const empty = document.createElement('div');
+        empty.className = 'absolute inset-0 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-600';
+        empty.textContent = 'Plus de biens — ajustez vos filtres.';
+        deck.appendChild(empty);
+        currentCardEl = null; nextCardEl = null;
         return;
       }
-      const myIds = properties.filter(p=>p.userId===currentUser.id).map(p=>p.id);
-      const mySales = sales.filter(s=> myIds.includes(s.propertyId)).sort((a,b)=> (b.timestamp||'').localeCompare(a.timestamp||''));
-      if (mySales.length===0){
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td colspan="4" class="py-6 text-center text-slate-600">Aucune vente encore. Marquez un bien comme “Vendu”.</td>`;
-        salesTable.appendChild(tr);
-        return;
+      const cur = currentDeck[deckIndex] || currentDeck[0];
+      const next = currentDeck[deckIndex+1];
+      const c1 = document.createElement('div');
+      c1.className = 'card';
+      c1.setAttribute('data-id', cur.id);
+      c1.innerHTML = cardHTML(cur);
+      deck.appendChild(c1);
+      currentCardEl = c1;
+      if (next){
+        const c2 = document.createElement('div');
+        c2.className = 'card next';
+        c2.setAttribute('data-id', next.id);
+        c2.innerHTML = cardHTML(next);
+        deck.appendChild(c2);
+        nextCardEl = c2;
       }
-      mySales.forEach(s=>{
-        const tr = document.createElement('tr');
-        tr.className = 'border-t border-slate-100';
-        tr.innerHTML = `
-          <td class="py-3 pr-4 font-medium text-slate-900">${s.title}</td>
-          <td class="py-3 pr-4">€ ${euro(s.price)}</td>
-          <td class="py-3 pr-4">€ ${euro(s.fee)}</td>
-          <td class="py-3 pr-4 text-slate-600">${formatDate(s.timestamp)}</td>
-        `;
-        salesTable.appendChild(tr);
-      });
+      attachSwipe(c1);
     }
 
-    function addNotif(text){
-      notifications.unshift({ id:'N'+Date.now(), text, time: nowISO() });
-      renderNotifs();
-      renderStats();
+    function advanceDeck(){
+      deckIndex++;
+      if (deckIndex >= currentDeck.length){ renderDeck(); return; }
+      renderDeck();
     }
 
-    function renderNotifs(){
-      notifList.innerHTML = '';
-      if (notifications.length===0){
-        notifList.innerHTML = `<div class="text-slate-600 text-sm">Aucune notification.</div>`;
-        return;
+    function attachSwipe(card){
+      let startX=0, startY=0, dx=0, dy=0, dragging=false;
+      const likeEl = card.querySelector('.like');
+      const nopeEl = card.querySelector('.nope');
+
+      function onStart(e){
+        dragging = true;
+        const t = e.touches ? e.touches[0] : e;
+        startX = t.clientX; startY = t.clientY;
+        card.style.transition='none';
       }
-      notifications.slice(0,50).forEach(n=>{
-        const div = document.createElement('div');
-        div.className = 'p-3 rounded-lg bg-slate-50 border border-slate-100';
-        div.innerHTML = `<div class="text-sm text-slate-800">${n.text}</div><div class="text-xs text-slate-500 mt-1">${formatDate(n.time)}</div>`;
-        notifList.appendChild(div);
-      });
+      function onMove(e){
+        if (!dragging) return;
+        const t = e.touches ? e.touches[0] : e;
+        dx = t.clientX - startX; dy = t.clientY - startY;
+        const rot = dx/20;
+        card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+        const likeA = Math.min(1, Math.max(0, (dx-20)/120));
+        const nopeA = Math.min(1, Math.max(0, (-dx-20)/120));
+        likeEl.style.opacity = likeA;
+        nopeEl.style.opacity = nopeA;
+      }
+      function onEnd(){
+        dragging = false;
+        const threshold = 80;
+        if (dx > threshold){ doLike(card.getAttribute('data-id')); animateOut('right'); }
+        else if (dx < -threshold){ doNope(card.getAttribute('data-id')); animateOut('left'); }
+        else {
+          card.style.transition='transform .2s ease';
+          card.style.transform='translate(0,0) rotate(0)';
+          likeEl.style.opacity=0; nopeEl.style.opacity=0;
+        }
+        function animateOut(dir){
+          card.style.transition='transform .25s ease, opacity .25s ease';
+          card.style.transform = `translate(${dir==='right'? 500 : -500}px, ${dy}px) rotate(${dir==='right'? 20:-20}deg)`;
+          card.style.opacity='0';
+          setTimeout(()=> advanceDeck(), 200);
+        }
+        dx=0; dy=0;
+      }
+      card.addEventListener('touchstart', onStart, {passive:true});
+      card.addEventListener('touchmove', onMove, {passive:true});
+      card.addEventListener('touchend', onEnd);
+      card.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
     }
 
-    // Actions
-    function markAsSold(id){
-      const p = properties.find(x=>x.id===id && x.userId===currentUser?.id);
-      if (!p) return;
-      if (p.status==='sold'){ toast('Déjà vendu.'); return; }
-      p.status='sold';
-      const fee = Math.round((p.price||0)*0.002);
-      sales.push({ propertyId:p.id, title:p.title, price:p.price, fee, timestamp: nowISO() });
-      addNotif(`Vente confirmée: “${p.title}” à €${euro(p.price)} (fee estimé €${euro(fee)}).`);
-      renderDashboard();
-      toast('Bien marqué comme vendu ✅');
-    }
-
-    function deleteProperty(id){
-      const idx = properties.findIndex(x=>x.id===id && x.userId===currentUser?.id);
-      if (idx<0) return;
-      const [p] = properties.splice(idx,1);
-      addNotif(`Annonce supprimée: “${p.title}”.`);
-      const saleIdx = sales.findIndex(s=>s.propertyId===p.id);
-      if (saleIdx>=0) sales.splice(saleIdx,1);
-      renderDashboard();
-      toast('Annonce supprimée.');
-    }
-
-    // Filters + Add modal
-    document.getElementById('filterStatus').addEventListener('change', renderListings);
-    const addModal = document.getElementById('addModal');
-    const addBtn = document.getElementById('addPropertyBtn');
-    const closeAdd = document.getElementById('closeAdd');
-    const cancelAdd = document.getElementById('cancelAdd');
-    const formAdd = document.getElementById('formAdd');
-
-    function openAdd(){ addModal.classList.remove('hidden'); }
-    function closeAddModal(){ addModal.classList.add('hidden'); resetUploader(); }
-
-    addBtn.addEventListener('click', ()=>{
-      if (!currentUser){ toast('Créez un compte avant d’ajouter un bien.', 'err'); smoothScrollTo('#auth'); return; }
-      openAdd();
+    // Like / Nope / Info buttons
+    document.getElementById('btnLike').addEventListener('click', ()=> {
+      const id = currentDeck[deckIndex]?.id; if (!id) return;
+      doLike(id);
+      animateButtonLike();
+      advanceDeck();
     });
-    closeAdd.addEventListener('click', closeAddModal);
-    cancelAdd.addEventListener('click', closeAddModal);
-    addModal.addEventListener('click', (e)=>{ if (e.target===addModal) closeAddModal(); });
+    document.getElementById('btnNope').addEventListener('click', ()=> {
+      const id = currentDeck[deckIndex]?.id; if (!id) return;
+      doNope(id);
+      advanceDeck();
+    });
+    document.getElementById('btnInfo').addEventListener('click', ()=> {
+      const p = currentDeck[deckIndex]; if (!p) return;
+      openDetails(p);
+    });
 
-    // Uploader (démo)
+    function doLike(id){
+      liked.add(id);
+      localStorage.setItem('localeo_liked', JSON.stringify([...liked]));
+      toast('Ajouté aux favoris ✅');
+    }
+    function doNope(id){
+      hidden.add(id);
+      localStorage.setItem('localeo_hidden', JSON.stringify([...hidden]));
+    }
+
+    function animateButtonLike(){
+      // subtle feedback; already enough with toast
+    }
+
+    // Details modal
+    const detailsModal = document.getElementById('detailsModal');
+    const detailsBody = document.getElementById('detailsBody');
+    let detailsProp = null;
+
+    function openDetails(p){
+      detailsProp = p;
+      const typeLabel = t('type_'+p.ptype) || p.ptype;
+      detailsBody.innerHTML = `
+        <div class="imgBlock h-40 w-full rounded-xl" style="background:linear-gradient(135deg,#dbeafe,#e9d5ff)"></div>
+        <div class="flex items-start justify-between mt-2">
+          <div>
+            <div class="text-lg font-extrabold text-slate-900">${p.title}</div>
+            <div class="mt-1 flex gap-1.5">
+              <span class="badge">${p.location}</span>
+              <span class="badge">${p.surface} m²</span>
+              <span class="badge">${typeLabel}</span>
+            </div>
+          </div>
+          <div class="font-extrabold text-brand.ink">€ ${Number(p.price).toLocaleString('fr-FR')}</div>
+        </div>
+        <p class="text-sm text-slate-700">${p.desc||''}</p>
+      `;
+      detailsModal.classList.add('show');
+    }
+    document.getElementById('closeDetails').addEventListener('click', ()=> detailsModal.classList.remove('show'));
+    detailsModal.addEventListener('click', (e)=>{ if (e.target===detailsModal) detailsModal.classList.remove('show'); });
+    document.getElementById('detailsLike').addEventListener('click', ()=>{
+      if (!detailsProp) return;
+      doLike(detailsProp.id);
+      detailsModal.classList.remove('show');
+    });
+    document.getElementById('detailsNext').addEventListener('click', ()=>{
+      detailsModal.classList.remove('show');
+      advanceDeck();
+    });
+
+    // Favorites
+    function renderFav(){
+      const wrap = document.getElementById('favList');
+      wrap.innerHTML = '';
+      const arr = props.filter(p=> liked.has(p.id));
+      document.getElementById('favEmpty').classList.toggle('hidden', arr.length>0);
+      arr.forEach(p=>{
+        const item = document.createElement('div');
+        item.className = 'rounded-xl bg-white border border-slate-200 p-3 flex gap-3';
+        item.innerHTML = `
+          <div class="w-20 h-16 imgBlock"></div>
+          <div class="flex-1">
+            <div class="font-semibold text-slate-900">${p.title}</div>
+            <div class="text-sm text-slate-600">${p.location} • ${p.surface} m²</div>
+            <div class="text-sm font-bold mt-0.5 text-brand.ink">€ ${Number(p.price).toLocaleString('fr-FR')}</div>
+            <div class="mt-2 flex gap-2">
+              <button class="openDetails px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs" data-id="${p.id}" data-i18n="next">${t('next')}</button>
+              <button class="removeFav px-3 py-1.5 rounded-lg bg-white border border-slate-200 text-xs" data-id="${p.id}">Remove</button>
+            </div>
+          </div>
+        `;
+        wrap.appendChild(item);
+      });
+      wrap.querySelectorAll('.removeFav').forEach(b=>{
+        b.addEventListener('click', ()=>{
+          liked.delete(b.getAttribute('data-id'));
+          localStorage.setItem('localeo_liked', JSON.stringify([...liked]));
+          renderFav();
+          toast('Retiré des favoris');
+        });
+      });
+      wrap.querySelectorAll('.openDetails').forEach(b=>{
+        b.addEventListener('click', ()=>{
+          const p = props.find(x=> x.id===b.getAttribute('data-id'));
+          if (p) openDetails(p);
+        });
+      });
+    }
+    document.getElementById('btnClearFav').addEventListener('click', ()=>{
+      liked.clear();
+      localStorage.setItem('localeo_liked', '[]');
+      renderFav();
+      toast('Favoris vidés');
+    });
+
+    // Add listing
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const chooseFiles = document.getElementById('chooseFiles');
     const thumbs = document.getElementById('thumbs');
     const imageCount = document.getElementById('imageCount');
-    let selectedImages = []; // dataURLs (max 5)
+    let selectedImages = [];
 
-    chooseFiles?.addEventListener('click', ()=> fileInput.click());
-    fileInput?.addEventListener('change', (e)=> handleFiles(e.target.files));
-
-    ['dragenter','dragover'].forEach(ev=>{
-      dropzone?.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.add('dragover'); });
-    });
-    ['dragleave','drop'].forEach(ev=>{
-      dropzone?.addEventListener(ev, (e)=>{ e.preventDefault(); e.stopPropagation(); dropzone.classList.remove('dragover'); });
-    });
-    dropzone?.addEventListener('drop', (e)=> {
-      const files = e.dataTransfer.files;
-      handleFiles(files);
-    });
-
-    function handleFiles(files){
-      const list = Array.from(files || []);
-      if (!list.length) return;
-      const remaining = Math.max(0, 5 - selectedImages.length);
-      const toRead = list.slice(0, remaining);
-      if (toRead.length < list.length){ toast('Limite 5 images atteinte (démo).', 'err'); }
-      toRead.forEach(file=>{
-        const reader = new FileReader();
-        reader.onload = (ev)=>{
-          const dataUrl = ev.target.result;
-          selectedImages.push(dataUrl);
-          renderThumbs();
-        };
-        reader.readAsDataURL(file);
+    chooseFiles.addEventListener('click', ()=> fileInput.click());
+    fileInput.addEventListener('change', e=> handleFiles(e.target.files));
+    ['dragenter','dragover'].forEach(ev=> dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.classList.add('dragover'); }));
+    ['dragleave','drop'].forEach(ev=> dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.classList.remove('dragover'); }));
+    dropzone.addEventListener('drop', e=> handleFiles(e.dataTransfer.files));
+    function handleFiles(list){
+      const arr = Array.from(list||[]);
+      const remaining = Math.max(0, 3 - selectedImages.length);
+      const toRead = arr.slice(0, remaining);
+      if (toRead.length < arr.length) toast('Limite 3 images (démo).','err');
+      toRead.forEach(f=>{
+        const r = new FileReader();
+        r.onload = ev=>{ selectedImages.push(ev.target.result); renderThumbs(); };
+        r.readAsDataURL(f);
       });
     }
-
     function renderThumbs(){
-      if (!thumbs) return;
       thumbs.innerHTML = '';
-      selectedImages.forEach((dataUrl, idx)=>{
+      selectedImages.forEach((url, i)=>{
         const div = document.createElement('div');
-        div.className = 'relative w-full pt-[100%] rounded-lg overflow-hidden bg-slate-100';
-        div.style.backgroundImage = `url('${dataUrl}')`;
+        div.className = 'relative w-full pt-[66%] rounded-lg overflow-hidden bg-slate-100';
+        div.style.backgroundImage = `url('${url}')`;
         div.style.backgroundSize = 'cover';
         div.style.backgroundPosition = 'center';
         const rm = document.createElement('button');
-        rm.type = 'button';
-        rm.className = 'absolute top-1 right-1 w-6 h-6 rounded-full bg-white/90 flex items-center justify-center shadow';
-        rm.innerHTML = '<svg class="w-3.5 h-3.5 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
-        rm.addEventListener('click', ()=>{
-          selectedImages.splice(idx,1);
-          renderThumbs();
-        });
+        rm.className = 'absolute top-1 right-1 w-6 h-6 rounded-full bg-white flex items-center justify-center';
+        rm.innerHTML = '<svg class="w-4 h-4 text-slate-700" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-width="2" stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/></svg>';
+        rm.addEventListener('click', ()=>{ selectedImages.splice(i,1); renderThumbs(); });
         div.appendChild(rm);
         thumbs.appendChild(div);
       });
-      imageCount.textContent = `${selectedImages.length} sélectionnée(s)`;
+      imageCount.textContent = String(selectedImages.length);
     }
-
-    function resetUploader(){
-      selectedImages = [];
-      renderThumbs();
-      if (fileInput) fileInput.value = '';
-    }
-
-    formAdd.addEventListener('submit', (e)=>{
+    document.getElementById('formAdd').addEventListener('submit', (e)=>{
       e.preventDefault();
-      if (!currentUser){ toast('Non connecté.', 'err'); return; }
-      const fd = new FormData(formAdd);
-      const title = (fd.get('title')||'').trim();
-      const price = Number(fd.get('price')||0);
-      const description = (fd.get('description')||'').trim();
-      const location = (fd.get('location')||'').trim();
-      const status = fd.get('status') || 'available';
-      if (!title || !price){ toast('Complétez le titre et le prix.', 'err'); return; }
-      const id = 'P'+Date.now();
-      properties.unshift({
-        id,
-        userId: currentUser.id,
-        title, price, status,
-        timestamp: nowISO(),
-        description, location,
-        images: [...selectedImages]
-      });
-      addNotif(`Nouveau bien ajouté: “${title}” à €${euro(price)}${location? ' • '+location : ''}.`);
-      if (status==='sold'){
-        const fee = Math.round(price*0.002);
-        sales.push({ propertyId:id, title, price, fee, timestamp: nowISO() });
-      }
-      renderDashboard();
-      formAdd.reset();
-      resetUploader();
-      closeAddModal();
-      toast('Bien publié ✅');
+      const fd = new FormData(e.target);
+      const p = {
+        id:'P'+Date.now(),
+        title:(fd.get('title')||'').trim(),
+        price:Number(fd.get('price')||0),
+        location:(fd.get('location')||'').trim(),
+        surface:Number(fd.get('surface')||0),
+        ptype:(fd.get('ptype')||'apartment'),
+        desc:(fd.get('desc')||'').trim(),
+        lat: 46 + (Math.random()*6-3), lng: 2 + (Math.random()*10-5),
+        images:[...selectedImages]
+      };
+      if (!p.title || !p.price || !p.location || !p.surface){ toast('Veuillez remplir les champs.', 'err'); return; }
+      props.unshift(p);
+      selectedImages = []; renderThumbs(); e.target.reset();
+      buildDeck();
+      toast('Annonce ajoutée (démo) ✅');
     });
 
-    // PREMIUM MODULES
-    const modulesData = [
-      { key:'priority', name:'Priority Listing', price:19, iconBg:'bg-violet-100 text-violet-700', desc:'Mettez vos annonces en avant sur les pages de résultats.', features:['Badge “Prioritaire” et remontées automatiques','Boost visibilité locale','Contrôle de la durée (30j / 90j)'] },
-      { key:'analytics', name:'Analytics', price:29, iconBg:'bg-sky-100 text-sky-700', desc:'Statistiques avancées pour optimiser vos performances.', features:['Vues, clics, leads en temps réel','Comparatifs par zone et type','Export CSV (bientôt)'] },
-      { key:'marketing', name:'Marketing Tools', price:39, iconBg:'bg-emerald-100 text-emerald-700', desc:'Outils de promotion multi‑canaux pour vos annonces.', features:['Génération visuels sociaux','Campagnes email (démo)','Templates personnalisables'] }
-    ];
-    const modulesGrid = document.getElementById('modulesGrid');
-    const myModules = document.getElementById('myModules');
-
-    function renderPremium(){
-      // badges
-      myModules.innerHTML = '';
-      const actives = currentUser ? Array.from(modulesActive[currentUser.id] || []) : [];
-      if (!currentUser){
-        myModules.innerHTML = '<span class="text-slate-600">Connectez-vous pour gérer vos modules.</span>';
-      } else if (actives.length === 0){
-        myModules.innerHTML = '<span class="px-2 py-1 rounded-md bg-white border border-slate-200">Aucun module actif</span>';
-      } else {
-        actives.forEach(k=>{
-          const m = modulesData.find(x=>x.key===k);
-          const badge = document.createElement('span');
-          badge.className = 'px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200';
-          badge.textContent = m ? `${m.name}` : k;
-          myModules.appendChild(badge);
+    // Map
+    const mapSVG = document.getElementById('mapSVG');
+    function project(lng, lat){
+      // very rough projection within our blob box:
+      const x = (lng + 6) * (360/16); // lng ~ [-6,10]
+      const y = (55 - lat) * (260/20); // lat ~ [35,55]
+      return [Math.max(8,Math.min(352,x)), Math.max(8,Math.min(252,y))];
+    }
+    function renderMap(){
+      // clear previous markers
+      mapSVG.querySelectorAll('.mk').forEach(n=>n.remove());
+      const list = applyFilters(props);
+      list.forEach(p=>{
+        const [x,y] = project(p.lng||2, p.lat||46);
+        const g = document.createElementNS('http://www.w3.org/2000/svg','g');
+        g.setAttribute('class','mk');
+        g.innerHTML = `<circle cx="${x}" cy="${y}" r="5" fill="#7C3AED"/>
+                       <text x="${x+8}" y="${y+4}" font-size="9" fill="#334155">€ ${Number(p.price).toLocaleString('fr-FR')}</text>`;
+        g.addEventListener('click', ()=>{
+          openDetails(p);
         });
-      }
-
-      // cards
-      modulesGrid.innerHTML = '';
-      modulesData.forEach(m=>{
-        const isActive = currentUser && modulesActive[currentUser.id]?.has(m.key);
-        const card = document.createElement('div');
-        card.className = 'relative rounded-2xl p-6 bg-white shadow-soft hover-rise';
-        card.innerHTML = `
-          ${isActive ? '<div class="ribbon">ACTIF</div>' : ''}
-          <div class="w-12 h-12 rounded-xl ${m.iconBg} flex items-center justify-center mb-4">
-            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7l9-4 9 4-9 4-9-4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 7v10l-9 4-9-4V7"/>
-            </svg>
-          </div>
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <h3 class="font-semibold text-slate-900">${m.name}</h3>
-              <p class="text-sm text-slate-600 mt-1">${m.desc}</p>
-            </div>
-            <div class="text-right">
-              <div class="text-2xl font-extrabold text-slate-900">€${m.price}<span class="text-sm font-semibold text-slate-500">/mois</span></div>
-              <div class="text-xs text-slate-500">HT</div>
-            </div>
-          </div>
-          <ul class="mt-4 space-y-2 text-sm text-slate-700">
-            ${m.features.map(f=>`<li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>${f}</li>`).join('')}
-          </ul>
-          <div class="mt-5 flex gap-2">
-            ${isActive
-              ? `<button data-key="${m.key}" class="btnManage flex-1 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200">Gérer</button>
-                 <button data-key="${m.key}" class="btnDeactivate px-4 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50">Désactiver</button>`
-              : `<button data-key="${m.key}" class="btnActivate flex-1 px-4 py-2 rounded-xl text-white font-semibold bg-localeo-gradient shadow-card hover:opacity-95">Activer le module</button>`
-            }
-          </div>
-        `;
-        modulesGrid.appendChild(card);
-      });
-
-      // Bind actions
-      modulesGrid.querySelectorAll('.btnActivate').forEach(b=>{
-        b.addEventListener('click', ()=> startCheckout(b.getAttribute('data-key')));
-      });
-      modulesGrid.querySelectorAll('.btnDeactivate').forEach(b=>{
-        b.addEventListener('click', ()=> deactivateModule(b.getAttribute('data-key')));
-      });
-      modulesGrid.querySelectorAll('.btnManage').forEach(b=>{
-        b.addEventListener('click', ()=> toast(`Ouverture du centre de gestion (${b.getAttribute('data-key')}) – démo`));
+        mapSVG.appendChild(g);
       });
     }
 
-    // Checkout flow (demo)
-    const checkoutModal = document.getElementById('checkoutModal');
-    const closeCheckout = document.getElementById('closeCheckout');
-    const btnCancelCheckout = document.getElementById('btnCancelCheckout');
-    const btnStripe = document.getElementById('btnStripe');
-    const btnSimulate = document.getElementById('btnSimulate');
-    let checkoutKey = null;
-
-    function openCheckout(){ checkoutModal.classList.remove('hidden'); }
-    function closeCheckoutModal(){ checkoutModal.classList.add('hidden'); checkoutKey = null; }
-
-    closeCheckout.addEventListener('click', closeCheckoutModal);
-    btnCancelCheckout.addEventListener('click', closeCheckoutModal);
-    checkoutModal.addEventListener('click', (e)=>{ if (e.target===checkoutModal) closeCheckoutModal(); });
-
-    function startCheckout(key){
-      if (!currentUser){ toast('Connectez-vous pour activer un module.', 'err'); smoothScrollTo('#auth'); return; }
-      ensureUserModules();
-      checkoutKey = key;
-      const m = modulesData.find(x=>x.key===key);
-      if (!m) return;
-      document.getElementById('coTitle').textContent = m.name;
-      document.getElementById('coDesc').textContent = m.desc;
-      document.getElementById('coPrice').textContent = `€${m.price}/mois`;
-      const coFeatures = document.getElementById('coFeatures');
-      coFeatures.innerHTML = m.features.map(f=>`<li>${f}</li>`).join('');
-      openCheckout();
-    }
-
-    btnStripe.addEventListener('click', ()=>{
-      window.open('https://stripe.com/payments', '_blank', 'noopener,noreferrer');
-      toast('Stripe ouvert dans un nouvel onglet (démo).');
-    });
-
-    btnSimulate.addEventListener('click', ()=>{
-      if (!checkoutKey || !currentUser) return;
-      modulesActive[currentUser.id].add(checkoutKey);
-      addNotif(`Module activé: ${modulesData.find(m=>m.key===checkoutKey)?.name || checkoutKey}.`);
-      renderPremium();
-      renderStats();
-      closeCheckoutModal();
-      toast('Activation simulée ✅');
-    });
-
-    function deactivateModule(key){
-      if (!currentUser){ toast('Non connecté.', 'err'); return; }
-      ensureUserModules();
-      modulesActive[currentUser.id].delete(key);
-      addNotif(`Module désactivé: ${modulesData.find(m=>m.key===key)?.name || key}.`);
-      renderPremium();
-      renderStats();
-      toast('Module désactivé.');
-    }
-
-    // Live demo simulation
-    const liveToggle = document.getElementById('liveToggle');
-    let liveTimer = null;
-
-    function startLive(){
-      if (liveTimer) clearInterval(liveTimer);
-      liveTimer = setInterval(()=>{
-        if (!currentUser) return;
-        const my = properties.filter(p=>p.userId===currentUser.id);
-        if (my.length===0) return;
-        const dice = Math.random();
-        if (dice < 0.5){
-          const pick = my[Math.floor(Math.random()*my.length)];
-          addNotif(`Votre bien “${pick.title}” a reçu une nouvelle visite.`);
-        } else if (dice < 0.75){
-          const pick = my[Math.floor(Math.random()*my.length)];
-          const isAnalytics = modulesActive[currentUser.id]?.has('analytics');
-          addNotif(`${isAnalytics ? 'Analytics' : 'Suggestion'}: ${pick.title} performe ${isAnalytics ? '+12% cette semaine' : 'mieux à -1,5%'} (démo).`);
-        } else {
-          const avail = my.filter(p=>p.status==='available');
-          if (avail.length>0 && Math.random()<0.25){ markAsSold(avail[0].id); }
-        }
-        renderStats();
-      }, 4500);
-    }
-    function stopLive(){ if (liveTimer) clearInterval(liveTimer); liveTimer = null; }
-    liveToggle.addEventListener('change', ()=> liveToggle.checked ? startLive() : stopLive());
-    startLive();
-
-    // Refresh (démo)
-    document.getElementById('refreshBtn').addEventListener('click', ()=>{
-      if (!currentUser){ toast('Non connecté.', 'err'); return; }
-      addNotif('Données rafraîchies (démo).');
-      renderDashboard();
-    });
-
-    // ÉTAPE 6 – ANALYTIQUE
-    const rangeSelect = document.getElementById('rangeSelect');
-    const groupSelect = document.getElementById('groupSelect');
-    const chartSales = document.getElementById('chartSales');
-    const chartFees = document.getElementById('chartFees');
-    const kpiCount = document.getElementById('kpiCount');
-    const kpiSum = document.getElementById('kpiSum');
-    const kpiFee = document.getElementById('kpiFee');
-    const kpiAvg = document.getElementById('kpiAvg');
-    const analyticsEmpty = document.getElementById('analyticsEmpty');
-
-    rangeSelect.addEventListener('change', renderAnalytics);
-    groupSelect.addEventListener('change', renderAnalytics);
-
-    // Group helpers
-    function startOfWeek(d){
-      const date = new Date(d);
-      const day = (date.getDay()+6)%7; // Monday=0
-      date.setDate(date.getDate()-day);
-      date.setHours(0,0,0,0);
-      return date;
-    }
-    function startOfMonth(d){
-      const date = new Date(d);
-      date.setDate(1); date.setHours(0,0,0,0);
-      return date;
-    }
-    function addDays(d, n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-    function addMonths(d, n){ const x=new Date(d); x.setMonth(x.getMonth()+n); return x; }
-
-    function buildBuckets(rangeDays, groupBy){
-      const end = new Date(); end.setHours(23,59,59,999);
-      const start = new Date(); start.setDate(start.getDate()-rangeDays+1); start.setHours(0,0,0,0);
-      const buckets = [];
-      if (groupBy==='week'){
-        let cur = startOfWeek(start);
-        while (cur <= end){
-          const next = addDays(cur,7);
-          buckets.push({ key: cur.toISOString(), from: new Date(cur), to: new Date(next), label: `S${getISOWeek(cur)} ${String(cur.getFullYear()).slice(-2)}`, sales:0, fee:0, count:0 });
-          cur = next;
-        }
-      } else {
-        let cur = startOfMonth(start);
-        while (cur <= end){
-          const next = startOfMonth(addMonths(cur,1));
-          buckets.push({ key: cur.toISOString(), from: new Date(cur), to: new Date(next), label: cur.toLocaleString('fr-FR',{month:'short', year:'2-digit'}), sales:0, fee:0, count:0 });
-          cur = next;
-        }
-      }
-      return { buckets, start, end };
-    }
-    function getISOWeek(date) {
-      const d = new Date(date.getTime());
-      d.setHours(0,0,0,0);
-      d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
-      const week1 = new Date(d.getFullYear(), 0, 4);
-      return 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
-    }
-
-    function getUserSalesInRange(start, end){
-      if (!currentUser) return [];
-      const myIds = properties.filter(p=>p.userId===currentUser.id).map(p=>p.id);
-      return sales.filter(s=> myIds.includes(s.propertyId) && new Date(s.timestamp) >= start && new Date(s.timestamp) <= end);
-    }
-
-    function renderAnalytics(){
-      // Guard: not logged
-      if (!currentUser){
-        chartSales.innerHTML = ''; chartFees.innerHTML = '';
-        kpiCount.textContent='0'; kpiSum.textContent='0'; kpiFee.textContent='0'; kpiAvg.textContent='0';
-        analyticsEmpty.classList.remove('hidden');
-        return;
-      }
-      const rangeDays = parseInt(rangeSelect.value || '90', 10);
-      const groupBy = groupSelect.value || 'month';
-      const { buckets, start, end } = buildBuckets(rangeDays, groupBy);
-      const rows = getUserSalesInRange(start, end);
-
-      // Fill buckets
-      rows.forEach(r=>{
-        const t = new Date(r.timestamp);
-        for (const b of buckets){
-          if (t >= b.from && t < b.to){ b.sales += r.price||0; b.fee += r.fee||0; b.count += 1; break; }
-        }
-      });
-
-      // KPIs
-      const totalCount = rows.length;
-      const totalSales = rows.reduce((a,r)=>a+(r.price||0),0);
-      const totalFees  = rows.reduce((a,r)=>a+(r.fee||0),0);
-      const avgPrice = totalCount ? Math.round(totalSales/totalCount) : 0;
-      kpiCount.textContent = String(totalCount);
-      kpiSum.textContent = euro(totalSales);
-      kpiFee.textContent = euro(totalFees);
-      kpiAvg.textContent = euro(avgPrice);
-
-      const hasData = buckets.some(b=>b.sales>0 || b.fee>0);
-      analyticsEmpty.classList.toggle('hidden', hasData);
-
-      // Draw charts
-      drawLineChart(chartSales, buckets.map(b=>b.sales), buckets.map(b=>b.label), { color:'#7C3AED', fill:'rgba(124,58,237,0.12)', yLabel:'€ ventes' });
-      drawBarChart(chartFees,  buckets.map(b=>b.fee),   buckets.map(b=>b.label), { color:'#22D3EE', yLabel:'€ fees' });
-    }
-
-    function drawLineChart(svgEl, values, labels, opts){
-      const W=700, H=300, PADL=48, PADR=16, PADT=20, PADB=36;
-      const maxV = Math.max(0, ...values);
-      const yMax = maxV === 0 ? 1 : Math.ceil(maxV/ (Math.pow(10,String(Math.floor(maxV)).length-1)) ) * (Math.pow(10,String(Math.floor(maxV)).length-1));
-      const n = values.length || 1;
-      const X = i => PADL + (n===1? 0 : (i*(W-PADL-PADR)/(n-1)));
-      const Y = v => H-PADB - (v*(H-PADT-PADB)/yMax);
-
-      let grid = '';
-      const steps = 4;
-      for (let i=0;i<=steps;i++){
-        const y = PADT + (i*(H-PADT-PADB)/steps);
-        const val = Math.round(yMax*(1-i/steps));
-        grid += `<line x1="${PADL}" y1="${y}" x2="${W-PADR}" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`+
-                `<text x="${PADL-8}" y="${y+4}" text-anchor="end" fill="#64748b" font-size="11">€ ${euro(val)}</text>`;
-      }
-
-      const pts = values.map((v,i)=> `${X(i)},${Y(v)}`).join(' ');
-      const areaPts = `M ${X(0)} ${Y(values[0]||0)} ` + values.map((v,i)=> `L ${X(i)} ${Y(v)}`).join(' ') + ` L ${X(n-1)} ${H-PADB} L ${X(0)} ${H-PADB} Z`;
-
-      let xlabels = '';
-      const skip = Math.ceil(labels.length/8);
-      labels.forEach((lab,i)=>{
-        const x = X(i);
-        if (i%skip===0 || i===labels.length-1){
-          xlabels += `<text x="${x}" y="${H-12}" text-anchor="middle" fill="#64748b" font-size="11">${lab}</text>`;
-          xlabels += `<line x1="${x}" y1="${H-PADB}" x2="${x}" y2="${H-PADB+6}" stroke="#cbd5e1"/>`;
-        }
-      });
-
-      svgEl.innerHTML = `
-        <rect x="0" y="0" width="${W}" height="${H}" fill="white"/>
-        <g>
-          ${grid}
-          <polyline points="${pts}" fill="none" stroke="${opts.color}" stroke-width="2.5"/>
-          <path d="${areaPts}" fill="${opts.fill}"/>
-        </g>
-        <g>${xlabels}</g>
-      `;
-    }
-
-    function drawBarChart(svgEl, values, labels, opts){
-      const W=700, H=300, PADL=48, PADR=16, PADT=20, PADB=36;
-      const maxV = Math.max(0, ...values);
-      const yMax = maxV === 0 ? 1 : Math.ceil(maxV/ (Math.pow(10,String(Math.floor(maxV)).length-1)) ) * (Math.pow(10,String(Math.floor(maxV)).length-1));
-      const n = values.length || 1;
-      const cw = (W-PADL-PADR) / n * 0.7;
-      const X = i => PADL + (i*(W-PADL-PADR)/n) + ((W-PADL-PADR)/n - cw)/2;
-      const Y = v => H-PADB - (v*(H-PADT-PADB)/yMax);
-
-      let grid = '';
-      const steps = 4;
-      for (let i=0;i<=steps;i++){
-        const y = PADT + (i*(H-PADT-PADB)/steps);
-        const val = Math.round(yMax*(1-i/steps));
-        grid += `<line x1="${PADL}" y1="${y}" x2="${W-PADR}" y2="${y}" stroke="#e5e7eb" stroke-width="1"/>`+
-                `<text x="${PADL-8}" y="${y+4}" text-anchor="end" fill="#64748b" font-size="11">€ ${euro(val)}</text>`;
-      }
-
-      let bars = '';
-      for (let i=0;i<n;i++){
-        const h = (H-PADT-PADB) * (values[i]||0) / yMax;
-        const x = X(i), y = H-PADB - h;
-        bars += `<rect x="${x}" y="${y}" width="${cw}" height="${h}" fill="${opts.color}" rx="4"/>`;
-      }
-
-      let xlabels = '';
-      const skip = Math.ceil(labels.length/8);
-      labels.forEach((lab,i)=>{
-        const x = PADL + (i*(W-PADL-PADR)/n) + ((W-PADL-PADR)/n)/2;
-        if (i%skip===0 || i===labels.length-1){
-          xlabels += `<text x="${x}" y="${H-12}" text-anchor="middle" fill="#64748b" font-size="11">${lab}</text>`;
-          xlabels += `<line x1="${x}" y1="${H-PADB}" x2="${x}" y2="${H-PADB+6}" stroke="#cbd5e1"/>`;
-        }
-      });
-
-      svgEl.innerHTML = `
-        <rect x="0" y="0" width="${W}" height="${H}" fill="white"/>
-        <g>${grid}${bars}</g>
-        <g>${xlabels}</g>
-      `;
-    }
-
-    // CSV Export
-    document.getElementById('btnCSV').addEventListener('click', ()=>{
-      if (!currentUser){ toast('Connectez-vous d’abord.', 'err'); return; }
-      const myIds = properties.filter(p=>p.userId===currentUser.id).map(p=>p.id);
-      const mySales = sales.filter(s=> myIds.includes(s.propertyId));
-      if (mySales.length===0){ toast('Aucune vente à exporter.', 'err'); return; }
-      const rows = [['PropertyID','Title','Price','Fee','Timestamp']];
-      mySales.forEach(s=> rows.push([s.propertyId, s.title, s.price, s.fee, s.timestamp]));
-      const csv = rows.map(r=> r.map(x=>{
-        const v = (''+x).replace(/"/g,'""');
-        return `"${v}"`;
-      }).join(',')).join('\n');
-      const blob = new Blob([csv], {type:'text/csv'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'localeo_sales.csv';
-      a.click();
-      URL.revokeObjectURL(a.href);
-      toast('CSV téléchargé ✅');
-    });
-
-    // Open Sheets
-    document.getElementById('btnSheets').addEventListener('click', ()=>{
-      window.open('https://docs.google.com/spreadsheets/', '_blank', 'noopener,noreferrer');
-    });
-
-    // Add demo sales
-    document.getElementById('btnAddDemoSales').addEventListener('click', ()=>{
-      if (!currentUser){ toast('Connectez-vous d’abord.', 'err'); return; }
-      const toAdd = 2;
-      for (let i=0;i<toAdd;i++){
-        const id = 'P'+Date.now()+Math.floor(Math.random()*999);
-        const price = 150000 + Math.floor(Math.random()*700000);
-        const title = 'Vente démo #' + (Math.floor(Math.random()*900)+100);
-        properties.push({ id, userId: currentUser.id, title, price, status:'sold', timestamp: nowISO(), description:'(démo)', location:'—', images:[] });
-        sales.push({ propertyId:id, title, price, fee:Math.round(price*0.002), timestamp: nowISO() });
-      }
-      addNotif(`${toAdd} ventes démo ajoutées.`);
-      renderDashboard();
-      renderAnalytics();
-      toast('Ventes démo ajoutées ✅');
-    });
-
-    // Fee calculator
-    const feeInput = document.getElementById('feeInput');
-    const feeSlider = document.getElementById('feeSlider');
-    const feeOut = document.getElementById('feeOut');
-    const netOut = document.getElementById('netOut');
-    const per100kOut = document.getElementById('per100kOut');
-
-    function updateFeeCalc(val){
-      const price = Math.max(0, Number(val)||0);
-      const fee = Math.round(price * 0.002);
-      const net = price - fee;
-      feeOut.textContent = `€ ${euro(fee)}`;
-      netOut.textContent = `€ ${euro(net)}`;
-      per100kOut.textContent = `€ ${euro(Math.round(100000*0.002))}`;
-    }
-    feeInput.addEventListener('input', (e)=>{ feeSlider.value = e.target.value; updateFeeCalc(e.target.value); });
-    feeSlider.addEventListener('input', (e)=>{ feeInput.value = e.target.value; updateFeeCalc(e.target.value); });
-    updateFeeCalc(feeInput.value);
-
-    // Init UI
+    // Init
     (function init(){
-      updateUserUI();
-      renderDashboard();
-      renderPremium();
-      renderAnalytics();
+      applyI18n();
+      seed();
+      if (profile){ showView('swipe'); buildDeck(); } else { showView('onboarding'); }
     })();
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98181d62316017f1',t:'MTc1ODI3NDc1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98184493e045ba5a',t:'MTc1ODI3NjM2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
